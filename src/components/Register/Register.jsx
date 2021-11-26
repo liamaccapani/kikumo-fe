@@ -8,17 +8,34 @@ const Register = ({ history, location, match }) => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
 
-  const API = create({baseURL: "http://localhost:3001"})
+// const API = create({baseURL: "http://localhost:3001"})
+//   const register = async () => {
+//     const { data } = await API.post(
+//       "/users/register",
+//       { name, surname, email, password },
+//       { method: "POST" }
+//     );
+//     console.log("data post req", data);
+//     localStorage.setItem("accessToken", data.accessToken);
+//     history.push("/profile")
+//   };
+
   const register = async () => {
-    const { data } = await API.post(
-      "/users/register",
-      { name, surname, email, password },
-      { method: "POST" }
-    );
-    console.log("data post req", data);
-    localStorage.setItem("accessToken", data.accessToken);
-    history.push("/profile")
-  };
+      const newUser = { name, surname, email, password }
+      const response = await fetch(process.env.REACT_APP_DEV_API_BE + "/users/register", {
+          method: "POST", 
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newUser),
+      })
+      if(response.ok) {
+          const data = await response.json()
+          console.log(data)
+          localStorage.setItem("accessToken", data.accessToken);
+          history.push("/profile")
+      }
+  }
 
 
   return (
