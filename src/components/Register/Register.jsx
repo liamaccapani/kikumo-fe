@@ -96,7 +96,7 @@ const Register = ({ history, location, match }) => {
           />
         </Form.Group>
         <Button type="submit" variant="success">
-          Login
+          Sign In
         </Button>
       </Form>
     </>
