@@ -1,48 +1,43 @@
 import { useState, useEffect } from "react";
-import { Button, Form } from "react-bootstrap";
-import { useDispatch, useSelector  } from "react-redux";
-import { setUserInfo } from "../../redux/actions";
+import { Button, Dropdown, DropdownButton, Form } from "react-bootstrap";
+// import { setUserInfo } from "../../redux/actions";
+// import { createClient } from "../../tools/therapist_requests.js";
 
 const Register = ({ history, location, match }) => {
-  const [name, setName] = useState('')
+  const BASE_URL = process.env.REACT_APP_DEV_API_BE;
+
+  const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("Client")
 
   // const dispatch = useDispatch()
 
   const register = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const response = await fetch(process.env.REACT_APP_DEV_API_BE + "/clients/register", {
+      const response = await fetch(BASE_URL + `${role === "Client" ? "/clients/register" : "/therapists/register"}`
+        , 
+        {
         method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ name, surname, email, password }),
-      })
-      if(response.ok) {
-        const data = await response.json()
+      });
+      if (response.ok) {
+        const data = await response.json();
         //data: { id, token }
-        console.log(data)
+        console.log(data);
         localStorage.setItem("accessToken", data.accessToken);
-        history.push("/profile")
+        history.push("/profile");
+        // return data
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-  // const getMydata = async () => {
-  //   try {
-  //     const response = await fetch(process.env.REACT_APP_DEV_API_BE + "/clients/me", {
-
-  //     })
-  //     dispatch(setUserInfo())
-  //     history.push("/profile")
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+  };
 
   return (
     <>
@@ -55,7 +50,7 @@ const Register = ({ history, location, match }) => {
             type="text"
             placeholder=""
             value={name}
-            onChange={(e)=> setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             // onChange={(e) => handleInput(e, 'name')}
           />
           <Form.Label>Your Surname</Form.Label>
@@ -64,7 +59,7 @@ const Register = ({ history, location, match }) => {
             type="text"
             placeholder=""
             value={surname}
-            onChange={(e)=> setSurname(e.target.value)}
+            onChange={(e) => setSurname(e.target.value)}
             // onChange={(e) => handleInput(e, 'surname')}
           />
           <Form.Label>Your email</Form.Label>
@@ -73,7 +68,7 @@ const Register = ({ history, location, match }) => {
             type="email"
             placeholder=""
             value={email}
-            onChange={(e)=>setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             // onChange={(e) => handleInput(e, 'email')}
           />
           <Form.Label>Choose Password</Form.Label>
@@ -82,27 +77,14 @@ const Register = ({ history, location, match }) => {
             type="password"
             placeholder=""
             value={password}
-            onChange={(e)=>setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             // onChange={(e) => handleInput(e, 'password')}
           />
           <Form.Label>Register as:</Form.Label>
-          <Form.Check
-            type="checkbox"
-            label="Client"
-            value="Client"
-            name="role"
-            // checked={role} // true or false
-            // onChange={(e) => handleInput(e, 'role')}
-            // onChange={(e)=>}     
-          />
-          <Form.Check
-            type="checkbox"
-            label="Therapist"
-            value="Therapist"
-            name="role"
-            // onChange={(e) => handleInput(e, 'role')}
-            // onChange={(e)=>}
-          />
+          <Form.Control as="select" value={role} onChange={(e) => setRole(e.target.value)}>
+            <option>Client</option>
+            <option>Therapist</option>
+          </Form.Control>
         </Form.Group>
         <Button type="submit" variant="success">
           Register
@@ -113,3 +95,34 @@ const Register = ({ history, location, match }) => {
 };
 
 export default Register;
+
+{
+  /* <div>
+  <Button
+    id="demo-customized-button"
+    aria-controls="demo-customized-menu"
+    aria-haspopup="true"
+    aria-expanded={open ? "true" : undefined}
+    variant="contained"
+    disableElevation
+    onClick={handleClick}
+    endIcon={<KeyboardArrowDownIcon />}
+  >
+    Client
+  </Button>
+  <StyledMenu
+    id="demo-customized-menu"
+    MenuListProps={{
+      "aria-labelledby": "demo-customized-button",
+    }}
+    anchorEl={anchorEl}
+    open={open}
+    onClose={handleClose}
+  >
+    <MenuItem onClick={handleClose} disableRipple>
+      <EditIcon />
+      Therapist
+    </MenuItem>
+  </StyledMenu>
+</div>; */
+}

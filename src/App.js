@@ -2,9 +2,10 @@ import { Route, BrowserRouter as Router } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
 // ********** COMPONENTS ********** \\
-import Home from "./components/Home/Home";
-import Register from "./components/Register/Register"
-import Profile from "./components/Profile/Profile"
+import Home from "./pages/Home/Home";
+import Login from "./pages/Login/Login"
+import Profile from "./pages/Profile/Profile"
+import Register from "./pages/Register/Register"
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Router>
         <Route path="/" exact render={(routerProps) => <Home {...routerProps} />} />
         <Route path="/register" exact render={(routerProps) => <Register {...routerProps} />} />
+        <Route path="/login" exact render={(routerProps) => <Login {...routerProps} />} />
         <Route path="/profile" exact render={(routerProps) => <Profile {...routerProps} />} />
       </Router>
     </Container>
