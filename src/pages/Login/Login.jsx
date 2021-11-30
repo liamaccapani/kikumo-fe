@@ -43,7 +43,7 @@ const Login = ({ history, location, match }) => {
             onChange={(e) => setEmail(e.target.value)}
             // onChange={(e) => handleInput(e, 'email')}
           />
-          <Form.Label>Choose Password</Form.Label>
+          <Form.Label>Your Password</Form.Label>
           <Form.Control
             size="sm"
             type="password"

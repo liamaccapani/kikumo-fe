@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { Card, Col, Container, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Profile = ({ history, location, match }) => {
-  const [meInfo, setMeInfo] = useState({});
+  const [myData, setMyData] = useState({});
   const getMe = async () => {
     const token = localStorage.getItem("accessToken");
     try {
@@ -14,9 +16,9 @@ const Profile = ({ history, location, match }) => {
         }
       );
       if (response.ok) {
-        const myData = await response.json();
-        console.log(myData);
-        setMeInfo(myData);
+        const data = await response.json();
+        console.log(data);
+        setMyData(data);
       }
     } catch (error) {
       console.log(error);
@@ -26,11 +28,27 @@ const Profile = ({ history, location, match }) => {
   return (
     <>
       <h1>PROFILE</h1>
-      <div>{meInfo.name}</div>
-      <div>{meInfo.surname}</div>
-      <div>
-          <img src={meInfo.avatar} height="80" width="80"/>
-      </div>
+      <Container>
+        <Row>
+          <Col md={12} lg={6} className="profile-col" style={{ backgroundColor: "pink" }}>
+            <Container>
+              <div>{myData.name}</div>
+              <div>{myData.surname}</div>
+              <div>
+                <img src={myData.avatar} height="80" width="80" />
+              </div>
+            </Container>
+          </Col>
+          <Col className="utilities-col" style={{ backgroundColor: "orange" }}>
+            <Card body>Search Therapist</Card>
+            <Link to="/appointments">
+              <Card body>Appointments</Card>
+            </Link>
+            <Card body>My Therapists</Card>
+          </Col>
+        </Row>
+      </Container>
+      {/*  */}
     </>
   );
 };

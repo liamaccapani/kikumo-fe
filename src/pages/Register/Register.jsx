@@ -95,34 +95,3 @@ const Register = ({ history, location, match }) => {
 };
 
 export default Register;
-
-{
-  /* <div>
-  <Button
-    id="demo-customized-button"
-    aria-controls="demo-customized-menu"
-    aria-haspopup="true"
-    aria-expanded={open ? "true" : undefined}
-    variant="contained"
-    disableElevation
-    onClick={handleClick}
-    endIcon={<KeyboardArrowDownIcon />}
-  >
-    Client
-  </Button>
-  <StyledMenu
-    id="demo-customized-menu"
-    MenuListProps={{
-      "aria-labelledby": "demo-customized-button",
-    }}
-    anchorEl={anchorEl}
-    open={open}
-    onClose={handleClose}
-  >
-    <MenuItem onClick={handleClose} disableRipple>
-      <EditIcon />
-      Therapist
-    </MenuItem>
-  </StyledMenu>
-</div>; */
-}
