@@ -12,7 +12,6 @@ const Register = ({ history, location, match }) => {
   // const dispatch = useDispatch()
 
   const register = async (e) => {
-    // const { name, surname, email, password } = newUser
     e.preventDefault()
     try {
       const response = await fetch(process.env.REACT_APP_DEV_API_BE + "/clients/register", {
@@ -24,6 +23,7 @@ const Register = ({ history, location, match }) => {
       })
       if(response.ok) {
         const data = await response.json()
+        //data: { id, token }
         console.log(data)
         localStorage.setItem("accessToken", data.accessToken);
         history.push("/profile")
@@ -32,20 +32,13 @@ const Register = ({ history, location, match }) => {
       console.log(error)
     }
   }
-
-  // const getUserInfo = async () => {
+  // const getMydata = async () => {
   //   try {
-  //     console.log("here 0")
-  //     const response = await fetch(process.env.REACT_APP_DEV_API_BE + "/clients/me")
-  //     console.log("here 1")
-  //     if(response.ok){
-  //       const {data} = await response.json()
-  //       console.log("here 2")
-  //       if(data){
-  //         dispatch(setUserInfo(data))
-  //         history.push("/profile")
-  //       }
-  //     }
+  //     const response = await fetch(process.env.REACT_APP_DEV_API_BE + "/clients/me", {
+
+  //     })
+  //     dispatch(setUserInfo())
+  //     history.push("/profile")
   //   } catch (error) {
   //     console.log(error)
   //   }
