@@ -96,6 +96,7 @@ const Profile = ({ history, location, match }) => {
               <MyTherapist
                 onClick={() => showTherapistDetails()}
                 showTherapistDetails={showTherapistDetails}
+                therapist={myData.therapist}
               />
             )}
           </Col>
