@@ -1,5 +1,11 @@
 import { Card } from "react-bootstrap";
 
+// appointment: {
+//   startDate,
+//   endDate,
+//   description
+// }
+
 const MyAppointments = ({ showAppointmentsDetails, appointments }) => {
   return (
     <div onClick={() => showAppointmentsDetails()}>

@@ -20,7 +20,7 @@ const Login = ({ history, location, match }) => {
       );
       if (response.ok) {
         const data = await response.json();
-        //data: { id, token }
+        //data: { id, token } NO MORE, NOW -> { token }
         console.log(data);
         localStorage.setItem("accessToken", data.accessToken);
         history.push("/profile")
