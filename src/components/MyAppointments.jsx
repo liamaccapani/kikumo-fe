@@ -5,9 +5,17 @@ const MyAppointments = ({ showAppointmentsDetails, appointments }) => {
     <div onClick={() => showAppointmentsDetails()}>
       {appointments.map((appointment) => {
         return (
-          <Card>
-            <Card body>
-                {appointment}
+          <Card body key={appointment._id}>
+            <Card>
+              Date and Time:
+              {appointment.startDate}
+            </Card>
+            <Card>
+              {appointment.endDate}
+            </Card>
+            <Card>
+              Description:
+              {appointment.description}
             </Card>
           </Card>
         );
