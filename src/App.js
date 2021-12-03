@@ -2,10 +2,10 @@ import { Route, BrowserRouter as Router } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
 // ********** COMPONENTS ********** \\
+// import BookAppointment from "./pages/Appointments/BookAppointment"
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login"
 import Profile from "./pages/Profile/Profile"
-import BookAppointment from "./pages/Appointments/BookAppointment"
 import Register from "./pages/Register/Register"
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
         <Route path="/register" exact render={(routerProps) => <Register {...routerProps} />} />
         <Route path="/login" exact render={(routerProps) => <Login {...routerProps} />} />
         <Route path="/profile" exact render={(routerProps) => <Profile {...routerProps} />} />
-        <Route path="/bookAppointment" exact render={(routerProps) => <BookAppointment {...routerProps} />} />
+        {/* <Route path="/bookAppointment" exact render={(routerProps) => <BookAppointment {...routerProps} />} /> */}
       </Router>
     </Container>
   );

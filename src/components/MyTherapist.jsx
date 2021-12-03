@@ -1,7 +1,8 @@
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
-// therapist: {
+// therapist: { (coming from Profile)
 //     avatar,
 //     name,
 //     surname,
@@ -43,11 +44,14 @@ const MyTherapist = ({ showTherapistDetails, therapist }) => {
         <div>
           {therapist.name} {therapist.surname}
         </div>
-        <Link to="/bookAppointment"
+        {/* <Link to="/bookAppointment"
           state={{therapist}}
         >
           <Button>Book an Appointment</Button>
-        </Link>
+        </Link> */}
+        <Button>
+            Check Availability
+        </Button>
         <div onClick={() => showTherapistDetails()}>X</div>
       </Card>
     </>
