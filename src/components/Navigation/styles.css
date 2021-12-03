@@ -1,0 +1,6 @@
+.navbar-top {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 15%), 0 6px 20px 0 rgb(0 0 0 / 10%);
+}
