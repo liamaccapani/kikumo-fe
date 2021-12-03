@@ -1,7 +1,12 @@
 import { Button, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserLogIn } from "../../redux/actions";
 
 const Login = ({ history, location, match }) => {
+  const dispatch = useDispatch();
+  const loggedIn = useSelector((state) => state.isLoggedIn);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -23,16 +28,18 @@ const Login = ({ history, location, match }) => {
         //data: { id, token, role}
         console.log(data);
         localStorage.setItem("accessToken", data.accessToken);
-        if(data.role === "Client"){
-          history.push("/profile")
-        } else if(data.role === "Therapist"){
-          history.push("/profileT")
+        dispatch(setUserLogIn(loggedIn));
+        if (data.role === "Client") {
+          history.push("/profile");
+        } else if (data.role === "Therapist") {
+          history.push("/profileT");
         }
       }
     } catch (error) {
       console.log(error);
     }
   };
+  
   return (
     <>
       <h1>LOGIN</h1>

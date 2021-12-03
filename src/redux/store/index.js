@@ -10,14 +10,14 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const initialState = {
   user : {
-    userData: {
-        _id: "",
-        name: "",
-        surname: "",
-        email: "",
-        avatar: "",
-    }, 
-    // isLoggedIn: false,
+    // userData: {
+    //     _id: "",
+    //     name: "",
+    //     surname: "",
+    //     email: "",
+    //     avatar: "",
+    // }, 
+    isLoggedIn: false,
   }, 
   chats: {}
 }

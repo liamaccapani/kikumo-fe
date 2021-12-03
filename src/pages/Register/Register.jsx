@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { Button, Dropdown, DropdownButton, Form } from "react-bootstrap";
-// import { setUserInfo } from "../../redux/actions";
-// import { createClient } from "../../tools/therapist_requests.js";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserLogIn } from "../../redux/actions";
 
 const Register = ({ history, location, match }) => {
+  const dispatch = useDispatch();
+  const loggedIn = useSelector((state) => state.isLoggedIn);
+
   const BASE_URL = process.env.REACT_APP_DEV_API_BE;
 
   const [name, setName] = useState("");
@@ -33,10 +36,11 @@ const Register = ({ history, location, match }) => {
         //data: { id, token }
         console.log(data);
         localStorage.setItem("accessToken", data.accessToken);
-        if(role === "Client"){
-          history.push("/profile")
-        } else if(role === "Therapist"){
-          history.push("/profileT")
+        dispatch(setUserLogIn(loggedIn));
+        if (role === "Client") {
+          history.push("/profile");
+        } else if (role === "Therapist") {
+          history.push("/profileT");
         }
         // return data
       }

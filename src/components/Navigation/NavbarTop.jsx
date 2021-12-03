@@ -20,11 +20,10 @@ const NavbarTop = ({ history }) => {
         <p className="d-inline">NAME</p>
       </Navbar.Brand>
       <div className="d-flex flex-row justify-content-end">
-        <Button variant="text">
+        <Button variant="text" color="secondary">
           <Link to="/login">Log In</Link>
         </Button>
-        <Button> 
-          {/* variant="contained" */}
+        <Button variant="contained" color="secondary"> 
           <Link to="/register">Get Started</Link>
         </Button>
       </div>
