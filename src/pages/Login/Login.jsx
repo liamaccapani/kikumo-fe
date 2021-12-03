@@ -20,10 +20,14 @@ const Login = ({ history, location, match }) => {
       );
       if (response.ok) {
         const data = await response.json();
-        //data: { id, token } NO MORE, NOW -> { token }
+        //data: { id, token, role}
         console.log(data);
         localStorage.setItem("accessToken", data.accessToken);
-        history.push("/profile")
+        if(data.role === "Client"){
+          history.push("/profile")
+        } else if(data.role === "Therapist"){
+          history.push("/profileT")
+        }
       }
     } catch (error) {
       console.log(error);
