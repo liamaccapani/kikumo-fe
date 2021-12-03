@@ -10,28 +10,34 @@ const Register = ({ history, location, match }) => {
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("Client")
+  const [role, setRole] = useState("Client");
 
   // const dispatch = useDispatch()
 
   const register = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(BASE_URL + `${role === "Client" ? "/clients/register" : "/therapists/register"}`
-        , 
+      const response = await fetch(
+        BASE_URL +
+          `${role === "Client" ? "/clients/register" : "/therapists/register"}`,
         {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, surname, email, password }),
-      });
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, surname, email, password }),
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         //data: { id, token }
         console.log(data);
         localStorage.setItem("accessToken", data.accessToken);
-        history.push("/profile");
+        if(role === "Client"){
+          history.push("/profile")
+        } else if(role === "Therapist"){
+          history.push("/profileT")
+        }
         // return data
       }
     } catch (error) {
@@ -81,7 +87,11 @@ const Register = ({ history, location, match }) => {
             // onChange={(e) => handleInput(e, 'password')}
           />
           <Form.Label>Register as:</Form.Label>
-          <Form.Control as="select" value={role} onChange={(e) => setRole(e.target.value)}>
+          <Form.Control
+            as="select"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          >
             <option>Client</option>
             <option>Therapist</option>
           </Form.Control>
