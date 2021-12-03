@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { Button, Dropdown, DropdownButton, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserLogIn } from "../../redux/actions";
+import { setUserInfo, setUserLogIn } from "../../redux/actions";
 
 const Register = ({ history, location, match }) => {
   const dispatch = useDispatch();
-  const loggedIn = useSelector((state) => state.isLoggedIn);
+  const loggedIn = useSelector((s) => s.user.isLoggedIn);
+  const user = useSelector((s) => s.user.userData)
 
   const BASE_URL = process.env.REACT_APP_DEV_API_BE;
 
@@ -36,6 +37,7 @@ const Register = ({ history, location, match }) => {
         //data: { id, token }
         console.log(data);
         localStorage.setItem("accessToken", data.accessToken);
+        dispatch(setUserInfo(user))
         dispatch(setUserLogIn(loggedIn));
         if (role === "Client") {
           history.push("/profile");

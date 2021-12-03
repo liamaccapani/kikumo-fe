@@ -1,10 +1,14 @@
 import { Container, Navbar } from "react-bootstrap";
 import { Link, withRouter } from "react-router-dom";
 import Button from "@mui/material/Button";
+import { useDispatch, useSelector } from "react-redux";
 import "./styles.css";
 
 // Change buttons into profile if user is logged in!
 const NavbarTop = ({ history }) => {
+  const loggedIn = useSelector((state) => state.user.isLoggedIn);
+  // console.log(loggedIn)
+
   return (
     <Navbar className="navbar-top">
       <Navbar.Brand>
@@ -19,6 +23,8 @@ const NavbarTop = ({ history }) => {
         </Link>
         <p className="d-inline">NAME</p>
       </Navbar.Brand>
+      {
+      !loggedIn ? 
       <div className="d-flex flex-row justify-content-end">
         <Button variant="text" color="secondary">
           <Link to="/login">Log In</Link>
@@ -27,6 +33,9 @@ const NavbarTop = ({ history }) => {
           <Link to="/register">Get Started</Link>
         </Button>
       </div>
+      :
+      <div>CULO</div>
+      }
     </Navbar>
   );
 };
