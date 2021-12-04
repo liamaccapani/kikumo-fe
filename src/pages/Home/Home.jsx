@@ -3,10 +3,12 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
+import "./Home.css"
+
 const Home = () => {
   return (
-    <Box sx={{ bgcolor: "#c9e0ff", height: "100vh" }}>
-      <div className="d-flex flex-row justify-content-center align-items-center">
+    <>
+      <div className="hero-login-box">
        <div className="d-flex flex-column justify-content-center align-items-center">
           <Link to="/register">
             <Button>Register</Button>
@@ -18,7 +20,7 @@ const Home = () => {
        </div>
         <img src="./images.jpg" />
       </div>
-    </Box>
+    </>
   );
 };
 

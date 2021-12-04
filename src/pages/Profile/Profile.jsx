@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
+import Container from "@mui/material/Container";
 import { Link } from "react-router-dom";
 
 import MyAppointments from "../../components/MyAppointments";
 import MyTherapist from "../../components/MyTherapist";
+
+import "./styles.css";
 
 const Profile = ({ history, location, match }) => {
   const [showAppointments, setShowAppointments] = useState(false);
@@ -50,59 +53,55 @@ const Profile = ({ history, location, match }) => {
   useEffect(getMe, []);
   return (
     <>
-      <h1>PROFILE</h1>
-      <Container>
-        <Row>
-          <Col
-            md={12}
-            lg={6}
-            className="profile-col"
-            style={{ backgroundColor: "pink" }}
-          >
-            <Container>
-              <div>{myData.name}</div>
-              <div>{myData.surname}</div>
-              <div>
-                <img alt="avatar" src={myData.avatar} height="80" width="80" />
-              </div>
-            </Container>
-          </Col>
-          <Col className="utilities-col" style={{ backgroundColor: "orange" }}>
-            <Card body>Search Therapist</Card>
+      <Row className="whole_profile">
+        <Col
+          md={12}
+          lg={6}
+          // style={{ backgroundColor: "pink" }}
+        >
+          <div className="name_avatar">
+            {/* <div> */}
+            <img alt="avatar" src={myData.avatar} />
+            {/* </div> */}
+            <span>
+              {myData.name} {myData.surname}
+            </span>
+          </div>
+        </Col>
+        <Col className="utilities-col">
+          <Card body>Search Therapist</Card>
 
-            {!showAppointments && (
-              <Card
-                body
-                id="appointments"
-                onClick={() => showAppointmentsDetails()}
-              >
-                Appointments
-              </Card>
-            )}
-            {showAppointments && (
-              <MyAppointments
-                onClick={() => showAppointmentsDetails()}
-                showAppointmentsDetails={showAppointmentsDetails}
-                appointments={myData.appointments}
-              />
-            )}
+          {!showAppointments && (
+            <Card
+              body
+              id="appointments"
+              onClick={() => showAppointmentsDetails()}
+            >
+              Appointments
+            </Card>
+          )}
+          {showAppointments && (
+            <MyAppointments
+              onClick={() => showAppointmentsDetails()}
+              showAppointmentsDetails={showAppointmentsDetails}
+              appointments={myData.appointments}
+            />
+          )}
 
-            {!showTherapist && (
-              <Card body onClick={() => showTherapistDetails()}>
-                My Therapist
-              </Card>
-            )}
-            {showTherapist && (
-              <MyTherapist
-                onClick={() => showTherapistDetails()}
-                showTherapistDetails={showTherapistDetails}
-                therapist={myData.therapist}
-              />
-            )}
-          </Col>
-        </Row>
-      </Container>
-      {/*  */}
+          {!showTherapist && (
+            <Card body onClick={() => showTherapistDetails()}>
+              My Therapist
+            </Card>
+          )}
+          {showTherapist && (
+            <MyTherapist
+              onClick={() => showTherapistDetails()}
+              showTherapistDetails={showTherapistDetails}
+              therapist={myData.therapist}
+            />
+          )}
+        </Col>
+      </Row>
     </>
   );
 };

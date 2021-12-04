@@ -34,7 +34,7 @@ const MyTherapist = ({ showTherapistDetails, therapist }) => {
   return (
     <>
       <Card>
-        <img
+        {/* <img
           alt="avatar"
           height="80"
           width="80"
@@ -48,11 +48,11 @@ const MyTherapist = ({ showTherapistDetails, therapist }) => {
           state={{therapist}}
         >
           <Button>Book an Appointment</Button>
-        </Link> */}
+        </Link> 
         <Button>
             Check Availability
-        </Button>
-        <div onClick={() => showTherapistDetails()}>X</div>
+        </Button> */}
+        <div onClick={() => showTherapistDetails()}>X</div> 
       </Card>
     </>
   );

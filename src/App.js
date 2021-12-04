@@ -34,7 +34,7 @@ function App() {
     <ThemeProvider theme={customTheme}>
       <Router>
         <NavbarTop/>
-        <Container>
+        <Container className="px-0" position="relative">
           <Route path="/" exact render={(routerProps) => <Home {...routerProps} />} />
           <Route path="/register" exact render={(routerProps) => <Register {...routerProps} />} />
           <Route path="/login" exact render={(routerProps) => <Login {...routerProps} />} />

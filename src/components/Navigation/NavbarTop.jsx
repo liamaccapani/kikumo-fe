@@ -29,8 +29,8 @@ const NavbarTop = ({ history }) => {
         <Button variant="text" color="secondary">
           <Link to="/login">Log In</Link>
         </Button>
-        <Button variant="contained" color="secondary"> 
-          <Link to="/register">Get Started</Link>
+        <Button variant="contained" color="primary"> 
+          <Link to="/register" className="text-white">Get Started</Link>
         </Button>
       </div>
       :
