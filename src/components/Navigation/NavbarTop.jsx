@@ -1,13 +1,43 @@
 import { Container, Navbar } from "react-bootstrap";
 import { Link, withRouter } from "react-router-dom";
-import Button from "@mui/material/Button";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Button from "@mui/material/Button";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import "./styles.css";
+import { Logout } from "@mui/icons-material";
 
 // Change buttons into profile if user is logged in!
 const NavbarTop = ({ history }) => {
   const loggedIn = useSelector((state) => state.user.isLoggedIn);
   // console.log(loggedIn)
+  const [myData, setMyData] = useState({})
+
+  const getMe = async () => {
+    const token = localStorage.getItem("accessToken");
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_DEV_API_BE + "/clients/me",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        setMyData(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(getMe, []);
+
+  const logout = () => {
+    alert("Logging out")
+  }
 
   return (
     <Navbar className="navbar-top">
@@ -21,7 +51,7 @@ const NavbarTop = ({ history }) => {
             className="d-inline-block align-top mr-2"
           />
         </Link>
-        <p className="d-inline">NAME</p>
+        <span>NAME</span>
       </Navbar.Brand>
       {
       !loggedIn ? 
@@ -34,7 +64,11 @@ const NavbarTop = ({ history }) => {
         </Button>
       </div>
       :
-      <div>CULO</div>
+      <div>
+        <span className="mr-2">{myData.name} {myData.surname}</span>
+        <img alt="avatar" src={myData.avatar} height="30" width="30"/>
+        <KeyboardArrowDownIcon onClick={()=> logout()}/>
+      </div>
       }
     </Navbar>
   );
