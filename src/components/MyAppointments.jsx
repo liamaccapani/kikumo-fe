@@ -1,4 +1,6 @@
 import { Card } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 
 // appointment: {
 //   startDate,
@@ -6,7 +8,7 @@ import { Card } from "react-bootstrap";
 //   description
 // }
 
-const MyAppointments = ({ showAppointmentsDetails, appointments }) => {
+const MyAppointments = ({ appointments, showAppointmentsDetails }) => {
   return (
     <div onClick={() => showAppointmentsDetails()}>
       {appointments.map((appointment) => {
@@ -17,7 +19,7 @@ const MyAppointments = ({ showAppointmentsDetails, appointments }) => {
               {appointment.startDate}
             </Card>
             <Card>
-              {appointment.endDate}
+              {appointment.duration}
             </Card>
             <Card>
               Description:

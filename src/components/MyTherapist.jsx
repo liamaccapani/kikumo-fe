@@ -1,6 +1,7 @@
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import CloseIcon from '@mui/icons-material/Close';
 
 // therapist: { (coming from Profile)
 //     avatar,
@@ -10,27 +11,9 @@ import { useState } from "react";
 // }
 
 const MyTherapist = ({ showTherapistDetails, therapist }) => {
-//   const therapistProfile = async () => {
-//     const id = therapist._id;
-//     const token = localStorage.getItem("accessToken");
-//     try {
-//       const response = await fetch(
-//         process.env.REACT_APP_DEV_API_BE + "/therapists/" + id,
-//         {
-//           headers: {
-//             Authorization: "Bearer " + token,
-//           },
-//         }
-//       );
-//       if (response.ok) {
-//         const data = await response.json();
-//         console.log(data);
-//       }
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
-
+  const show = () => {
+    alert(therapist)
+  }
   return (
     <>
       <Card>
@@ -44,15 +27,16 @@ const MyTherapist = ({ showTherapistDetails, therapist }) => {
         <div>
           {therapist.name} {therapist.surname}
         </div>
-        {/* <Link to="/bookAppointment"
+        <Link to="/bookAppointment"
           state={{therapist}}
         >
           <Button>Book an Appointment</Button>
         </Link> 
         <Button>
             Check Availability
-        </Button> */}
-        <div onClick={() => showTherapistDetails()}>X</div> 
+        </Button>
+        <CloseIcon onClick={() => showTherapistDetails()} /> */}
+        <div onClick={show}>huuuhuuuu</div>
       </Card>
     </>
   );

@@ -12,6 +12,8 @@ const Profile = ({ history, location, match }) => {
   const [showAppointments, setShowAppointments] = useState(false);
   const [showTherapist, setShowTherapist] = useState(false);
   const [myData, setMyData] = useState({});
+  const [myAppointments, setMyAppointments] = useState([]);
+  const [therapistId, setTherapistId] = useState("")
 
   // // Fx to pass down to the cards
   // const showDetails = () => {
@@ -50,7 +52,42 @@ const Profile = ({ history, location, match }) => {
       console.log(error);
     }
   };
-  useEffect(getMe, []);
+
+  const getMyAppointments = async () => {
+    const token = localStorage.getItem("accessToken");
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_DEV_API_BE + "/sessions/clients",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      if (response.ok) {
+        const appointments = await response.json();
+        setMyAppointments(appointments)
+        setTherapistId(appointments.therapistId._id)
+        console.log(therapistId)
+        console.log(appointments);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // const getMyTherapists = async () => {
+  //   try {
+      
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
+  useEffect(()=> {
+    getMe();
+    getMyAppointments()
+  }, []);
   return (
     <>
       <Row className="whole_profile">
@@ -84,7 +121,7 @@ const Profile = ({ history, location, match }) => {
             <MyAppointments
               onClick={() => showAppointmentsDetails()}
               showAppointmentsDetails={showAppointmentsDetails}
-              appointments={myData.appointments}
+              appointments={myAppointments}
             />
           )}
 
@@ -97,7 +134,7 @@ const Profile = ({ history, location, match }) => {
             <MyTherapist
               onClick={() => showTherapistDetails()}
               showTherapistDetails={showTherapistDetails}
-              therapist={myData.therapist}
+              therapist={myAppointments.therapistId._id}
             />
           )}
         </Col>
