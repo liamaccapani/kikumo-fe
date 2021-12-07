@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Grid } from "@mui/material";
-import format from 'date-fns/format'
+import format from 'date-fns/format';
+import parseISO from "date-fns/parseISO";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -17,17 +18,18 @@ import Typography from "@mui/material/Typography";
 import "./styles.css";
 
 const Profile = ({ history, location, match }) => {
-  const [showAppointments, setShowAppointments] = useState(false);
-  const [showTherapist, setShowTherapist] = useState(false);
+  // const [showAppointments, setShowAppointments] = useState(false);
+  // const [showTherapist, setShowTherapist] = useState(false);
   const [myData, setMyData] = useState({});
   const [myAppointments, setMyAppointments] = useState([]);
+  const [myTherapists, setMyTherapists] = useState([]);
 
-  const showAppointmentsDetails = () => {
-    setShowAppointments(!showAppointments);
-  };
-  const showTherapistDetails = () => {
-    setShowTherapist(!showTherapist);
-  };
+  // const showAppointmentsDetails = () => {
+  //   setShowAppointments(!showAppointments);
+  // };
+  // const showTherapistDetails = () => {
+  //   setShowTherapist(!showTherapist);
+  // };
   const getMe = async () => {
     const token = localStorage.getItem("accessToken");
     try {
@@ -63,6 +65,14 @@ const Profile = ({ history, location, match }) => {
         const appointments = await response.json();
         setMyAppointments(appointments);
         console.log(appointments);
+        // appointments.map(appointment => {
+        //   const index = myTherapists.findIndex(element => element._id !== appointment.therapistId)
+        //   if(index === -1){
+        //     let newMyTherapists = [...myTherapists]
+        //     newMyTherapists.push()
+        //     setMyTherapists(newMyTherapists)
+        //   }
+        // })
       }
     } catch (error) {
       console.log(error);
@@ -108,7 +118,7 @@ const Profile = ({ history, location, match }) => {
                       {appointment.duration}
                     </Typography>
                     <Typography variant="h6" component="div">
-                      {appointment.startDate}
+                    {format(parseISO(appointment.startDate), "EEEE dd MMM yyy h:m a")}
                     </Typography>
                     <Typography variant="body2">
                       {appointment.description}
@@ -140,7 +150,7 @@ const Profile = ({ history, location, match }) => {
                       {appointment.duration}
                     </Typography>
                     <Typography variant="h6" component="div">
-                      {appointment.startDate}
+                     
                     </Typography>
                     <Typography variant="body2">
                       {appointment.description}
