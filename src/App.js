@@ -25,7 +25,7 @@ const customTheme = createTheme({
     }
   },
   typography: {
-    fontFamily: 'Inter'
+    fontFamily: 'Inter' // not working, it's still Roboto
   }
 })
 
@@ -34,7 +34,7 @@ function App() {
     <ThemeProvider theme={customTheme}>
       <Router>
         <NavbarTop/>
-        <Container className="px-0" position="relative">
+        <Container className="main px-0">
           <Route path="/" exact render={(routerProps) => <Home {...routerProps} />} />
           <Route path="/register" exact render={(routerProps) => <Register {...routerProps} />} />
           <Route path="/login" exact render={(routerProps) => <Login {...routerProps} />} />

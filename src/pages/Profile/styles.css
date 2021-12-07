@@ -1,6 +1,5 @@
 .whole_profile {
-    background-color: blueviolet;
-    height: calc(100vh - 76px);
+    height: calc(100vh - 110px);
 }
 
 .name_avatar {

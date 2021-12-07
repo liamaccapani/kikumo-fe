@@ -1,25 +1,33 @@
 import { Link } from "react-router-dom";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import { Grid } from "@mui/material";
 
-import "./Home.css"
+import "./Home.css";
 
 const Home = () => {
   return (
     <>
-      <div className="hero-login-box">
-       <div className="d-flex flex-column justify-content-center align-items-center">
-          <Link to="/register">
-            <Button>Register</Button>
-          </Link>
+      <Grid container spacing={2} className="hero-login-box">
+        <Grid item 
+         xs={12} sm={6}
+         className="d-flex flex-column justify-content-center align-items-center"
+        >
+          <Button>
+            <Link to="/register">
+              Get Started
+            </Link>
+          </Button>
           <hr />
-          <Link to="/login">
-            <Button>Sign In</Button>
-          </Link>
-       </div>
-        <img src="./images.jpg" />
-      </div>
+          <Button>
+            <Link to="/login">Log In</Link>
+          </Button>
+        </Grid>
+        <Grid item
+         xs={12} sm={6}
+        >
+          <img src="./images.jpg" />
+        </Grid>
+      </Grid>
     </>
   );
 };

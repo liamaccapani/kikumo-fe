@@ -13,6 +13,8 @@ const NavbarTop = ({ history }) => {
   // console.log(loggedIn)
   const [myData, setMyData] = useState({})
 
+
+  // TAKE VALUES FROM REDUX STORE NOT WITH A FECTH!!!
   const getMe = async () => {
     const token = localStorage.getItem("accessToken");
     try {
@@ -40,7 +42,7 @@ const NavbarTop = ({ history }) => {
   }
 
   return (
-    <Navbar className="navbar-top">
+    <Navbar className="navbar-top px-4">
       <Navbar.Brand>
         <Link to="/">
           <img

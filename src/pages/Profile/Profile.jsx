@@ -1,10 +1,18 @@
 import { useState, useEffect } from "react";
-import { Card, Col, Row } from "react-bootstrap";
-import Container from "@mui/material/Container";
 import { Link } from "react-router-dom";
+import { Grid } from "@mui/material";
+import format from 'date-fns/format'
 
-import MyAppointments from "../../components/MyAppointments";
-import MyTherapist from "../../components/MyTherapist";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Typography from "@mui/material/Typography";
+
+// import MyAppointments from "../../components/MyAppointments";
+// import MyTherapist from "../../components/MyTherapist";
 
 import "./styles.css";
 
@@ -13,25 +21,13 @@ const Profile = ({ history, location, match }) => {
   const [showTherapist, setShowTherapist] = useState(false);
   const [myData, setMyData] = useState({});
   const [myAppointments, setMyAppointments] = useState([]);
-  const [therapistId, setTherapistId] = useState("")
-
-  // // Fx to pass down to the cards
-  // const showDetails = () => {
-  //   if(id === "appointments"){
-  //     setShowAppointments(!showAppointments)
-  //   } else {
-  //     showTherapist(!setShowTherapist)
-  //   }
-  // }
 
   const showAppointmentsDetails = () => {
     setShowAppointments(!showAppointments);
   };
-
   const showTherapistDetails = () => {
     setShowTherapist(!showTherapist);
   };
-
   const getMe = async () => {
     const token = localStorage.getItem("accessToken");
     try {
@@ -52,7 +48,6 @@ const Profile = ({ history, location, match }) => {
       console.log(error);
     }
   };
-
   const getMyAppointments = async () => {
     const token = localStorage.getItem("accessToken");
     try {
@@ -66,9 +61,7 @@ const Profile = ({ history, location, match }) => {
       );
       if (response.ok) {
         const appointments = await response.json();
-        setMyAppointments(appointments)
-        setTherapistId(appointments[0].therapistId._id)
-        console.log(therapistId) // not working
+        setMyAppointments(appointments);
         console.log(appointments);
       }
     } catch (error) {
@@ -76,70 +69,90 @@ const Profile = ({ history, location, match }) => {
     }
   };
 
-  // const getMyTherapists = async () => {
-  //   try {
-      
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
-  useEffect(()=> {
+  useEffect(() => {
     getMe();
-    getMyAppointments()
+    getMyAppointments();
   }, []);
+
   return (
-    <>
-      <Row className="whole_profile">
-        <Col
-          md={12}
-          lg={6}
-          // style={{ backgroundColor: "pink" }}
-        >
-          <div className="name_avatar">
-            {/* <div> */}
-            <img alt="avatar" src={myData.avatar} />
-            {/* </div> */}
-            <span>
-              {myData.name} {myData.surname}
-            </span>
-          </div>
-        </Col>
-        <Col className="utilities-col">
-          <Card body>Search Therapist</Card>
+    <Grid container className="whole_profile my-3">
+      <Grid item xs={12} md={6}>
+        <div className="name_avatar">
+          <img alt="avatar" src={myData.avatar} />
+          <span>
+            {myData.name} {myData.surname}
+          </span>
+        </div>
+      </Grid>
 
-          {!showAppointments && (
-            <Card
-              body
-              id="appointments"
-              onClick={() => showAppointmentsDetails()}
-            >
-              Appointments
+      <Grid item xs={12} md={6} className="utilities-col">
+        <Card>Search Therapist</Card>
+        <Accordion className="appointments">
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography>My Appointments</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Card>
+              {myAppointments.map((appointment) => {
+                return (
+                  <CardContent key={appointment._id}>
+                    <Typography
+                      sx={{ fontSize: 14 }}
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      {appointment.duration}
+                    </Typography>
+                    <Typography variant="h6" component="div">
+                      {appointment.startDate}
+                    </Typography>
+                    <Typography variant="body2">
+                      {appointment.description}
+                    </Typography>
+                  </CardContent>
+                );
+              })}
             </Card>
-          )}
-          {showAppointments && (
-            <MyAppointments
-              onClick={() => showAppointmentsDetails()}
-              showAppointmentsDetails={showAppointmentsDetails}
-              appointments={myAppointments}
-            />
-          )}
-
-          {!showTherapist && (
-            <Card body onClick={() => showTherapistDetails()}>
-              My Therapist
+          </AccordionDetails>
+        </Accordion>
+        <Accordion className="therapists">
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography>My Therapists</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Card>
+              {myAppointments.map((appointment) => {
+                return (
+                  <CardContent key={appointment._id}>
+                    <Typography
+                      sx={{ fontSize: 14 }}
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      {appointment.duration}
+                    </Typography>
+                    <Typography variant="h6" component="div">
+                      {format(new Date(appointment.startDate), "yyyy-MM-dd")}
+                    </Typography>
+                    <Typography variant="body2">
+                      {appointment.description}
+                    </Typography>
+                  </CardContent>
+                );
+              })}
             </Card>
-          )}
-          {showTherapist && (
-            <MyTherapist
-              onClick={() => showTherapistDetails()}
-              showTherapistDetails={showTherapistDetails}
-              therapist={myAppointments.therapistId._id}
-            />
-          )}
-        </Col>
-      </Row>
-    </>
+          </AccordionDetails>
+        </Accordion>
+      </Grid>
+    </Grid>
   );
 };
 
@@ -148,3 +161,35 @@ export default Profile;
 // profile -> card search ->
 // profile -> card appointments -> modal setShow passed down to modal component
 // profile -> card my therapists ->
+
+/*
+  {!showAppointments && (
+    <Card
+      body
+      id="appointments"
+      onClick={() => showAppointmentsDetails()}
+    >
+      Appointments
+    </Card>
+  )}
+  {showAppointments && (
+    <MyAppointments
+      onClick={() => showAppointmentsDetails()}
+      showAppointmentsDetails={showAppointmentsDetails}
+      appointments={myAppointments}
+    />
+  )}
+
+  {!showTherapist && (
+    <Card body onClick={() => showTherapistDetails()}>
+      My Therapist
+    </Card>
+  )}
+  {showTherapist && (
+    <MyTherapist
+      onClick={() => showTherapistDetails()}
+      showTherapistDetails={showTherapistDetails}
+      therapist={myAppointments.therapistId._id}
+    />
+  )} 
+*/

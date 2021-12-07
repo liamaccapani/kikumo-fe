@@ -15,10 +15,7 @@ const Login = ({ history, location, match }) => {
   const dispatch = useDispatch();
   const loggedIn = useSelector((s) => s.user.isLoggedIn);
   const user = useSelector((s) => s.user.userData);
-  console.log(user);
-
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
+  // console.log("USER SELECTOR", user); // empty strings
 
   const [values, setValues] = useState({
     email: "",
@@ -78,13 +75,14 @@ const Login = ({ history, location, match }) => {
       <Box
         onSubmit={login}
         component="form"
+        className="px-5"
         // sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexWrap: "wrap" }}
       >
-        <FormControl fullWidth sx={{ m: 1 }} variant="standard">
+        <FormControl fullWidth variant="standard">
           <InputLabel>Email</InputLabel>
           <Input value={values.email} onChange={handleChange("email")} />
         </FormControl>
-        <FormControl fullWidth sx={{ m: 1 }} variant="standard">
+        <FormControl fullWidth variant="standard">
           <InputLabel>Password</InputLabel>
           <Input
             type={values.showPassword ? "text" : "password"}
@@ -103,7 +101,7 @@ const Login = ({ history, location, match }) => {
             }
           />
         </FormControl>
-        <Button type="submit">
+        <Button type="submit" className="my-3 px-0">
           Sign In
         </Button>
       </Box>
