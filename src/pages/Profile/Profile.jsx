@@ -67,8 +67,8 @@ const Profile = ({ history, location, match }) => {
       if (response.ok) {
         const appointments = await response.json();
         setMyAppointments(appointments)
-        setTherapistId(appointments.therapistId._id)
-        console.log(therapistId)
+        setTherapistId(appointments[0].therapistId._id)
+        console.log(therapistId) // not working
         console.log(appointments);
       }
     } catch (error) {
