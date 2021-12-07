@@ -8,6 +8,7 @@ import Login from "./pages/Login/Login"
 import Profile from "./pages/Profile/Profile"
 import ProfileT from "./pages/Profile/ProfileT"
 import Register from "./pages/Register/Register"
+import Blank from "./pages/Blank"
 // ********** COMPONENTS ********** \\
 import NavbarTop from "./components/Navigation/NavbarTop"
 
@@ -41,6 +42,7 @@ function App() {
           <Route path="/profile" exact render={(routerProps) => <Profile {...routerProps} />} />
           <Route path="/profileT" exact render={(routerProps) => <ProfileT {...routerProps} />} />
           {/* <Route path="/bookAppointment" exact render={(routerProps) => <BookAppointment {...routerProps} />} /> */}
+          <Route path="/blank" exact render={(routerProps) => <Blank {...routerProps} />} />
         </Container>
       </Router>
     </ThemeProvider>

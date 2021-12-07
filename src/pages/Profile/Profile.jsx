@@ -140,7 +140,7 @@ const Profile = ({ history, location, match }) => {
                       {appointment.duration}
                     </Typography>
                     <Typography variant="h6" component="div">
-                      {format(new Date(appointment.startDate), "yyyy-MM-dd")}
+                      {appointment.startDate}
                     </Typography>
                     <Typography variant="body2">
                       {appointment.description}
