@@ -22,14 +22,9 @@ const Profile = ({ history, location, match }) => {
   // const [showTherapist, setShowTherapist] = useState(false);
   const [myData, setMyData] = useState({});
   const [myAppointments, setMyAppointments] = useState([]);
-  const [myTherapists, setMyTherapists] = useState([]);
+  const [myTherapists, setMyTherapists] = useState([{}]);
+  //console.log(typeof myTherapists)
 
-  // const showAppointmentsDetails = () => {
-  //   setShowAppointments(!showAppointments);
-  // };
-  // const showTherapistDetails = () => {
-  //   setShowTherapist(!showTherapist);
-  // };
   const getMe = async () => {
     const token = localStorage.getItem("accessToken");
     try {
@@ -65,14 +60,12 @@ const Profile = ({ history, location, match }) => {
         const appointments = await response.json();
         setMyAppointments(appointments);
         console.log(appointments);
-        // appointments.map(appointment => {
-        //   const index = myTherapists.findIndex(element => element._id !== appointment.therapistId)
-        //   if(index === -1){
-        //     let newMyTherapists = [...myTherapists]
-        //     newMyTherapists.push()
-        //     setMyTherapists(newMyTherapists)
-        //   }
-        // })
+        const myTherapistCopy = [{...myTherapists}]
+        appointments.map(appointment => {
+          myTherapistCopy.push(appointment.therapistId)
+          setMyTherapists(myTherapistCopy)
+        })
+        console.log(myTherapists)
       }
     } catch (error) {
       console.log(error);
@@ -202,4 +195,12 @@ export default Profile;
       therapist={myAppointments.therapistId._id}
     />
   )} 
+*/
+/*
+  // const showAppointmentsDetails = () => {
+  //   setShowAppointments(!showAppointments);
+  // };
+  // const showTherapistDetails = () => {
+  //   setShowTherapist(!showTherapist);
+  // };
 */
