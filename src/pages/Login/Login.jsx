@@ -57,13 +57,13 @@ const Login = ({ history, location, match }) => {
         //data: { id, token, role}
         console.log(data);
         localStorage.setItem("accessToken", data.accessToken);
-        dispatch(setUserInfo(user));
-        dispatch(setUserLogIn(loggedIn));
         if (data.role === "Client") {
           history.push("/profile");
         } else if (data.role === "Therapist") {
           history.push("/profileT");
         }
+        dispatch(setUserInfo(user));
+        dispatch(setUserLogIn(loggedIn));
       }
     } catch (error) {
       console.log(error);

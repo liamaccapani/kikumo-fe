@@ -15,27 +15,27 @@ const NavbarTop = ({ history }) => {
 
 
   // TAKE VALUES FROM REDUX STORE NOT WITH A FECTH!!!
-  const getMe = async () => {
-    const token = localStorage.getItem("accessToken");
-    try {
-      const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE + "/clients/me",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        setMyData(data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(getMe, []);
+  // const getMe = async () => {
+  //   const token = localStorage.getItem("accessToken");
+  //   try {
+  //     const response = await fetch(
+  //       process.env.REACT_APP_DEV_API_BE + "/clients/me",
+  //       {
+  //         headers: {
+  //           Authorization: "Bearer " + token,
+  //         },
+  //       }
+  //     );
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       console.log(data);
+  //       setMyData(data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // useEffect(getMe, []);
 
   const logout = () => {
     alert("Logging out")
@@ -67,8 +67,9 @@ const NavbarTop = ({ history }) => {
       </div>
       :
       <div>
-        <span className="mr-2">{myData.name} {myData.surname}</span>
-        <img alt="avatar" src={myData.avatar} height="30" width="30"/>
+        {/* <span className="mr-2">{myData.name} {myData.surname}</span>
+        <img alt="avatar" src={myData.avatar} height="30" width="30"/> */}
+        LOGGED IN
         <KeyboardArrowDownIcon onClick={()=> logout()}/>
       </div>
       }
