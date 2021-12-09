@@ -1,3 +1,7 @@
+/* body {
+    background-image: url('/canva.png')
+} */
+
 .hero-login-box {
     height: calc(100vh - 76px);
     display: flex; 

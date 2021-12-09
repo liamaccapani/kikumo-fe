@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { Grid } from "@mui/material";
 
-import "./Home.css";
+import "./styles.css";
 
 const Home = () => {
   return (
@@ -12,6 +12,7 @@ const Home = () => {
          xs={12} sm={6}
          className="d-flex flex-column justify-content-center align-items-center"
         >
+          
           <Button>
             <Link to="/register">
               Get Started
@@ -25,7 +26,7 @@ const Home = () => {
         <Grid item
          xs={12} sm={6}
         >
-          <img src="./images.jpg" />
+        <img src="./canva.png" />
         </Grid>
       </Grid>
     </>

@@ -90,7 +90,7 @@ const ProfileT = ({ history, location, match }) => {
           <Card>
             <CardHeader title="Working Experiences:" />
             {myData.experiences.map((experience) => {
-              console.log(experience);
+              // console.log(experience);
               return (
                 <>
                   <CardContent key={experience._id}>
