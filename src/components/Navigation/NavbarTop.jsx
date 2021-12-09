@@ -53,7 +53,7 @@ const NavbarTop = ({ history }) => {
             className="d-inline-block align-top mr-2"
           />
         </Link>
-        <span>NAME</span>
+        <div className="d-inline-block mt-2">KiKumo</div>
       </Navbar.Brand>
       {
       !loggedIn ? 
