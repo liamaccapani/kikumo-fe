@@ -19,8 +19,6 @@ import { Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
 const ProfileT = ({ history, location, match }) => {
-  // const [showAppointments, setShowAppointments] = useState(false);
-  // const [showTherapist, setShowTherapist] = useState(false);
   const [myData, setMyData] = useState({});
   const [myAppointments, setMyAppointments] = useState([]);
   const [myClients, setMyClients] = useState([]);
@@ -167,15 +165,9 @@ const ProfileT = ({ history, location, match }) => {
             <Card>
               {myClients.map((client) => {
                 return (
-                  <Card>
-                    <CardHeader
-                      avatar={
-                        <Avatar>
-                          {client.avatar}
-                        </Avatar>
-                      }
-                    />
-                    <CardContent key={client._id}>
+                  <Card key={client._id}>
+                    <CardHeader avatar={<Avatar>{client.avatar}</Avatar>} />
+                    <CardContent>
                       <Typography
                         sx={{ fontSize: 14 }}
                         color="text.secondary"
