@@ -1,25 +1,29 @@
+// ------------- COMPONENTS -------------
+import Availability from "../../components/Availability";
+// ------------- PACKAGES -------------
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Grid } from "@mui/material";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 
+// ------------- MUI -------------
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
+import Avatar from "@mui/material/Avatar";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
-
 
 const ProfileT = ({ history, location, match }) => {
   // const [showAppointments, setShowAppointments] = useState(false);
   // const [showTherapist, setShowTherapist] = useState(false);
   const [myData, setMyData] = useState({});
   const [myAppointments, setMyAppointments] = useState([]);
-  const [myClients, setMyClients] = useState([{}])
+  const [myClients, setMyClients] = useState([]);
 
   const getMe = async () => {
     const token = localStorage.getItem("accessToken");
@@ -57,12 +61,19 @@ const ProfileT = ({ history, location, match }) => {
         const appointments = await response.json();
         setMyAppointments(appointments);
         console.log("APPOINTMENTS", appointments);
-        appointments.forEach(appointment => {
-          const newMyClients = [...myClients]
-          newMyClients.push(appointment.clientId)
-          setMyClients(newMyClients)
-          console.log("CLIENTS", myClients)
-        })
+        let clients = appointments
+          .filter((a) => a.clientId)
+          .map((a) => a.clientId);
+        // console.log(clients)
+        let uniqueClients = [];
+        clients.forEach((c) => {
+          if (uniqueClients.findIndex((uc) => uc._id === c._id) === -1) {
+            uniqueClients.push(c);
+          }
+        });
+        // console.log('unique', uniqueClients)
+        setMyClients(uniqueClients);
+        // console.log(myClients)
       }
     } catch (error) {
       console.log(error);
@@ -139,30 +150,7 @@ const ProfileT = ({ history, location, match }) => {
             <Typography>My Availability</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            {/* <Card>
-              {myAppointments.map((appointment) => {
-                return (
-                  <CardContent key={appointment._id}>
-                    <Typography
-                      sx={{ fontSize: 14 }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      {appointment.duration}
-                    </Typography>
-                    <Typography variant="h6" component="div">
-                      {format(
-                        parseISO(appointment.startDate),
-                        "EEEE dd MMM yyy h:m a"
-                      )}
-                    </Typography>
-                    <Typography variant="body2">
-                      {appointment.description}
-                    </Typography>
-                  </CardContent>
-                );
-              })}
-            </Card> */}
+            <Availability />
           </AccordionDetails>
         </Accordion>
 
@@ -176,27 +164,34 @@ const ProfileT = ({ history, location, match }) => {
             <Typography>My Clients</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            {/* <Card>
-              {myAppointments.map((appointment) => {
+            <Card>
+              {myClients.map((client) => {
                 return (
-                  <CardContent key={appointment._id}>
-                    <Typography
-                      sx={{ fontSize: 14 }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      {appointment.duration}
-                    </Typography>
-                    <Typography variant="h6" component="div">
-                     
-                    </Typography>
-                    <Typography variant="body2">
-                      {appointment.description}
-                    </Typography>
-                  </CardContent>
+                  <Card>
+                    <CardHeader
+                      avatar={
+                        <Avatar>
+                          {client.avatar}
+                        </Avatar>
+                      }
+                    />
+                    <CardContent key={client._id}>
+                      <Typography
+                        sx={{ fontSize: 14 }}
+                        color="text.secondary"
+                        gutterBottom
+                      >
+                        {client.name} {client.surname}
+                      </Typography>
+                      <Typography variant="h6" component="div"></Typography>
+                      {/* <Typography variant="body2">
+                        
+                      </Typography> */}
+                    </CardContent>
+                  </Card>
                 );
               })}
-            </Card> */}
+            </Card>
           </AccordionDetails>
         </Accordion>
       </Grid>
@@ -205,69 +200,3 @@ const ProfileT = ({ history, location, match }) => {
 };
 
 export default ProfileT;
-
-{
-  /* <Container>
-  <Row>
-    <Col
-      md={12}
-      lg={6}
-      className="profile-col"
-      style={{ backgroundColor: "pink" }}
-    >
-      <Container>
-        <div>{myData.name}</div>
-        <div>{myData.surname}</div>
-        <div>
-          <img alt="avatar" src={myData.avatar} height="80" width="80" />
-        </div>
-      </Container>
-    </Col>
-    <Col className="utilities-col" style={{ backgroundColor: "orange" }}>
-      <Card body>Search Therapist</Card>
-
-      {!showAppointments && (
-        <Card body id="appointments" onClick={() => showAppointmentsDetails()}>
-          Appointments
-        </Card>
-      )}
-      {showAppointments && (
-        <MyAppointments
-          onClick={() => showAppointmentsDetails()}
-          showAppointmentsDetails={showAppointmentsDetails}
-          appointments={myData.appointments}
-        />
-      )}
-
-      {!showTherapist && (
-        <Card body onClick={() => showTherapistDetails()}>
-          My Therapist
-        </Card>
-      )}
-      {showTherapist && (
-        <MyTherapist
-          onClick={() => showTherapistDetails()}
-          showTherapistDetails={showTherapistDetails}
-          therapist={myData.therapist}
-        />
-      )}
-    </Col>
-  </Row>
-</Container>; */
-}
-// // Fx to pass down to the cards
-// const showDetails = () => {
-//   if(id === "appointments"){
-//     setShowAppointments(!showAppointments)
-//   } else {
-//     showTherapist(!setShowTherapist)
-//   }
-// }
-
-// const showAppointmentsDetails = () => {
-//   setShowAppointments(!showAppointments);
-// };
-
-// const showTherapistDetails = () => {
-//   setShowTherapist(!showTherapist);
-// };

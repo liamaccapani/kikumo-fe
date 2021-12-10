@@ -62,7 +62,7 @@ const Login = ({ history, location, match }) => {
         } else if (data.role === "Therapist") {
           history.push("/profileT");
         }
-        dispatch(setUserInfo(user));
+        // dispatch(setUserInfo(data)); // token and role!!!! 
         dispatch(setUserLogIn(loggedIn));
       }
     } catch (error) {
