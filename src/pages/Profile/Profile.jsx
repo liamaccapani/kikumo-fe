@@ -70,13 +70,6 @@ const Profile = ({ history, location, match }) => {
         console.log("unique", uniqueTherapists);
         setMyTherapists(uniqueTherapists);
         console.log(myTherapists);
-
-        // const myTherapistCopy = [{...myTherapists}]
-        // appointments.map(appointment => {
-        //   myTherapistCopy.push(appointment.therapistId)
-        //   setMyTherapists(myTherapistCopy)
-        // })
-        // console.log(myTherapists)
       }
     } catch (error) {
       console.log(error);
