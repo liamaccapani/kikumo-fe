@@ -8,10 +8,13 @@ import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Avatar from "@mui/material/Avatar";
+import Box from '@mui/material/Box';
+import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Modal from '@mui/material/Modal';
 import Typography from "@mui/material/Typography";
 
 import "./styles.css";
@@ -20,9 +23,11 @@ const Profile = ({ history, location, match }) => {
   const [myData, setMyData] = useState({});
   const [myAppointments, setMyAppointments] = useState([]);
   const [myTherapists, setMyTherapists] = useState([]);
-
+  const [sessions, setSessions] = useState([])
+  const [open, setOpen] = useState(false);
+  
+  const token = localStorage.getItem("accessToken");
   const getMe = async () => {
-    const token = localStorage.getItem("accessToken");
     try {
       const response = await fetch(
         process.env.REACT_APP_DEV_API_BE + "/clients/me",
@@ -43,7 +48,6 @@ const Profile = ({ history, location, match }) => {
   };
 
   const getMyAppointments = async () => {
-    const token = localStorage.getItem("accessToken");
     try {
       const response = await fetch(
         process.env.REACT_APP_DEV_API_BE + "/sessions/clients",
@@ -56,11 +60,11 @@ const Profile = ({ history, location, match }) => {
       if (response.ok) {
         const appointments = await response.json();
         setMyAppointments(appointments);
-        console.log("APPOINTMENTS", appointments);
+        // console.log("APPOINTMENTS", appointments);
         let therapists = appointments
           .filter((a) => a.therapistId)
           .map((a) => a.therapistId);
-        console.log(therapists);
+        // console.log(therapists);
         let uniqueTherapists = [];
         therapists.forEach((t) => {
           if (uniqueTherapists.findIndex((ut) => ut._id === t._id) === -1) {
@@ -69,12 +73,37 @@ const Profile = ({ history, location, match }) => {
         });
         console.log("unique", uniqueTherapists);
         setMyTherapists(uniqueTherapists);
-        console.log(myTherapists);
+        // console.log(myTherapists);
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  const getTherapistSessions = async (therapistId) => {
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_DEV_API_BE + "/sessions/" + therapistId,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      if (response.ok) {
+        const therapistSessions = await response.json()
+        console.log(therapistSessions)
+        setSessions(therapistSessions)
+        console.log(sessions)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // const setShow = () => {
+  //   setOpen(!open);
+  // };
 
   useEffect(() => {
     getMe();
@@ -153,19 +182,24 @@ const Profile = ({ history, location, match }) => {
                       <CardHeader
                         avatar={<Avatar>{therapist.avatar}</Avatar>}
                       />
-                      <CardContent>
-                        <Typography
-                          sx={{ fontSize: 14 }}
-                          color="text.secondary"
-                          gutterBottom
-                        >
+                      <Typography
+                        sx={{ fontSize: 14 }}
+                        color="text.secondary"
+                        gutterBottom
+                      >
+                        <Button onClick={()=>getTherapistSessions(therapist._id)}>
                           {therapist.name} {therapist.surname}
-                        </Typography>
+                        </Button>
+                      </Typography>
+                      <CardContent>
                         <Typography variant="h6" component="div"></Typography>
-                        {/* <Typography variant="body2">
-                        
-                      </Typography> */}
                       </CardContent>
+                      {/* <Button onClick={() => setShow()}>
+                        Book an Appointment
+                      </Button>
+                      {open && (
+                        <div>CuLO CULO</div>
+                      )} */}
                     </Card>
                   );
                 })}
@@ -179,67 +213,3 @@ const Profile = ({ history, location, match }) => {
 };
 
 export default Profile;
-
-// profile -> card search ->
-// profile -> card appointments -> modal setShow passed down to modal component
-// profile -> card my therapists ->
-
-/*
-  {!showAppointments && (
-    <Card
-      body
-      id="appointments"
-      onClick={() => showAppointmentsDetails()}
-    >
-      Appointments
-    </Card>
-  )}
-  {showAppointments && (
-    <MyAppointments
-      onClick={() => showAppointmentsDetails()}
-      showAppointmentsDetails={showAppointmentsDetails}
-      appointments={myAppointments}
-    />
-  )}
-
-  {!showTherapist && (
-    <Card body onClick={() => showTherapistDetails()}>
-      My Therapist
-    </Card>
-  )}
-  {showTherapist && (
-    <MyTherapist
-      onClick={() => showTherapistDetails()}
-      showTherapistDetails={showTherapistDetails}
-      therapist={myAppointments.therapistId._id}
-    />
-  )} 
-*/
-/*
-  // const showAppointmentsDetails = () => {
-  //   setShowAppointments(!showAppointments);
-  // };
-  // const showTherapistDetails = () => {
-  //   setShowTherapist(!showTherapist);
-  // };
-*/
-
-/* {myAppointments.map((appointment) => {
-                return (
-                  <CardContent key={appointment._id}>
-                    <Typography
-                      sx={{ fontSize: 14 }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      {appointment.duration}
-                    </Typography>
-                    <Typography variant="h6" component="div">
-                     
-                    </Typography>
-                    <Typography variant="body2">
-                      {appointment.description}
-                    </Typography>
-                  </CardContent>
-                );
-              })} */
