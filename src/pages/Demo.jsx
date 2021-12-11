@@ -16,6 +16,13 @@ export default class DemoApp extends React.Component {
       this.getAllSessions()
   }
 
+//   onEventAdded = (event) => {
+//     const calendarRef = useRef();
+//     const api = calendarRef.current.getApi();
+//     api.addEvent(event);
+//   };
+
+
   render() {
     return (
       <div className="demo-app">
@@ -23,19 +30,19 @@ export default class DemoApp extends React.Component {
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             initialView="timeGridWeek"
-            select={this.handleTimeSelection}
             headerToolbar={{
-              left: "prev,next today",
-              center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay",
+                left: "prev,next today",
+                center: "title",
+                right: "dayGridMonth,timeGridWeek,timeGridDay",
             }}
             editable={true}
             selectable={true}
             dayMaxEvents={true}
             aspectRatio={6}
             height={600}
-            events={this.state.sessions}
-            eventContent={this.renderEventContent}
+            select={this.handleTimeSelection}
+            events={this.state.sessions}  // this renderes the event objects in the calendar
+            // eventContent={this.renderEventContent}
           />
         </div>
         {this.state.filledIn === true ?
@@ -49,14 +56,14 @@ export default class DemoApp extends React.Component {
     );
   }
 
-  renderEventContent = (eventInfo) => {
-    return (
-      <>
-        <b>{eventInfo.timeText}</b>
-        <i>{eventInfo.event.title}</i>
-      </>
-    )
-  }
+//   renderEventContent = (eventInfo) => {
+//     return (
+//       <>
+//         <b>{eventInfo.timeText}</b>
+//         <i>{eventInfo.event.title}</i>
+//       </>
+//     )
+//   }
 
   handleTimeSelection = (info) => {
     this.setState({
@@ -73,11 +80,11 @@ export default class DemoApp extends React.Component {
       })
   }
 
-  createSession = (e) => {
+  createSession = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("accessToken");
     try {
-      fetch(
+    const response = await fetch(
         process.env.REACT_APP_DEV_API_BE + "/test/addEvent",
         {
           method: 'POST',
@@ -91,16 +98,21 @@ export default class DemoApp extends React.Component {
           })
         }
       );
-      this.toggleFilledIn()
+      if(response.ok){
+        const data = await response.json();
+        console.log("POST", data)
+        this.state.sessions.push(data)
+        this.toggleFilledIn()
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  getAllSessions = () => {
+  getAllSessions = async () => {
     const token = localStorage.getItem("accessToken");
     try {
-      fetch(
+      const response = await fetch(
         process.env.REACT_APP_DEV_API_BE + "/test/getEvent",
         {
           headers: {
@@ -108,6 +120,13 @@ export default class DemoApp extends React.Component {
           },
         }
       );
+      if(response.ok){
+        const data = await response.json()
+        this.setState({
+            sessions: [data]
+        })
+        console.log("GET", data)
+      }
     } catch (error) {
       console.log(error);
     }
