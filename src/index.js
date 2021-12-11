@@ -1,4 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
+// test!! \\
+import "react-datetime/css/react-datetime.css";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';

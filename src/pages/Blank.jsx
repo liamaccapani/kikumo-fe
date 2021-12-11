@@ -1,19 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 import FullCalendar, { formatDate } from "@fullcalendar/react";
-import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin from '@fullcalendar/interaction'
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
+
+import AddSessionModal from "../components/Modal";
 
 const Blank = ({ history, location, match }) => {
+  const token = localStorage.getItem("accessToken");
   const [myData, setMyData] = useState({});
-  const [myAppointments, setMyAppointments] = useState([]);
-  const [myTherapists, setMyTherapists] = useState([]);
-  const [currentEvents, setCurrentEvents] = useState([])
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const [start, setStart] = useState('')
+  const [end, setEnd] = useState('')
+  const [filledIn, setFilledIn] = useState(false)
+  const [sessions, setSessions] = useState([])
+
+  const calendarRef = useRef();
 
   const getMe = async () => {
-    const token = localStorage.getItem("accessToken");
     try {
       const response = await fetch(
         process.env.REACT_APP_DEV_API_BE + "/therapists/me",
@@ -33,86 +40,75 @@ const Blank = ({ history, location, match }) => {
     }
   };
 
-  const getMyAppointments = async () => {
-    const token = localStorage.getItem("accessToken");
-    try {
-      const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE + "/sessions",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-      if (response.ok) {
-        const appointments = await response.json();
-        setMyAppointments(appointments);
-        console.log(myAppointments)
-      }
-    } catch (error) {
-      console.log(error);
-    }
+
+  // const handleSessionAdd = async (data) => {
+  //   try {
+  //     const response = await fetch(
+  //       process.env.REACT_APP_DEV_API_BE + "/test/addEvent",
+  //       {
+  //         method: 'POST',
+  //         headers: {
+  //           Authorization: "Bearer " + token,
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(data.event),
+  //       }
+  //     );
+  //     if (response.ok) {
+  //       console.log('SUCCESS')
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const onEventAdded = (event) => {
+    const api = calendarRef.current.getApi();
+    api.addEvent(event);
   };
 
-  // const handleDateSelect = (selectInfo) => {
-  //   let title = prompt('Please enter a new title for your event')
-  //   // let calendarApi = selectInfo.view.calendar
+  const handleTimeSelection = (info) => {
+    // setStart(info.startStr)
+    // setSeconds(info.endStr)
+    setFilledIn(true)
+    console.log(info)
+  }
 
-  //   // calendarApi.unselect() // clear date selection
-
-  //   // if (title) {
-  //   //   calendarApi.addEvent({
-  //   //     id: createEventId(),
-  //   //     title,
-  //   //     start: selectInfo.startStr,
-  //   //     end: selectInfo.endStr,
-  //   //     allDay: selectInfo.allDay
-  //   //   })
-  //   // }
-  // }
-  // const handleEventClick = (clickInfo) => {
-  //   if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-  //     clickInfo.event.remove()
-  //   }
-  // }
-  // const handleEvents = (events) => {
-  //   setCurrentEvents(events)
-  // }
-  // const renderEventContent = (eventInfo) => {
-  //   return (
-  //     <>
-  //       <b>{eventInfo.timeText}</b>
-  //       <i>{eventInfo.event.title}</i>
-  //     </>
-  //   )
-  // }
-  
   useEffect(() => {
     getMe();
-    getMyAppointments();
+    // getMyAppointments();
   }, []);
 
-
   return (
-    <FullCalendar 
-      plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-      headerToolbar={{
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-      }}
-      initialView="timeGridWeek"
-      editable={true}
-      selectable={true}
-      businessHours={true}
-      // select={()=>handleDateSelect()}
-      // eventContent={renderEventContent()}
-      // eventClick={handleEventClick()}
-      // eventsSet={handleEvents()}
-    />
-    )
-}
+    <>
+      <button onClick={() => setModalOpen(true)}>ADD EVENT</button>
+      <div style={{position: "relative", zIndex: 0}}>
+        <FullCalendar
+          ref={calendarRef}
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          initialView="timeGridWeek"
+          headerToolbar={{
+            left: "prev,next today",
+            center: "title",
+            right: "dayGridMonth,timeGridWeek,timeGridDay",
+          }}
+          editable={true}
+          selectable={true}
+          dayMaxEvents={true}
+          aspectRatio={6}
+          height={600}
+          events={sessions}
+          select={()=>handleTimeSelection()}
+          // businessHours={true}
+        />
+      </div>
+      {/* <AddSessionModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onEventAdded={(event) => onEventAdded(event)}
+      /> */}
+    </>
+  );
+};
 
 export default Blank;
-
-

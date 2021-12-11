@@ -2,15 +2,19 @@ import { Route, BrowserRouter as Router } from "react-router-dom";
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from "@material-ui/core";
 // ********** PAGES ********** \\
-// import BookAppointment from "./pages/Appointments/BookAppointment"
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login"
 import Profile from "./pages/Profile/Profile"
 import ProfileT from "./pages/Profile/ProfileT"
 import Register from "./pages/Register/Register"
-import Blank from "./pages/Blank"
+import DemoApp from "./pages/Demo"
 // ********** COMPONENTS ********** \\
 import NavbarTop from "./components/Navigation/NavbarTop"
+
+// test!! \\
+import Modal from 'react-modal';
+Modal.setAppElement('#root');
+
 
 const customTheme = createTheme({
   palette: {
@@ -41,8 +45,9 @@ function App() {
           <Route path="/login" exact render={(routerProps) => <Login {...routerProps} />} />
           <Route path="/profile" exact render={(routerProps) => <Profile {...routerProps} />} />
           <Route path="/profileT" exact render={(routerProps) => <ProfileT {...routerProps} />} />
+          <Route path="/demo" exact render={(routerProps) => <DemoApp {...routerProps} />} />
           {/* <Route path="/bookAppointment" exact render={(routerProps) => <BookAppointment {...routerProps} />} /> */}
-          <Route path="/blank" exact render={(routerProps) => <Blank {...routerProps} />} />
+          {/* <Route path="/blank" exact render={(routerProps) => <Blank {...routerProps} />} /> */}
         </Container>
       </Router>
     </ThemeProvider>
