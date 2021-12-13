@@ -40,6 +40,7 @@ export default class DemoApp extends React.Component {
             aspectRatio={6}
             height={600}
             select={this.handleTimeSelection}
+            initialEvents={this.state.sessions}
             // eventsSet={this.handleEvents}
             eventAdd={this.createSession}
             events={this.state.sessions} // this renders the event objects in the calendar
@@ -56,16 +57,6 @@ export default class DemoApp extends React.Component {
   }
 
   handleTimeSelection = (info) => {
-    // this.setState({
-    //   sessions: [
-    //     {
-    //       start: info.startStr,
-    //       end: info.endStr,
-    //     },
-    //   ],
-    //   filledIn: true
-    // });
-
     this.setState({
       sessions: [
         {
@@ -89,12 +80,6 @@ export default class DemoApp extends React.Component {
       ],
     });
   };
-
-  // handleEvents = (events) => {
-  //   this.setState({
-  //     sessions: events
-  //   })
-  // }
 
   createSession = async (e) => {
     e.preventDefault();
