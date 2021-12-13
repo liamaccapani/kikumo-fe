@@ -10,6 +10,7 @@ export default class DemoApp extends React.Component {
       {
         start: "",
         end: "",
+        sessionId: '',
         clientId: "",
       },
     ],
@@ -17,7 +18,8 @@ export default class DemoApp extends React.Component {
     end: "",
     clientId: "",
     filledIn: false,
-    booked: false,
+    selected: false,
+    sessionId: ''
   };
 
   componentDidMount() {
@@ -54,6 +56,11 @@ export default class DemoApp extends React.Component {
           <div>
             Confirm?
             <button onClick={this.createSession}>Yes</button>
+          </div>
+        ) : null}
+        {this.state.selected === true ? (
+          <div>
+            <button onClick={this.setClient}>Book Appointment</button>
           </div>
         ) : null}
       </div>
@@ -142,51 +149,40 @@ export default class DemoApp extends React.Component {
   };
 
   bookSession = async (eventClickInfo) => {
-    const sessionId = eventClickInfo.event._def.extendedProps._id;
+    this.setState({
+      sessionId: eventClickInfo.event._def.extendedProps._id,
+      selected: true
+    })
+    console.log(eventClickInfo);
+    console.log("ID", this.state.sessionId);
+    // console.log(typeof sessionId);
+  };
+
+  setClient = async () => {
     const token = localStorage.getItem("accessToken");
     try {
       const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE + "/test/book/" + sessionId,
+        process.env.REACT_APP_DEV_API_BE + "/test/book/" + this.state.sessionId,
         {
-          // method: "PUT",
+          method: 'PUT',
           headers: {
             Authorization: "Bearer " + token,
-          //   "Content-Type": "application/json",
-          //   body: JSON.stringify(),
+            'Content-Type': 'application/json',
+            body: JSON.stringify()
           },
         }
       );
-      if (response.ok) {
+      if(response.ok){
         const data = await response.json();
-        console.log("DATA", data)
+        // this.setState({
+        //   sessions: [
+        //     clientId: 
+        //   ]
+        // })
+        console.log('PUT', data)
       }
     } catch (error) {
       console.log(error);
     }
-    // console.log(clickInfo);
-    // console.log("ID", clickInfo.event._def.extendedProps._id);
   };
-
-  // setClient = async (sessionId, info) => {
-  //   const token = localStorage.getItem("accessToken");
-  //   try {
-  //     console.log(info)
-  //     // const response = await fetch(
-  //     //   process.env.REACT_APP_DEV_API_BE + "/test/book/" + sessionId,
-  //     //   {
-  //     //     method: 'PUT',
-  //     //     headers: {
-  //     //       Authorization: "Bearer " + token,
-  //     //       'Content-Type': 'application/json',
-  //     //       body: JSON.stringify()
-  //     //     },
-  //     //   }
-  //     // );
-  //     // if(response.ok){
-  //     //   console.log(changeInfo)
-  //     // }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 }
