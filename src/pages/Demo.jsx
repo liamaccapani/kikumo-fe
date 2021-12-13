@@ -10,11 +10,14 @@ export default class DemoApp extends React.Component {
       {
         start: "",
         end: "",
+        clientId: "",
       },
     ],
     start: "",
     end: "",
+    clientId: "",
     filledIn: false,
+    booked: false,
   };
 
   componentDidMount() {
@@ -42,7 +45,8 @@ export default class DemoApp extends React.Component {
             select={this.handleTimeSelection}
             initialEvents={this.state.sessions}
             // eventsSet={this.handleEvents}
-            eventAdd={this.createSession}
+            // eventAdd={this.createSession}
+            eventClick={this.bookSession}
             events={this.state.sessions} // this renders the event objects in the calendar
           />
         </div>
@@ -55,6 +59,10 @@ export default class DemoApp extends React.Component {
       </div>
     );
   }
+
+  handleEvents = () => {
+    console.log("te prego");
+  };
 
   handleTimeSelection = (info) => {
     this.setState({
@@ -124,12 +132,61 @@ export default class DemoApp extends React.Component {
       if (response.ok) {
         const data = await response.json();
         this.setState({
-            sessions: [...data]
-        })
-        console.log("GET", data)
+          sessions: [...data],
+        });
+        console.log("GET", data);
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  bookSession = async (eventClickInfo) => {
+    const sessionId = eventClickInfo.event._def.extendedProps._id;
+    const token = localStorage.getItem("accessToken");
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_DEV_API_BE + "/test/book/" + sessionId,
+        {
+          // method: "PUT",
+          headers: {
+            Authorization: "Bearer " + token,
+          //   "Content-Type": "application/json",
+          //   body: JSON.stringify(),
+          },
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        console.log("DATA", data)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    // console.log(clickInfo);
+    // console.log("ID", clickInfo.event._def.extendedProps._id);
+  };
+
+  // setClient = async (sessionId, info) => {
+  //   const token = localStorage.getItem("accessToken");
+  //   try {
+  //     console.log(info)
+  //     // const response = await fetch(
+  //     //   process.env.REACT_APP_DEV_API_BE + "/test/book/" + sessionId,
+  //     //   {
+  //     //     method: 'PUT',
+  //     //     headers: {
+  //     //       Authorization: "Bearer " + token,
+  //     //       'Content-Type': 'application/json',
+  //     //       body: JSON.stringify()
+  //     //     },
+  //     //   }
+  //     // );
+  //     // if(response.ok){
+  //     //   console.log(changeInfo)
+  //     // }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 }
