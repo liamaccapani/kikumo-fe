@@ -140,7 +140,7 @@ const Register = ({ history, location, match }) => {
         </FormControl>
 
         <Button type="submit" className="my-3 px-0 d-block">
-          Sign In
+          Register
         </Button>
       </Box>
     </>
