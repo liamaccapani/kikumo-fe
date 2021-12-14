@@ -45,9 +45,10 @@ function App() {
           <Route path="/register" exact render={(routerProps) => <Register {...routerProps} />} />
           <Route path="/login" exact render={(routerProps) => <Login {...routerProps} />} />
           <Route path="/profile" exact render={(routerProps) => <Profile {...routerProps} />} />
-          <Route path="/profileT" exact render={(routerProps) => <ProfileT {...routerProps} />} />
+          <Route path="/therapists/:therapistId" exact component={(routerProps) => <ProfileT {...routerProps} />} />
           <Route path="/demo" exact render={(routerProps) => <DemoApp {...routerProps} />} />
           <Route path="/search" exact render={(routerProps) => <SearchTherapist {...routerProps} />} />
+          {/* <Route path="/profileT" exact render={(routerProps) => <ProfileT {...routerProps} />} /> */}
           {/* <Route path="/bookAppointment" exact render={(routerProps) => <BookAppointment {...routerProps} />} /> */}
           {/* <Route path="/blank" exact render={(routerProps) => <Blank {...routerProps} />} /> */}
         </Container>

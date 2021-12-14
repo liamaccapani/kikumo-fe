@@ -60,7 +60,8 @@ const Login = ({ history, location, match }) => {
         if (data.role === "Client") {
           history.push("/profile");
         } else if (data.role === "Therapist") {
-          history.push("/profileT");
+          history.push("/therapists/" + data._id);
+          // history.push("/profileT");
         }
         // dispatch(setUserInfo(data)); // token and role!!!! 
         dispatch(setUserLogIn(loggedIn));
@@ -76,12 +77,13 @@ const Login = ({ history, location, match }) => {
         onSubmit={login}
         component="form"
         className="px-5 mt-5"
-        // sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexWrap: "wrap" }}
       >
+        {/* EMAIL */}
         <FormControl fullWidth variant="standard">
           <InputLabel>Email</InputLabel>
           <Input value={values.email} onChange={handleChange("email")} />
         </FormControl>
+        {/* PASSWORD */}
         <FormControl fullWidth variant="standard">
           <InputLabel>Password</InputLabel>
           <Input

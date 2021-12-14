@@ -1,5 +1,5 @@
 // ------------- COMPONENTS -------------
-import DemoApp from "../../pages/Demo"
+import DemoApp from "../../pages/Demo";
 // ------------- PACKAGES -------------
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -17,14 +17,18 @@ import CardHeader from "@mui/material/CardHeader";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
+// ------------- ICONS -------------
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
 
 const ProfileT = ({ history, location, match }) => {
   const [myData, setMyData] = useState({});
   const [myAppointments, setMyAppointments] = useState([]);
   const [myClients, setMyClients] = useState([]);
 
+  const token = localStorage.getItem("accessToken");
+
   const getMe = async () => {
-    const token = localStorage.getItem("accessToken");
     try {
       const response = await fetch(
         process.env.REACT_APP_DEV_API_BE + "/therapists/me",
@@ -45,7 +49,6 @@ const ProfileT = ({ history, location, match }) => {
   };
 
   const getMyAppointments = async () => {
-    const token = localStorage.getItem("accessToken");
     try {
       const response = await fetch(
         process.env.REACT_APP_DEV_API_BE + "/sessions",
@@ -88,8 +91,9 @@ const ProfileT = ({ history, location, match }) => {
       {/* ------------- LEFT COLUMN ------------- */}
       <Grid item xs={12} md={6}>
         <div className="name_avatar">
+          <EditIcon className="pencilIcon mb-3 mt-2 mr-2" />
           <img alt="avatar" src={myData.avatar} />
-          <span>
+          <span className="d-inline-block mb-5">
             {myData.name} {myData.surname}
           </span>
         </div>
@@ -97,7 +101,14 @@ const ProfileT = ({ history, location, match }) => {
         {/* Experiences */}
         {myData.experiences && (
           <Card>
-            <CardHeader title="Working Experiences:" />
+            <CardHeader
+              title="Working Experiences:"
+              action={
+                <IconButton aria-label="edit">
+                  <EditIcon />
+                </IconButton>
+              }
+            />
             {myData.experiences.map((experience) => {
               // console.log(experience);
               return (
@@ -125,7 +136,14 @@ const ProfileT = ({ history, location, match }) => {
         {/* Specializations */}
         {myData.specializations && (
           <Card>
-            <CardHeader title="Specializations:" />
+            <CardHeader
+              title="Specializations:"
+              action={
+                <IconButton aria-label="edit">
+                  <EditIcon />
+                </IconButton>
+              }
+            />
             {myData.specializations.map((specialization) => {
               return (
                 <>
