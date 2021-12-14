@@ -8,12 +8,14 @@ export default class DemoApp extends React.Component {
   state = {
     sessions: [
       {
+        // i need start and end here to make the event show up in the calendar
         start: "",
         end: "",
         sessionId: '',
         clientId: "",
       },
     ],
+    // I need these for post request otherwise error -> path required
     start: "",
     end: "",
     clientId: "",
@@ -109,8 +111,11 @@ export default class DemoApp extends React.Component {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            // this throws an error of path required
+            // start: this.state.sessions.start,
+            // end: this.state.sessions.end,
             start: this.state.start,
-            end: this.state.end,
+            end: this.state.end
           }),
         }
       );
@@ -163,22 +168,26 @@ export default class DemoApp extends React.Component {
     try {
       const response = await fetch(
         process.env.REACT_APP_DEV_API_BE + "/test/book/" + this.state.sessionId,
+        // process.env.REACT_APP_DEV_API_BE + "/test/book",
         {
           method: 'PUT',
           headers: {
             Authorization: "Bearer " + token,
             'Content-Type': 'application/json',
+            // what should i stringify? i'm not supposed to stringify any user id
             body: JSON.stringify()
           },
         }
       );
       if(response.ok){
-        const data = await response.json();
-        // this.setState({
+        this.setState({
+        // BAHH
         //   sessions: [
         //     clientId: 
-        //   ]
-        // })
+        //   ],
+         selected: false
+        })
+        const data = await response.json();
         console.log('PUT', data)
       }
     } catch (error) {

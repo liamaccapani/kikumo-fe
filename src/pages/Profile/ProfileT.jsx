@@ -1,5 +1,4 @@
 // ------------- COMPONENTS -------------
-import Availability from "../../components/Availability";
 import DemoApp from "../../pages/Demo"
 // ------------- PACKAGES -------------
 import { useState, useEffect } from "react";
@@ -149,7 +148,6 @@ const ProfileT = ({ history, location, match }) => {
             <Typography>My Availability</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            {/* <Availability /> */}
             <DemoApp />
           </AccordionDetails>
         </Accordion>

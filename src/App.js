@@ -3,15 +3,16 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from "@material-ui/core";
 // ********** PAGES ********** \\
 import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login"
-import Profile from "./pages/Profile/Profile"
-import ProfileT from "./pages/Profile/ProfileT"
-import Register from "./pages/Register/Register"
-import DemoApp from "./pages/Demo"
+import Login from "./pages/Login/Login";
+import Profile from "./pages/Profile/Profile";
+import ProfileT from "./pages/Profile/ProfileT";
+import Register from "./pages/Register/Register";
+import SearchTherapist from "./pages/Search/SearchTherapist";
 // ********** COMPONENTS ********** \\
 import NavbarTop from "./components/Navigation/NavbarTop"
 
 // test!! \\
+import DemoApp from "./pages/Demo"
 import Modal from 'react-modal';
 Modal.setAppElement('#root');
 
@@ -46,6 +47,7 @@ function App() {
           <Route path="/profile" exact render={(routerProps) => <Profile {...routerProps} />} />
           <Route path="/profileT" exact render={(routerProps) => <ProfileT {...routerProps} />} />
           <Route path="/demo" exact render={(routerProps) => <DemoApp {...routerProps} />} />
+          <Route path="/search" exact render={(routerProps) => <SearchTherapist {...routerProps} />} />
           {/* <Route path="/bookAppointment" exact render={(routerProps) => <BookAppointment {...routerProps} />} /> */}
           {/* <Route path="/blank" exact render={(routerProps) => <Blank {...routerProps} />} /> */}
         </Container>

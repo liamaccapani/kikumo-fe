@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Grid } from "@mui/material";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 
@@ -14,6 +13,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Grid } from "@mui/material";
 import Modal from '@mui/material/Modal';
 import Typography from "@mui/material/Typography";
 
@@ -101,10 +101,6 @@ const Profile = ({ history, location, match }) => {
     }
   }
 
-  // const setShow = () => {
-  //   setOpen(!open);
-  // };
-
   useEffect(() => {
     getMe();
     getMyAppointments();
@@ -125,7 +121,15 @@ const Profile = ({ history, location, match }) => {
       {/* ------------- RIGHT COLUMN ------------- */}
       <Grid item xs={12} md={6} className="utilities-col">
         {/* Search Therapists */}
-        <Card>Search Therapist</Card>
+        <Card>
+          <CardContent>
+            <Link to="/search">
+              <Typography>
+                Search Therapist
+              </Typography>
+            </Link>
+          </CardContent>
+        </Card>
 
         {/* Appointments */}
         <Accordion className="appointments">
