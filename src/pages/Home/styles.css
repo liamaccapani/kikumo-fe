@@ -1,5 +1,5 @@
 /* body {
-    background-image: url('/canva.png')
+    background-color: 
 } */
 
 .hero-login-box {
@@ -7,4 +7,21 @@
     display: flex; 
     justify-content: center;
     align-items: center;
+}
+
+.buttons_box{
+    height: 300px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #d6e8feb5;
+    box-shadow: 5px 5px 24px -4px rgba(0,0,0,0.49);
+    border-radius: 15px;
+}
+
+hr {
+    width: 80%;
+    background-color: #bb7ddb61;
 }

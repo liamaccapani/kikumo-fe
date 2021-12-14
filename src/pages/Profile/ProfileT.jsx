@@ -1,5 +1,6 @@
 // ------------- COMPONENTS -------------
 import DemoApp from "../../pages/Demo";
+import Calendar from "../../components/Calendar"
 // ------------- PACKAGES -------------
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -167,7 +168,7 @@ const ProfileT = ({ history, location, match }) => {
             <Typography>Availability</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <DemoApp />
+            <Calendar />
           </AccordionDetails>
         </Accordion>
 
