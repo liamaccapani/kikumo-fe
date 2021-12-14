@@ -3,15 +3,16 @@ import { useLocation } from "react-router-dom";
 import { Card, Container } from "react-bootstrap";
 
 const BookApppointment = ({ history, location, match }) => {
+  const token = localStorage.getItem("accessToken");
+  const BASE_URL = process.env.REACT_APP_DEV_API_BE
   const [therapistInfo, setTherapistInfo] = useState({});
   // useLocation()
   //   const {therapist} = location.state
   const therapistDetails = async () => {
     // const id = therapist._id;
-    const token = localStorage.getItem("accessToken");
     try {
       const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE +
+        BASE_URL +
           "/therapists/" +
           "61a7b509873352612a1eb60d",
         {

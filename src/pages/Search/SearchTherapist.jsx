@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { Form, FormControl } from "react-bootstrap";
 
 const SearchTherapist = ({ history, location, match }) => {
+  const token = localStorage.getItem("accessToken");
+  const BASE_URL = process.env.REACT_APP_DEV_API_BE;
   const [therapists, setTherapists] = useState([]);
   const [query, setQuery] = useState([]);
 
@@ -18,10 +20,8 @@ const SearchTherapist = ({ history, location, match }) => {
   };
 
   const fetchData = async () => {
-    const token = localStorage.getItem("accessToken");
-    const url = process.env.REACT_APP_DEV_API_BE + "/therapists";
     try {
-      const response = await fetch(url, {
+      const response = await fetch(BASE_URL + "/therapists", {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -68,9 +68,7 @@ const SearchTherapist = ({ history, location, match }) => {
       </Grid>
 
       {/* ------------- RIGHT COLUMN ------------- */}
-      <Grid item xs={12} md={6} className="utilities-col">
-        
-      </Grid>
+      <Grid item xs={12} md={6} className="utilities-col"></Grid>
     </Grid>
   );
 };

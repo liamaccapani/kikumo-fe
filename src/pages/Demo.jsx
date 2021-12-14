@@ -11,7 +11,7 @@ export default class DemoApp extends React.Component {
         // i need start and end here to make the event show up in the calendar
         start: "",
         end: "",
-        sessionId: '',
+        sessionId: "",
         clientId: "",
       },
     ],
@@ -21,56 +21,39 @@ export default class DemoApp extends React.Component {
     clientId: "",
     filledIn: false,
     selected: false,
-    sessionId: ''
+    sessionId: "",
   };
 
   componentDidMount() {
     this.getAllSessions();
   }
 
-  render() {
-    return (
-      <div className="demo-app">
-        <div className="demo-app-main">
-          <FullCalendar
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            initialView="timeGridWeek"
-            headerToolbar={{
-              left: "prev,next today",
-              center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay",
-            }}
-            weekends={false}
-            editable={true}
-            selectable={true}
-            dayMaxEvents={true}
-            aspectRatio={6}
-            height={600}
-            select={this.handleTimeSelection}
-            initialEvents={this.state.sessions}
-            // eventsSet={this.handleEvents}
-            // eventAdd={this.createSession}
-            eventClick={this.bookSession}
-            events={this.state.sessions} // this renders the event objects in the calendar
-          />
-        </div>
-        {this.state.filledIn === true ? (
-          <div>
-            Confirm?
-            <button onClick={this.createSession}>Yes</button>
-          </div>
-        ) : null}
-        {this.state.selected === true ? (
-          <div>
-            <button onClick={this.setClient}>Book Appointment</button>
-          </div>
-        ) : null}
-      </div>
-    );
-  }
-
-  handleEvents = () => {
-    console.log("te prego");
+  getAllSessions = async () => {
+    const token = localStorage.getItem("accessToken");
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_DEV_API_BE + "/test/getEvent",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        this.setState({
+          sessions: [...data],
+        });
+        this.state.sessions.map((session) => {
+          if(session.clientId !== undefined){
+           console.log("CLIENT ID", session.clientId)
+          }
+        });
+        console.log("GET", data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   handleTimeSelection = (info) => {
@@ -86,16 +69,6 @@ export default class DemoApp extends React.Component {
       filledIn: true,
     });
     console.log(info);
-  };
-
-  toggleFilledIn = () => {
-    this.setState({
-      sessions: [
-        {
-          filledIn: false,
-        },
-      ],
-    });
   };
 
   createSession = async (e) => {
@@ -115,7 +88,7 @@ export default class DemoApp extends React.Component {
             // start: this.state.sessions.start,
             // end: this.state.sessions.end,
             start: this.state.start,
-            end: this.state.end
+            end: this.state.end,
           }),
         }
       );
@@ -123,30 +96,10 @@ export default class DemoApp extends React.Component {
         const data = await response.json();
         console.log("POST", data);
         this.state.sessions.push(data);
-        this.toggleFilledIn();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  getAllSessions = async () => {
-    const token = localStorage.getItem("accessToken");
-    try {
-      const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE + "/test/getEvent",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-      if (response.ok) {
-        const data = await response.json();
         this.setState({
-          sessions: [...data],
+          filledIn: false,
         });
-        console.log("GET", data);
+        this.getAllSessions();
       }
     } catch (error) {
       console.log(error);
@@ -156,11 +109,10 @@ export default class DemoApp extends React.Component {
   bookSession = async (eventClickInfo) => {
     this.setState({
       sessionId: eventClickInfo.event._def.extendedProps._id,
-      selected: true
-    })
+      selected: true,
+    });
     console.log(eventClickInfo);
     console.log("ID", this.state.sessionId);
-    // console.log(typeof sessionId);
   };
 
   setClient = async () => {
@@ -168,30 +120,70 @@ export default class DemoApp extends React.Component {
     try {
       const response = await fetch(
         process.env.REACT_APP_DEV_API_BE + "/test/book/" + this.state.sessionId,
-        // process.env.REACT_APP_DEV_API_BE + "/test/book",
         {
-          method: 'PUT',
+          method: "PUT",
           headers: {
             Authorization: "Bearer " + token,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             // what should i stringify? i'm not supposed to stringify any user id
-            body: JSON.stringify()
+            body: JSON.stringify(),
           },
         }
       );
-      if(response.ok){
+      if (response.ok) {
         this.setState({
-        // BAHH
-        //   sessions: [
-        //     clientId: 
-        //   ],
-         selected: false
-        })
+          // BAHH
+          //   sessions: [
+          //     clientId:
+          //   ],
+          selected: false,
+          // display: 'background'
+        });
         const data = await response.json();
-        console.log('PUT', data)
+        console.log("PUT", data);
+        this.getAllSessions();
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  render() {
+    return (
+      <div className="demo-app">
+        <div className="demo-app-main">
+          <FullCalendar
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            initialView="timeGridDay"
+            headerToolbar={{
+              left: "prev,next,today",
+              center: "title",
+              right: "dayGridMonth,timeGridWeek,timeGridDay",
+            }}
+            weekends={false}
+            editable={true}
+            selectable={true}
+            dayMaxEvents={true}
+            aspectRatio={6}
+            height={600}
+            select={this.handleTimeSelection}
+            eventClick={this.bookSession}
+            events={this.state.sessions} // this renders the event objects in the calendar
+          />
+        </div>
+        {this.state.filledIn === true ? (
+          <div>
+            Confirm?
+            <button onClick={this.createSession}>Yes</button>
+            <button onClick={this.getAllSessions}>No</button>
+          </div>
+        ) : null}
+        {this.state.selected === true ? (
+          <div>
+            <button onClick={this.setClient}>Book Appointment</button>
+          </div>
+        ) : null}
+      </div>
+    );
+  }
 }

@@ -2,6 +2,7 @@ import { Container, Navbar } from "react-bootstrap";
 import { Link, withRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setUserInfo, setUserLogIn, setUserLogOut } from "../../redux/actions";
 import Button from "@mui/material/Button";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import "./styles.css";
@@ -9,15 +10,19 @@ import { Logout } from "@mui/icons-material";
 
 // Change buttons into profile if user is logged in!
 const NavbarTop = ({ history }) => {
+  const dispatch = useDispatch();
   const loggedIn = useSelector((state) => state.user.isLoggedIn);
-  // console.log(loggedIn)
+  const loggedOut = useSelector((state) => state.user.isLoggedIn);
+  const user = useSelector((state) => state.user.userData);
+
   const [myData, setMyData] = useState({})
-
-
   // TAKE VALUES FROM REDUX STORE NOT WITH A FECTH!!!
 
   const logout = () => {
     alert("Logging out")
+    localStorage.clear()
+    dispatch(setUserLogOut(loggedOut));
+    history.push("/")
   }
 
   return (
@@ -46,9 +51,8 @@ const NavbarTop = ({ history }) => {
       </div>
       :
       <div>
-        {/* <span className="mr-2">{myData.name} {myData.surname}</span>
-        <img alt="avatar" src={myData.avatar} height="30" width="30"/> */}
-        LOGGED IN
+        <span className="mr-2">{user.name} {user.surname}</span>
+        <img alt="avatar" src={user.avatar} height="30" width="30"/>
         <KeyboardArrowDownIcon onClick={()=> logout()}/>
       </div>
       }

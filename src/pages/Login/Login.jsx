@@ -13,9 +13,11 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const Login = ({ history, location, match }) => {
   const dispatch = useDispatch();
-  const loggedIn = useSelector((s) => s.user.isLoggedIn);
-  const user = useSelector((s) => s.user.userData);
+  const loggedIn = useSelector((state) => state.user.isLoggedIn);
+  // const user = useSelector((s) => s.user.userData);
   // console.log("USER SELECTOR", user); // empty strings
+
+  const BASE_URL = process.env.REACT_APP_DEV_API_BE
 
   const [values, setValues] = useState({
     email: "",
@@ -43,7 +45,7 @@ const Login = ({ history, location, match }) => {
     const { email, password } = values;
     try {
       const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE + "/users/login",
+        BASE_URL + "/users/login",
         {
           method: "POST",
           headers: {
@@ -63,7 +65,6 @@ const Login = ({ history, location, match }) => {
           history.push("/therapists/" + data._id);
           // history.push("/profileT");
         }
-        // dispatch(setUserInfo(data)); // token and role!!!! 
         dispatch(setUserLogIn(loggedIn));
       }
     } catch (error) {

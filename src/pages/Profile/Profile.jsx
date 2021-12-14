@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserInfo } from "../../redux/actions";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 
@@ -23,17 +25,23 @@ import EditIcon from "@mui/icons-material/Edit";
 import "./styles.css";
 
 const Profile = ({ history, location, match }) => {
+  const dispatch = useDispatch();
+  const user = useSelector((s) => s.user.userData);
+  console.log("REDUX USER", user)
+  
+  const token = localStorage.getItem("accessToken");
+  const BASE_URL = process.env.REACT_APP_DEV_API_BE
+
   const [myData, setMyData] = useState({});
   const [myAppointments, setMyAppointments] = useState([]);
   const [myTherapists, setMyTherapists] = useState([]);
   const [sessions, setSessions] = useState([]);
   const [open, setOpen] = useState(false);
 
-  const token = localStorage.getItem("accessToken");
   const getMe = async () => {
     try {
       const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE + "/clients/me",
+        BASE_URL + "/clients/me",
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -44,6 +52,7 @@ const Profile = ({ history, location, match }) => {
         const data = await response.json();
         console.log(data);
         setMyData(data);
+        dispatch(setUserInfo(data));
       }
     } catch (error) {
       console.log(error);
@@ -53,7 +62,7 @@ const Profile = ({ history, location, match }) => {
   const getMyAppointments = async () => {
     try {
       const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE + "/sessions/clients",
+        BASE_URL + "/sessions/clients",
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -86,7 +95,7 @@ const Profile = ({ history, location, match }) => {
   const getTherapistSessions = async (therapistId) => {
     try {
       const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE + "/sessions/" + therapistId,
+        BASE_URL + "/sessions/" + therapistId,
         {
           headers: {
             Authorization: "Bearer " + token,

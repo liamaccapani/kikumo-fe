@@ -18,8 +18,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 // ------------- ICONS -------------
-import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
+import IconButton from "@mui/material/IconButton";
+// import WorkIcon from '@mui/icons-material/Work';
 
 const ProfileT = ({ history, location, match }) => {
   const [myData, setMyData] = useState({});
@@ -27,11 +28,11 @@ const ProfileT = ({ history, location, match }) => {
   const [myClients, setMyClients] = useState([]);
 
   const token = localStorage.getItem("accessToken");
-
+  const BASE_URL = process.env.REACT_APP_DEV_API_BE
   const getMe = async () => {
     try {
       const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE + "/therapists/me",
+        BASE_URL + "/therapists/me",
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -51,7 +52,7 @@ const ProfileT = ({ history, location, match }) => {
   const getMyAppointments = async () => {
     try {
       const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE + "/sessions",
+        BASE_URL + "/sessions",
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -163,7 +164,7 @@ const ProfileT = ({ history, location, match }) => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography>My Availability</Typography>
+            <Typography>Availability</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <DemoApp />
@@ -210,3 +211,4 @@ const ProfileT = ({ history, location, match }) => {
 };
 
 export default ProfileT;
+// export default withRouter(ProfileT);

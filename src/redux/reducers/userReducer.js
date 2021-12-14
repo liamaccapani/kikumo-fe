@@ -1,4 +1,4 @@
-import { SET_USER_INFO, SET_LOGGED_IN } from "../actions";
+import { SET_USER_INFO, SET_LOGGED_IN, SET_LOGGED_OUT} from "../actions";
 import { initialState } from "../store";
 
 export const userReducer = (state = initialState.user, action) => {
@@ -13,6 +13,11 @@ export const userReducer = (state = initialState.user, action) => {
       return {
         ...state,
         isLoggedIn: true,
+      };
+      case SET_LOGGED_OUT:
+      return {
+        ...state,
+        isLoggedIn: false,
       };
     default:
       return state;
