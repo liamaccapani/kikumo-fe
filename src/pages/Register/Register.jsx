@@ -1,25 +1,55 @@
 import { useState, useEffect } from "react";
-import { Button, Dropdown, DropdownButton, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo, setUserLogIn } from "../../redux/actions";
+
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Input from "@mui/material/Input";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const Register = ({ history, location, match }) => {
   const dispatch = useDispatch();
   const loggedIn = useSelector((s) => s.user.isLoggedIn);
-  const user = useSelector((s) => s.user.userData)
+  const user = useSelector((s) => s.user.userData);
 
   const BASE_URL = process.env.REACT_APP_DEV_API_BE;
+  const [values, setValues] = useState(
+    {
+      name: "",
+      surname: "",
+      email: "",
+      password: "",
+      role: "Client",
+    },
+    { showPassword: false }
+  );
 
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("Client");
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
 
-  // const dispatch = useDispatch()
+  const showPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (e) => {
+    e.preventDefault();
+  };
 
   const register = async (e) => {
     e.preventDefault();
+    const { name, surname, email, password } = values;
+    const role = values.role;
     try {
       const response = await fetch(
         BASE_URL +
@@ -29,7 +59,7 @@ const Register = ({ history, location, match }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ name, surname, email, password }),
+          body: JSON.stringify(values),
         }
       );
       if (response.ok) {
@@ -37,14 +67,13 @@ const Register = ({ history, location, match }) => {
         //data: { id, token }
         console.log(data);
         localStorage.setItem("accessToken", data.accessToken);
-        dispatch(setUserInfo(user))
+        dispatch(setUserInfo(user));
         dispatch(setUserLogIn(loggedIn));
         if (role === "Client") {
           history.push("/profile");
         } else if (role === "Therapist") {
           history.push("/profileT");
         }
-        // return data
       }
     } catch (error) {
       console.log(error);
@@ -53,59 +82,67 @@ const Register = ({ history, location, match }) => {
 
   return (
     <>
-      <h1> REGISTER </h1>
-      <Form onSubmit={register}>
-        <Form.Group>
-          <Form.Label>Your Name</Form.Label>
-          <Form.Control
-            size="sm"
-            type="text"
-            placeholder=""
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            // onChange={(e) => handleInput(e, 'name')}
+      <Box onSubmit={register} component="form" className="px-5 mt-5">
+        {/* NAME */}
+        <FormControl fullWidth variant="standard">
+          <InputLabel>Name</InputLabel>
+          <Input value={values.name} onChange={handleChange("name")} />
+        </FormControl>
+
+        {/* SURNAME */}
+        <FormControl fullWidth variant="standard">
+          <InputLabel>Surname</InputLabel>
+          <Input value={values.surname} onChange={handleChange("surname")} />
+        </FormControl>
+
+        {/* EMAIL */}
+        <FormControl fullWidth variant="standard">
+          <InputLabel>Email</InputLabel>
+          <Input value={values.email} onChange={handleChange("email")} />
+        </FormControl>
+
+        {/* PASSWORD */}
+        <FormControl fullWidth variant="standard">
+          <InputLabel>Password</InputLabel>
+          <Input
+            type={values.showPassword ? "text" : "password"}
+            value={values.password}
+            onChange={handleChange("password")}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={showPassword}
+                  onMouseDown={handleMouseDownPassword}
+                >
+                  {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
           />
-          <Form.Label>Your Surname</Form.Label>
-          <Form.Control
-            size="sm"
-            type="text"
-            placeholder=""
-            value={surname}
-            onChange={(e) => setSurname(e.target.value)}
-            // onChange={(e) => handleInput(e, 'surname')}
-          />
-          <Form.Label>Your email</Form.Label>
-          <Form.Control
-            size="sm"
-            type="email"
-            placeholder=""
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            // onChange={(e) => handleInput(e, 'email')}
-          />
-          <Form.Label>Choose Password</Form.Label>
-          <Form.Control
-            size="sm"
-            type="password"
-            placeholder=""
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            // onChange={(e) => handleInput(e, 'password')}
-          />
-          <Form.Label>Register as:</Form.Label>
-          <Form.Control
-            as="select"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
+        </FormControl>
+
+        {/* ROLE */}
+        <FormControl fullWidth variant="standard" className="pt-2">
+          <InputLabel className="pt-2" id="role-select-label">
+            Register as:
+          </InputLabel>
+          <Select
+            labelId="role-select-label"
+            id="demo-simple-select-standard"
+            value={values.role}
+            onChange={handleChange("role")}
+            label="Role"
           >
-            <option>Client</option>
-            <option>Therapist</option>
-          </Form.Control>
-        </Form.Group>
-        <Button type="submit" variant="success">
-          Register
+            <MenuItem value={"Client"}>Client</MenuItem>
+            <MenuItem value={"Therapist"}>Therapist</MenuItem>
+          </Select>
+        </FormControl>
+
+        <Button type="submit" className="my-3 px-0 d-block">
+          Sign In
         </Button>
-      </Form>
+      </Box>
     </>
   );
 };
