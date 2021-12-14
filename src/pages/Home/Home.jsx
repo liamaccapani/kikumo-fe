@@ -26,7 +26,7 @@ const Home = () => {
         <Grid item
          xs={12} sm={6}
         >
-        <img src="./canva.png" />
+        <img className="hero-img" src="./canva.png" />
         </Grid>
       </Grid>
     </>

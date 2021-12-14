@@ -75,7 +75,7 @@ const Login = ({ history, location, match }) => {
       <Box
         onSubmit={login}
         component="form"
-        className="px-5"
+        className="px-5 mt-5"
         // sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexWrap: "wrap" }}
       >
         <FormControl fullWidth variant="standard">
