@@ -14,8 +14,6 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 const Login = ({ history, location, match }) => {
   const dispatch = useDispatch();
   const loggedIn = useSelector((state) => state.user.isLoggedIn);
-  // const user = useSelector((s) => s.user.userData);
-  // console.log("USER SELECTOR", user); // empty strings
 
   const BASE_URL = process.env.REACT_APP_DEV_API_BE
 

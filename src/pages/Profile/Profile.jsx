@@ -27,7 +27,6 @@ import "./styles.css";
 const Profile = ({ history, location, match }) => {
   const dispatch = useDispatch();
   const user = useSelector((s) => s.user.userData);
-  console.log("REDUX USER", user)
   
   const token = localStorage.getItem("accessToken");
   const BASE_URL = process.env.REACT_APP_DEV_API_BE

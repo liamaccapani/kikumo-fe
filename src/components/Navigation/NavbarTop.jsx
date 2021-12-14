@@ -5,23 +5,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo, setUserLogIn, setUserLogOut } from "../../redux/actions";
 import Button from "@mui/material/Button";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import "./styles.css";
 import { Logout } from "@mui/icons-material";
+import "./styles.css";
 
-// Change buttons into profile if user is logged in!
 const NavbarTop = ({ history }) => {
   const dispatch = useDispatch();
-  const loggedIn = useSelector((state) => state.user.isLoggedIn);
-  const loggedOut = useSelector((state) => state.user.isLoggedIn);
+  const isLogged = useSelector((state) => state.user.isLoggedIn);
   const user = useSelector((state) => state.user.userData);
-
-  const [myData, setMyData] = useState({})
-  // TAKE VALUES FROM REDUX STORE NOT WITH A FECTH!!!
 
   const logout = () => {
     alert("Logging out")
     localStorage.clear()
-    dispatch(setUserLogOut(loggedOut));
+    dispatch(setUserLogOut(isLogged));
     history.push("/")
   }
 
@@ -40,7 +35,7 @@ const NavbarTop = ({ history }) => {
         <div className="d-inline-block mt-2">KiKumo</div>
       </Navbar.Brand>
       {
-      !loggedIn ? 
+      !isLogged ? 
       <div className="d-flex flex-row justify-content-end">
         <Button variant="text" color="secondary">
           <Link to="/login">Log In</Link>
