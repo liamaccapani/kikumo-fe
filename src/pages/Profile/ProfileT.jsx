@@ -7,6 +7,10 @@ import { Link } from "react-router-dom";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 
+// ------------- REDUX -------------
+import { useDispatch, useSelector } from "react-redux";
+import { setUserInfo, setUserLogIn } from "../../redux/actions";
+
 // ------------- MUI -------------
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -24,12 +28,15 @@ import IconButton from "@mui/material/IconButton";
 // import WorkIcon from '@mui/icons-material/Work';
 
 const ProfileT = ({ history, location, match }) => {
+  const dispatch = useDispatch();
+
+  const token = localStorage.getItem("accessToken");
+  const BASE_URL = process.env.REACT_APP_DEV_API_BE
+
   const [myData, setMyData] = useState({});
   const [myAppointments, setMyAppointments] = useState([]);
   const [myClients, setMyClients] = useState([]);
 
-  const token = localStorage.getItem("accessToken");
-  const BASE_URL = process.env.REACT_APP_DEV_API_BE
   const getMe = async () => {
     try {
       const response = await fetch(
@@ -44,6 +51,7 @@ const ProfileT = ({ history, location, match }) => {
         const data = await response.json();
         console.log(data);
         setMyData(data);
+        dispatch(setUserInfo(data))
       }
     } catch (error) {
       console.log(error);
@@ -95,8 +103,11 @@ const ProfileT = ({ history, location, match }) => {
         <div className="name_avatar">
           <EditIcon className="pencilIcon mb-3 mt-2 mr-2" />
           <img alt="avatar" src={myData.avatar} />
-          <span className="d-inline-block mb-5">
+          <span className="d-inline-block">
             {myData.name} {myData.surname}
+          </span>
+          <span className="d-inline-block mb-5">
+            {myData.email}
           </span>
         </div>
 

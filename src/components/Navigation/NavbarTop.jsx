@@ -2,7 +2,7 @@ import { Container, Navbar } from "react-bootstrap";
 import { Link, withRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserInfo, setUserLogIn, setUserLogOut } from "../../redux/actions";
+import { setUserInfo, setUserLogIn, setUserLogOut, clearState } from "../../redux/actions";
 import Button from "@mui/material/Button";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Logout } from "@mui/icons-material";
@@ -15,8 +15,10 @@ const NavbarTop = ({ history }) => {
 
   const logout = () => {
     alert("Logging out")
-    localStorage.clear()
     dispatch(setUserLogOut(isLogged));
+    // dispatch(clearState(user))
+    localStorage.clear()
+    localStorage.removeItem('persist:root')
     history.push("/")
   }
 

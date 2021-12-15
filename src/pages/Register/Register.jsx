@@ -73,8 +73,8 @@ const Register = ({ history, location, match }) => {
         if (role === "Client") {
           history.push("/profile");
         } else if (role === "Therapist") {
-          history.push("/therapists/" + data._id);
-          // history.push("/profileT");
+          // history.push("/therapists/" + data._id);
+          history.push("/profiles/therapist");
         }
       }
     } catch (error) {

@@ -60,8 +60,8 @@ const Login = ({ history, location, match }) => {
         if (data.role === "Client") {
           history.push("/profile");
         } else if (data.role === "Therapist") {
-          history.push("/therapists/" + data._id);
-          // history.push("/profileT");
+          // history.push("/therapists/" + data._id);
+          history.push("/profiles/therapist");
         }
         dispatch(setUserLogIn(loggedIn));
       }

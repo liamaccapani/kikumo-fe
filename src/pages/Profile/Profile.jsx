@@ -124,8 +124,11 @@ const Profile = ({ history, location, match }) => {
         <div className="name_avatar">
           <EditIcon className="pencilIcon mb-3 mt-2 mr-2"/>
           <img alt="avatar" src={myData.avatar} />
-          <span className="d-inline-block mb-5">
+          <span className="d-inline-block">
             {myData.name} {myData.surname}
+          </span>
+          <span className="d-inline-block mb-5">
+            {myData.email}
           </span>
         </div>
         {/* Progress Tracker */}
