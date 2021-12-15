@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo } from "../../redux/actions";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
-
+// ------------- MUI -------------
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -12,6 +12,7 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
+import CardActions from '@mui/material/CardActions';
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -27,9 +28,9 @@ import "./styles.css";
 const Profile = ({ history, location, match }) => {
   const dispatch = useDispatch();
   const user = useSelector((s) => s.user.userData);
-  
+
   const token = localStorage.getItem("accessToken");
-  const BASE_URL = process.env.REACT_APP_DEV_API_BE
+  const BASE_URL = process.env.REACT_APP_DEV_API_BE;
 
   const [myData, setMyData] = useState({});
   const [myAppointments, setMyAppointments] = useState([]);
@@ -39,14 +40,11 @@ const Profile = ({ history, location, match }) => {
 
   const getMe = async () => {
     try {
-      const response = await fetch(
-        BASE_URL + "/clients/me",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+      const response = await fetch(BASE_URL + "/clients/me", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
       if (response.ok) {
         const data = await response.json();
         console.log(data);
@@ -60,14 +58,11 @@ const Profile = ({ history, location, match }) => {
 
   const getMyAppointments = async () => {
     try {
-      const response = await fetch(
-        BASE_URL + "/sessions/clients",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+      const response = await fetch(BASE_URL + "/sessions/clients", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
       if (response.ok) {
         const appointments = await response.json();
         setMyAppointments(appointments);
@@ -93,14 +88,11 @@ const Profile = ({ history, location, match }) => {
 
   const getTherapistSessions = async (therapistId) => {
     try {
-      const response = await fetch(
-        BASE_URL + "/sessions/" + therapistId,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+      const response = await fetch(BASE_URL + "/sessions/" + therapistId, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
       if (response.ok) {
         const therapistSessions = await response.json();
         console.log(therapistSessions);
@@ -122,14 +114,14 @@ const Profile = ({ history, location, match }) => {
       {/* ------------- LEFT COLUMN ------------- */}
       <Grid item xs={12} md={6}>
         <div className="name_avatar">
-          <EditIcon className="pencilIcon mb-3 mt-2 mr-2"/>
-          <img alt="avatar" src={myData.avatar} />
-          <span className="d-inline-block">
+          <EditIcon className="pencilIcon mb-3 mt-2 mr-2" />
+          <div className="avatar_container">
+            <img alt="avatar" src={myData.avatar} />
+          </div>
+          <p className="d-inline-block mb-0">
             {myData.name} {myData.surname}
-          </span>
-          <span className="d-inline-block mb-5">
-            {myData.email}
-          </span>
+          </p>
+          <span className="d-inline-block mb-5 email">{myData.email}</span>
         </div>
         {/* Progress Tracker */}
         <Card>
@@ -173,6 +165,7 @@ const Profile = ({ history, location, match }) => {
           </AccordionSummary>
           <AccordionDetails>
             <Card>
+              {console.log("!11", myAppointments)}
               {myAppointments.map((appointment) => {
                 return (
                   <CardContent key={appointment._id}>
@@ -185,12 +178,13 @@ const Profile = ({ history, location, match }) => {
                     </Typography>
                     <Typography variant="h6" component="div">
                       {format(
-                        parseISO(appointment.startDate),
+                        parseISO(appointment.start),
                         "EEEE dd MMM yyy h:m a"
                       )}
                     </Typography>
                     <Typography variant="body2">
-                      {appointment.description}
+                      {appointment.therapistId.name}{" "}
+                      {appointment.therapistId.surname}
                     </Typography>
                   </CardContent>
                 );
@@ -213,30 +207,22 @@ const Profile = ({ history, location, match }) => {
               <Card>
                 {myTherapists.map((therapist) => {
                   return (
-                    <Card key={therapist._id}>
+                    <Card key={therapist._id} className="therapist_card">
                       <CardHeader
-                        avatar={<Avatar>{therapist.avatar}</Avatar>}
+                        avatar={
+                          <Avatar
+                            alt="therapist avatar"
+                            src={therapist.avatar}
+                            sx={{ width: 56, height: 56 }}
+                          />
+                        }
+                        title={`${therapist.name} ${therapist.surname}`}
+                        subheader={therapist.email}
                       />
-                      <Typography
-                        sx={{ fontSize: 14 }}
-                        color="text.secondary"
-                        gutterBottom
-                      >
-                        <Button
-                          onClick={() => getTherapistSessions(therapist._id)}
-                        >
-                          {therapist.name} {therapist.surname}
-                        </Button>
-                      </Typography>
-                      <CardContent>
-                        <Typography variant="h6" component="div"></Typography>
-                      </CardContent>
-                      {/* <Button onClick={() => setShow()}>
-                        Book an Appointment
-                      </Button>
-                      {open && (
-                        <div>CuLO CULO</div>
-                      )} */}
+
+                      <CardActions>
+                        <Button size="small">Go To Profile</Button>
+                      </CardActions>
                     </Card>
                   );
                 })}

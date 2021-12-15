@@ -100,15 +100,15 @@ const ProfileT = ({ history, location, match }) => {
     <Grid container className="whole_profile my-3">
       {/* ------------- LEFT COLUMN ------------- */}
       <Grid item xs={12} md={6}>
-        <div className="name_avatar">
+      <div className="name_avatar">
           <EditIcon className="pencilIcon mb-3 mt-2 mr-2" />
-          <img alt="avatar" src={myData.avatar} />
-          <span className="d-inline-block">
+          <div className="avatar_container">
+            <img alt="avatar" src={myData.avatar} />
+          </div>
+          <p className="d-inline-block mb-0">
             {myData.name} {myData.surname}
-          </span>
-          <span className="d-inline-block mb-5">
-            {myData.email}
-          </span>
+          </p>
+          <span className="d-inline-block mb-5 email">{myData.email}</span>
         </div>
 
         {/* Experiences */}

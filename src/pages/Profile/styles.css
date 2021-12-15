@@ -12,17 +12,39 @@
     background-color: #c9e0ffa4;
 }
 
+.name_avatar.purple {
+    background-color: rgba(137, 43, 226, 0.479);
+}
+
 .pencilIcon {
  align-self: flex-end;
 }
 
-.name_avatar span {
-    margin-top: 1rem;
-    font-size: 1.9rem;
-}
-
-.name_avatar img {
+div.avatar_container {
     height: 150px;
     width: 150px;
     border-radius: 50%;
 }
+
+.avatar_container img {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.name_avatar p {
+    margin-top: 1rem;
+    font-size: 1.9rem;
+}
+
+span.email {
+    font-size: 1.1rem;
+}
+
+.therapist_card {
+    background-color: #c9e0ff67;
+}
+
+/* #388DFC blue */
+/* #BDB0D8 violet */

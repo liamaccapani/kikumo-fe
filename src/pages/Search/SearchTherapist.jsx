@@ -2,6 +2,7 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import { Grid } from "@mui/material";
@@ -81,45 +82,99 @@ const SearchTherapist = ({ history, location, match }) => {
           {therapists
             .filter((t) => t.name.toLowerCase().includes(query))
             .map((therapist) => (
-              <CardContent
+              <div
                 key={therapist._id}
-                // onClick={() => getTherapist(therapist._id)}
+                onClick={() => getTherapist(therapist._id)}
               >
-                <Avatar>{therapist.avatar}</Avatar>
-                <Typography>
-                  <Link to={"/therapists/" + therapist._id}>
-                    {therapist.name} {therapist.surname}
-                  </Link>
-                </Typography>
-              </CardContent>
+                <CardHeader
+                  avatar={
+                    <Avatar
+                      alt="therapist avatar"
+                      src={therapist.avatar}
+                      sx={{ width: 56, height: 56 }}
+                    />
+                  }
+                  title={`${therapist.name} ${therapist.surname}`}
+                />
+              </div>
             ))}
         </Card>
       </Grid>
 
       {/* ------------- RIGHT COLUMN ------------- */}
       <Grid item xs={12} md={6} className="utilities-col">
-        {/* {therapist && (
+        {therapist && (
           <>
             <div className="name_avatar">
-              <img alt="avatar" src={therapist.avatar} />
-              <span className="d-inline-block mb-5">
+              <div className="avatar_container">
+                <img alt="avatar" src={therapist.avatar} />
+              </div>
+              <p className="d-inline-block mb-0">
                 {therapist.name} {therapist.surname}
+              </p>
+              <span className="d-inline-block mb-5 email">
+                {therapist.email}
               </span>
+              <Button size="small">
+                <Link to={"/therapists/" + therapist._id}>Go To Profile</Link>
+              </Button>
             </div>
-            <Accordion className="availability">
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography>Availability</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Calendar />
-              </AccordionDetails>
-            </Accordion>
+            <Card>
+              <Accordion className="working-experiences">
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography>Working Experiences:</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {therapist.experiences && (
+                    <Card>
+                      {therapist.experiences.map((experience) => {
+                        // console.log(experience);
+                        return (
+                          <>
+                            <CardContent key={experience._id}>
+                              <Typography>{experience.role}</Typography>
+                              <Typography>{experience.description}</Typography>
+                              <Typography>{experience.area}</Typography>
+                            </CardContent>
+                          </>
+                        );
+                      })}
+                    </Card>
+                  )}
+                </AccordionDetails>
+              </Accordion>
+
+              <Accordion className="specializations">
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography>Specializations</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {therapist.specializations && (
+                    <Card>
+                      {therapist.specializations.map((specialization) => {
+                        return (
+                          <>
+                            <CardContent key={specialization._id}>
+                              <Typography>{specialization.category}</Typography>
+                            </CardContent>
+                          </>
+                        );
+                      })}
+                    </Card>
+                  )}
+                </AccordionDetails>
+              </Accordion>
+            </Card>
           </>
-        )} */}
+        )}
       </Grid>
     </Grid>
   );

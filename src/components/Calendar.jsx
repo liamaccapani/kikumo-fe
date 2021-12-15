@@ -20,7 +20,7 @@ export default class Calendar extends React.Component {
     end: "",
     clientId: "",
     filledIn: false,
-    selected: false,
+    // selected: false,
     sessionId: "",
   };
 
@@ -45,8 +45,8 @@ export default class Calendar extends React.Component {
           sessions: [...data],
         });
         this.state.sessions.map((session) => {
-          if(session.clientId !== undefined){
-           console.log("CLIENT ID", session.clientId)
+          if (session.clientId !== undefined) {
+            console.log("CLIENT ID", session.clientId);
           }
         });
         console.log("GET", data);
@@ -119,7 +119,9 @@ export default class Calendar extends React.Component {
     const token = localStorage.getItem("accessToken");
     try {
       const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE + "/sessions/book" + this.state.sessionId,
+        process.env.REACT_APP_DEV_API_BE +
+          "/sessions/book" +
+          this.state.sessionId,
         {
           method: "PUT",
           headers: {
@@ -167,8 +169,24 @@ export default class Calendar extends React.Component {
             aspectRatio={6}
             height={600}
             select={this.handleTimeSelection}
-            eventClick={this.bookSession}
-            events={this.state.sessions} // this renders the event objects in the calendar
+            events={this.state.sessions} // this renders the event objects in the calenda
+            eventContent={(eventInfo) => {
+              console.log(eventInfo);
+              return (
+                <div
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    cursor: eventInfo.event._def.extendedProps.clientId
+                      ? "not-allowed"
+                      : "pointer"
+                  }}
+                >
+                  <span>{eventInfo.timeText}</span>
+                  {/* <i>{eventInfo.event.title}</i> */}
+                </div>
+              );
+            }}
           />
         </div>
         {this.state.filledIn === true ? (

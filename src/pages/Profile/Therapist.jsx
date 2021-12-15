@@ -14,7 +14,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
-import TherapistAvailability from "../../components/TherapistAvailability"
+import TherapistAvailability from "../../components/TherapistAvailability";
 
 const Therapist = ({ history, location, match }) => {
   const token = localStorage.getItem("accessToken");
@@ -47,14 +47,14 @@ const Therapist = ({ history, location, match }) => {
       {therapist && (
         <>
           <Grid item xs={12} md={6}>
-            <div className="name_avatar pt-5">
-              <img alt="avatar" src={therapist.avatar} />
-              <span className="d-inline-block">
+            <div className="name_avatar purple">
+              <div className="avatar_container mt-5">
+                <img alt="avatar" src={therapist.avatar} />
+              </div>
+              <p className="d-inline-block mb-0">
                 {therapist.name} {therapist.surname}
-              </span>
-              <span className="d-inline-block mb-5">
-                  {therapist.email}
-              </span>
+              </p>
+              <span className="d-inline-block mb-5 email">{therapist.email}</span>
             </div>
 
             {therapist.experiences && (
@@ -107,7 +107,7 @@ const Therapist = ({ history, location, match }) => {
                 <Typography>Availability</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                  <TherapistAvailability therapistId={therapist._id}/>
+                <TherapistAvailability therapistId={therapist._id} />
               </AccordionDetails>
             </Accordion>
           </Grid>
