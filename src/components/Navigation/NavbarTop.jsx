@@ -16,7 +16,6 @@ const NavbarTop = ({ history }) => {
   const logout = () => {
     alert("Logging out")
     dispatch(setUserLogOut(isLogged));
-    // dispatch(clearState(user))
     localStorage.clear()
     localStorage.removeItem('persist:root')
     history.push("/")
@@ -48,7 +47,7 @@ const NavbarTop = ({ history }) => {
       </div>
       :
       <div>
-        <span className="mr-2">{user.name} {user.surname}</span>
+        <span className="mr-2"><Link to={user.role === 'Client' ? "/profile" : "/profiles/therapist"}>{user.name} {user.surname}</Link></span>
         <img alt="avatar" src={user.avatar} height="30" width="30"/>
         <KeyboardArrowDownIcon onClick={()=> logout()}/>
       </div>
