@@ -2,9 +2,15 @@ import { Container, Navbar } from "react-bootstrap";
 import { Link, withRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserInfo, setUserLogIn, setUserLogOut, clearState } from "../../redux/actions";
+import {
+  setUserInfo,
+  setUserLogIn,
+  setUserLogOut,
+  clearState,
+} from "../../redux/actions";
+import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Logout } from "@mui/icons-material";
 import "./styles.css";
 
@@ -14,12 +20,12 @@ const NavbarTop = ({ history }) => {
   const user = useSelector((state) => state.user.userData);
 
   const logout = () => {
-    alert("Logging out")
+    alert("Logging out");
     dispatch(setUserLogOut(isLogged));
-    localStorage.clear()
-    localStorage.removeItem('persist:root')
-    history.push("/")
-  }
+    localStorage.clear();
+    localStorage.removeItem("persist:root");
+    history.push("/");
+  };
 
   return (
     <Navbar className="navbar-top px-4">
@@ -35,23 +41,30 @@ const NavbarTop = ({ history }) => {
         </Link>
         <div className="d-inline-block mt-2">KiKumo</div>
       </Navbar.Brand>
-      {
-      !isLogged ? 
-      <div className="d-flex flex-row justify-content-end">
-        <Button variant="text" color="secondary">
-          <Link to="/login">Log In</Link>
-        </Button>
-        <Button variant="contained" color="primary"> 
-          <Link to="/register" className="text-white">Get Started</Link>
-        </Button>
-      </div>
-      :
-      <div>
-        <span className="mr-2"><Link to={user.role === 'Client' ? "/profile" : "/profiles/therapist"}>{user.name} {user.surname}</Link></span>
-        <img alt="avatar" src={user.avatar} height="30" width="30"/>
-        <KeyboardArrowDownIcon onClick={()=> logout()}/>
-      </div>
-      }
+      {!isLogged ? (
+        <div className="d-flex flex-row justify-content-end">
+          <Button variant="text" color="secondary">
+            <Link to="/login">Log In</Link>
+          </Button>
+          <Button variant="contained" color="primary">
+            <Link to="/register" className="text-white">
+              Get Started
+            </Link>
+          </Button>
+        </div>
+      ) : (
+        <div className="d-flex flex-row align-items-end justify-content-center">
+          <span className="mr-2 mb-2">
+            <Link
+              to={user.role === "Client" ? "/profile" : "/profiles/therapist"}
+            >
+              {user.name} {user.surname}
+            </Link>
+          </span>
+          <Avatar alt="avatar" src={user.avatar} />
+          <KeyboardArrowDownIcon onClick={() => logout()} />
+        </div>
+      )}
     </Navbar>
   );
 };

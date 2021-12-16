@@ -193,28 +193,27 @@ const ProfileT = ({ history, location, match }) => {
             <Typography>My Clients</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Card>
-              {myClients.map((client) => {
-                return (
-                  <Card key={client._id}>
-                    <CardHeader avatar={<Avatar>{client.avatar}</Avatar>} />
-                    <CardContent>
-                      <Typography
-                        sx={{ fontSize: 14 }}
-                        color="text.secondary"
-                        gutterBottom
-                      >
-                        {client.name} {client.surname}
-                      </Typography>
-                      <Typography variant="h6" component="div"></Typography>
-                      {/* <Typography variant="body2">
-                        
-                      </Typography> */}
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </Card>
+            {myClients && (
+              <Card>
+                {myClients.map((client) => {
+                  return (
+                    <Card key={client._id} className="client_card">
+                      <CardHeader
+                        avatar={
+                          <Avatar
+                            alt="client avatar"
+                            src={client.avatar}
+                            sx={{ width: 56, height: 56 }}
+                          />
+                        }
+                        title={`${client.name} ${client.surname}`}
+                        subheader={client.email}
+                      />
+                    </Card>
+                  );
+                })}
+              </Card>
+            )}
           </AccordionDetails>
         </Accordion>
       </Grid>

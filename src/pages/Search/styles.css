@@ -1,0 +1,9 @@
+.name_avatar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* padding-top: 3rem;
+    padding-bottom: 3rem; */
+    background-color: #c9e0ffa4;
+}

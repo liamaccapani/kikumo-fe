@@ -63,7 +63,7 @@ const SearchTherapist = ({ history, location, match }) => {
   }, []);
 
   return (
-    <Grid container>
+    <Grid container spacing={0.5} className="my-3">
       {/* ------------- LEFT COLUMN ------------- */}
       <Grid item xs={12} md={6}>
         <div className="search">
@@ -105,16 +105,16 @@ const SearchTherapist = ({ history, location, match }) => {
         {therapist && (
           <>
             <div className="name_avatar">
-              <div className="avatar_container">
+              <div className="avatar_container mt-4">
                 <img alt="avatar" src={therapist.avatar} />
               </div>
               <p className="d-inline-block mb-0">
                 {therapist.name} {therapist.surname}
               </p>
-              <span className="d-inline-block mb-5 email">
+              <span className="d-inline-block mb-2 email">
                 {therapist.email}
               </span>
-              <Button size="small">
+              <Button size="small" className="mb-4">
                 <Link to={"/therapists/" + therapist._id}>Go To Profile</Link>
               </Button>
             </div>
