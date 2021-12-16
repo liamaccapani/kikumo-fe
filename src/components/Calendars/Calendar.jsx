@@ -3,6 +3,7 @@ import FullCalendar, { formatDate } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import Button from "@mui/material/Button";
 
 export default class Calendar extends React.Component {
   state = {
@@ -193,13 +194,13 @@ export default class Calendar extends React.Component {
         {this.state.filledIn === true ? (
           <div>
             Confirm?
-            <button onClick={this.createSession}>Yes</button>
-            <button onClick={this.getAllSessions}>No</button>
+            <Button onClick={this.createSession}>Yes</Button>
+            <Button onClick={this.getAllSessions}>No</Button>
           </div>
         ) : null}
         {this.state.selected === true ? (
           <div>
-            <button onClick={this.setClient}>Book Appointment</button>
+            <Button onClick={this.setClient}>Book Appointment</Button>
           </div>
         ) : null}
       </div>

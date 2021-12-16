@@ -4,6 +4,10 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { withRouter } from "react-router-dom";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 
 class TherapistAvailability extends React.Component {
   state = {
@@ -22,6 +26,7 @@ class TherapistAvailability extends React.Component {
     clientId: "",
     selected: false,
     sessionId: "",
+    isBooked: false,
   };
 
   componentDidMount() {
@@ -86,7 +91,13 @@ class TherapistAvailability extends React.Component {
       if (response.ok) {
         this.setState({
           selected: false,
+          isBooked: true,
         });
+        setTimeout(() => {
+          this.setState({
+              isBooked: false
+          })
+       }, 2000)
         const data = await response.json();
         console.log("PUT", data);
         this.getAllSessions();
@@ -140,8 +151,13 @@ class TherapistAvailability extends React.Component {
         </div>
         {this.state.selected === true ? (
           <div>
-            <button onClick={this.setClient}>Book Appointment</button>
+            <Button onClick={this.setClient}>Book Appointment</Button>
           </div>
+        ) : null}
+        {this.state.isBooked === true ? (
+          <Stack>
+            <Alert severity="success">Appointment Booked! </Alert>
+          </Stack>
         ) : null}
       </div>
     );

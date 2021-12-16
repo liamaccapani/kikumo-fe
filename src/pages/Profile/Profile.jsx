@@ -32,8 +32,8 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditIcon from "@mui/icons-material/Edit";
 import HelpIcon from "@mui/icons-material/Help";
+import PsychologyIcon from '@mui/icons-material/Psychology';
 import SearchIcon from "@mui/icons-material/Search";
-import StarIcon from "@mui/icons-material/Star";
 
 import "./styles.css";
 
@@ -123,7 +123,7 @@ const Profile = ({ history, location, match }) => {
         </div>
 
         {/* Progress Tracker */}
-        <Card>
+        <Box>
           <CardHeader
             title="Progress Tracker"
             action={
@@ -139,7 +139,7 @@ const Profile = ({ history, location, match }) => {
           <Card>
             <CardContent title="Quick Helpers" />
           </Card>
-        </Card>
+        </Box>
       </Grid>
 
       {/* ------------- RIGHT COLUMN ------------- */}
@@ -233,67 +233,3 @@ const Profile = ({ history, location, match }) => {
 };
 
 export default Profile;
-
-// const getTherapistSessions = async (therapistId) => {
-//   try {
-//     const response = await fetch(BASE_URL + "/sessions/" + therapistId, {
-//       headers: {
-//         Authorization: "Bearer " + token,
-//       },
-//     });
-//     if (response.ok) {
-//       const therapistSessions = await response.json();
-//       console.log(therapistSessions);
-//       setSessions(therapistSessions);
-//       console.log(sessions);
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-{
-  /* <Box sx={{ width: "100%" }}>
-  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-    <Tabs
-      value={tabValue}
-      onChange={handleChange}
-      aria-label="basic tabs example"
-      // indicatorColor="secondary"
-    >
-      <Tab icon={<StarIcon />} iconPosition="start" label="Diary" />
-      <Tab icon={<HelpIcon />} iconPosition="start" label="Quick Helpers" />
-    </Tabs>
-  </Box>
-  <TabPanel value={tabValue} index={0}>
-    Item One
-  </TabPanel>
-  <TabPanel value={tabValue} index={1}>
-    Item Two
-  </TabPanel>
-  <TabPanel value={tabValue} index={2}>
-    Item Three
-  </TabPanel>
-</Box>; */
-}
-
-{/* <Card>
-  {console.log("!11", myAppointments)}
-  {myAppointments.map((appointment) => {
-    return (
-      <CardContent key={appointment._id}>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {appointment.duration}
-        </Typography>
-        <Typography variant="h6" component="div">
-          {format(parseISO(appointment.start), "EEEE dd MMM yyy h:m a")}
-        </Typography>
-        <Typography variant="body2">
-          {appointment.therapistId.name} {appointment.therapistId.surname}
-        </Typography>
-      </CardContent>
-    );
-  })}
-</Card>; */}
-// const [sessions, setSessions] = useState([]);
-// const [open, setOpen] = useState(false);
