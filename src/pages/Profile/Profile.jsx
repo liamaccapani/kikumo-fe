@@ -5,38 +5,53 @@ import { setUserInfo } from "../../redux/actions";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 // ------------- MUI -------------
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardActions from '@mui/material/CardActions';
-import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Grid } from "@mui/material";
-import Modal from "@mui/material/Modal";
-import Typography from "@mui/material/Typography";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Divider,
+  Grid,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
+
+// import Modal from "@mui/material/Modal";
+// import Tab from "@mui/material/Tab";
+// import Tabs from "@mui/material/Tabs";
 // ------------- ICONS -------------
-import IconButton from "@mui/material/IconButton";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditIcon from "@mui/icons-material/Edit";
+import HelpIcon from "@mui/icons-material/Help";
+import SearchIcon from "@mui/icons-material/Search";
+import StarIcon from "@mui/icons-material/Star";
 
 import "./styles.css";
 
 const Profile = ({ history, location, match }) => {
+  const BASE_URL = process.env.REACT_APP_DEV_API_BE;
+  const token = localStorage.getItem("accessToken");
+
   const dispatch = useDispatch();
   const user = useSelector((s) => s.user.userData);
 
-  const token = localStorage.getItem("accessToken");
-  const BASE_URL = process.env.REACT_APP_DEV_API_BE;
-
-  const [myData, setMyData] = useState({});
   const [myAppointments, setMyAppointments] = useState([]);
+  const [myData, setMyData] = useState({});
   const [myTherapists, setMyTherapists] = useState([]);
-  const [sessions, setSessions] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [tabValue, setTabValue] = useState(0);
+
+  const handleClickSearch = () => {
+    history.push("/search");
+  };
 
   const getMe = async () => {
     try {
@@ -86,33 +101,16 @@ const Profile = ({ history, location, match }) => {
     }
   };
 
-  const getTherapistSessions = async (therapistId) => {
-    try {
-      const response = await fetch(BASE_URL + "/sessions/" + therapistId, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
-      if (response.ok) {
-        const therapistSessions = await response.json();
-        console.log(therapistSessions);
-        setSessions(therapistSessions);
-        console.log(sessions);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     getMe();
     getMyAppointments();
   }, []);
 
   return (
-    <Grid container className="whole_profile my-3">
+    <Grid container spacing={0.5} className="whole_profile my-3">
       {/* ------------- LEFT COLUMN ------------- */}
       <Grid item xs={12} md={6}>
+        {/* Name, Surname, Avatar */}
         <div className="name_avatar">
           <EditIcon className="pencilIcon mb-3 mt-2 mr-2" />
           <div className="avatar_container">
@@ -123,18 +121,19 @@ const Profile = ({ history, location, match }) => {
           </p>
           <span className="d-inline-block mb-5 email">{myData.email}</span>
         </div>
+
         {/* Progress Tracker */}
         <Card>
-          <CardHeader title="Progress Tracker" />
+          <CardHeader
+            title="Progress Tracker"
+            action={
+              <IconButton aria-label="edit">
+                <EditIcon />
+              </IconButton>
+            }
+          />
           <Card>
-            <CardContent
-              title="Diary"
-              action={
-                <IconButton aria-label="edit">
-                  <EditIcon />
-                </IconButton>
-              }
-            />
+            <CardContent title="Diary" />
           </Card>
 
           <Card>
@@ -146,16 +145,17 @@ const Profile = ({ history, location, match }) => {
       {/* ------------- RIGHT COLUMN ------------- */}
       <Grid item xs={12} md={6} className="utilities-col">
         {/* Search Therapists */}
-        <Card>
+        <Card onClick={handleClickSearch}>
           <CardContent>
-            <Link to="/search">
-              <Typography>Search Therapist</Typography>
-            </Link>
+            <Typography>Search Therapist</Typography>
+            <SearchIcon />
           </CardContent>
         </Card>
 
         {/* Appointments */}
-        <Accordion className="appointments">
+        <Accordion
+          className="appointments"
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
@@ -164,37 +164,32 @@ const Profile = ({ history, location, match }) => {
             <Typography>My Appointments</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Card>
-              {console.log("!11", myAppointments)}
+            <List sx={{ width: "100%", bgcolor: "background.paper" }}>
               {myAppointments.map((appointment) => {
                 return (
-                  <CardContent key={appointment._id}>
-                    <Typography
-                      sx={{ fontSize: 14 }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      {appointment.duration}
-                    </Typography>
-                    <Typography variant="h6" component="div">
-                      {format(
-                        parseISO(appointment.start),
-                        "EEEE dd MMM yyy h:m a"
-                      )}
-                    </Typography>
-                    <Typography variant="body2">
-                      {appointment.therapistId.name}{" "}
-                      {appointment.therapistId.surname}
-                    </Typography>
-                  </CardContent>
+                  <>
+                    <ListItem key={appointment._id} className="ml-5">
+                      <ListItemText
+                        primary={format(
+                          parseISO(appointment.start),
+                          "EEEE dd MMM yyy h:m a"
+                        )}
+                        secondary={`${appointment.therapistId.name}
+                        ${appointment.therapistId.surname}`}
+                      />
+                    </ListItem>
+                    <hr />
+                  </>
                 );
               })}
-            </Card>
+            </List>
           </AccordionDetails>
         </Accordion>
 
         {/* Therapists */}
-        <Accordion className="therapists">
+        <Accordion
+          className="therapists"
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
@@ -221,7 +216,9 @@ const Profile = ({ history, location, match }) => {
                       />
 
                       <CardActions>
-                        <Button size="small">Go To Profile</Button>
+                        <Button size="small">
+                         <Link to={"/therapists/" + therapist._id}> Go To Profile</Link>
+                        </Button>
                       </CardActions>
                     </Card>
                   );
@@ -236,3 +233,67 @@ const Profile = ({ history, location, match }) => {
 };
 
 export default Profile;
+
+// const getTherapistSessions = async (therapistId) => {
+//   try {
+//     const response = await fetch(BASE_URL + "/sessions/" + therapistId, {
+//       headers: {
+//         Authorization: "Bearer " + token,
+//       },
+//     });
+//     if (response.ok) {
+//       const therapistSessions = await response.json();
+//       console.log(therapistSessions);
+//       setSessions(therapistSessions);
+//       console.log(sessions);
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+{
+  /* <Box sx={{ width: "100%" }}>
+  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+    <Tabs
+      value={tabValue}
+      onChange={handleChange}
+      aria-label="basic tabs example"
+      // indicatorColor="secondary"
+    >
+      <Tab icon={<StarIcon />} iconPosition="start" label="Diary" />
+      <Tab icon={<HelpIcon />} iconPosition="start" label="Quick Helpers" />
+    </Tabs>
+  </Box>
+  <TabPanel value={tabValue} index={0}>
+    Item One
+  </TabPanel>
+  <TabPanel value={tabValue} index={1}>
+    Item Two
+  </TabPanel>
+  <TabPanel value={tabValue} index={2}>
+    Item Three
+  </TabPanel>
+</Box>; */
+}
+
+{/* <Card>
+  {console.log("!11", myAppointments)}
+  {myAppointments.map((appointment) => {
+    return (
+      <CardContent key={appointment._id}>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          {appointment.duration}
+        </Typography>
+        <Typography variant="h6" component="div">
+          {format(parseISO(appointment.start), "EEEE dd MMM yyy h:m a")}
+        </Typography>
+        <Typography variant="body2">
+          {appointment.therapistId.name} {appointment.therapistId.surname}
+        </Typography>
+      </CardContent>
+    );
+  })}
+</Card>; */}
+// const [sessions, setSessions] = useState([]);
+// const [open, setOpen] = useState(false);

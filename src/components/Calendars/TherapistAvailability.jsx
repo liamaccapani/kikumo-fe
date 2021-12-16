@@ -3,8 +3,9 @@ import FullCalendar, { formatDate } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import { withRouter } from "react-router-dom";
 
-export default class Calendar extends React.Component {
+class TherapistAvailability extends React.Component {
   state = {
     sessions: [
       {
@@ -19,8 +20,7 @@ export default class Calendar extends React.Component {
     start: "",
     end: "",
     clientId: "",
-    filledIn: false,
-    // selected: false,
+    selected: false,
     sessionId: "",
   };
 
@@ -32,7 +32,9 @@ export default class Calendar extends React.Component {
     const token = localStorage.getItem("accessToken");
     try {
       const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE + "/sessions",
+        process.env.REACT_APP_DEV_API_BE +
+          "/sessions/" +
+          this.props.therapistId,
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -56,56 +58,6 @@ export default class Calendar extends React.Component {
     }
   };
 
-  handleTimeSelection = (info) => {
-    this.setState({
-      sessions: [
-        {
-          start: info.startStr,
-          end: info.endStr,
-        },
-      ],
-      start: info.startStr,
-      end: info.endStr,
-      filledIn: true,
-    });
-    console.log(info);
-  };
-
-  createSession = async (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem("accessToken");
-    try {
-      const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE + "/sessions",
-        {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + token,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            // this throws an error of path required
-            // start: this.state.sessions.start,
-            // end: this.state.sessions.end,
-            start: this.state.start,
-            end: this.state.end,
-          }),
-        }
-      );
-      if (response.ok) {
-        const data = await response.json();
-        console.log("POST", data);
-        this.state.sessions.push(data);
-        this.setState({
-          filledIn: false,
-        });
-        this.getAllSessions();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   bookSession = async (eventClickInfo) => {
     this.setState({
       sessionId: eventClickInfo.event._def.extendedProps._id,
@@ -120,26 +72,20 @@ export default class Calendar extends React.Component {
     try {
       const response = await fetch(
         process.env.REACT_APP_DEV_API_BE +
-          "/sessions/book" +
+          "/sessions/book/" +
           this.state.sessionId,
         {
           method: "PUT",
           headers: {
             Authorization: "Bearer " + token,
             "Content-Type": "application/json",
-            // what should i stringify? i'm not supposed to stringify any user id
             body: JSON.stringify(),
           },
         }
       );
       if (response.ok) {
         this.setState({
-          // BAHH
-          //   sessions: [
-          //     clientId:
-          //   ],
           selected: false,
-          // display: 'background'
         });
         const data = await response.json();
         console.log("PUT", data);
@@ -163,13 +109,13 @@ export default class Calendar extends React.Component {
               right: "dayGridMonth,timeGridWeek,timeGridDay",
             }}
             weekends={false}
-            editable={true}
             selectable={true}
             dayMaxEvents={true}
             aspectRatio={6}
             height={600}
-            select={this.handleTimeSelection}
-            events={this.state.sessions} // this renders the event objects in the calenda
+            // eventBackgroundColor={'#388DFC'}
+            eventClick={this.bookSession}
+            events={this.state.sessions} // this renders the event objects in the calendar
             eventContent={(eventInfo) => {
               console.log(eventInfo);
               return (
@@ -179,7 +125,10 @@ export default class Calendar extends React.Component {
                     height: "100%",
                     cursor: eventInfo.event._def.extendedProps.clientId
                       ? "not-allowed"
-                      : "pointer"
+                      : "pointer",
+                    // backgroundColor: eventInfo.event._def.extendedProps.clientId
+                    //   ? "#ffffffa6"
+                    //   : "",
                   }}
                 >
                   <span>{eventInfo.timeText}</span>
@@ -189,13 +138,6 @@ export default class Calendar extends React.Component {
             }}
           />
         </div>
-        {this.state.filledIn === true ? (
-          <div>
-            Confirm?
-            <button onClick={this.createSession}>Yes</button>
-            <button onClick={this.getAllSessions}>No</button>
-          </div>
-        ) : null}
         {this.state.selected === true ? (
           <div>
             <button onClick={this.setClient}>Book Appointment</button>
@@ -205,3 +147,5 @@ export default class Calendar extends React.Component {
     );
   }
 }
+
+export default withRouter(TherapistAvailability);

@@ -14,7 +14,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
-import TherapistAvailability from "../../components/TherapistAvailability";
+import TherapistAvailability from "../../components/Calendars/TherapistAvailability";
 
 const Therapist = ({ history, location, match }) => {
   const token = localStorage.getItem("accessToken");
@@ -43,11 +43,11 @@ const Therapist = ({ history, location, match }) => {
   }, []);
 
   return (
-    <Grid container className="whole_profile my-3">
+    <Grid container spacing={0.5} className="whole_profile my-3">
       {therapist && (
         <>
           <Grid item xs={12} md={6}>
-            <div className="name_avatar purple">
+            <div className="name_avatar">
               <div className="avatar_container mt-5">
                 <img alt="avatar" src={therapist.avatar} />
               </div>

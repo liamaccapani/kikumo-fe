@@ -1,6 +1,6 @@
 // ------------- COMPONENTS -------------
 import DemoApp from "../../pages/Demo";
-import Calendar from "../../components/Calendar"
+import Calendar from "../../components/Calendars/Calendar"
 // ------------- PACKAGES -------------
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -97,7 +97,7 @@ const ProfileT = ({ history, location, match }) => {
   }, []);
 
   return (
-    <Grid container className="whole_profile my-3">
+    <Grid container spacing={0.5} className="whole_profile my-3">
       {/* ------------- LEFT COLUMN ------------- */}
       <Grid item xs={12} md={6}>
       <div className="name_avatar">

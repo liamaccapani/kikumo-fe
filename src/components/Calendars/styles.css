@@ -1,0 +1,29 @@
+/* #388DFC blue */
+/* #BDB0D8 violet */
+
+/* style={{
+    width: "100%",
+    height: "100%",
+    cursor: eventInfo.event._def.extendedProps.clientId
+      ? "not-allowed"
+      : "pointer",
+  }} */
+
+  /* .time_slot {
+    width: "100%";
+    height: "100%";
+    cursor: pointer;
+    background-color: #388DFC;
+  }
+
+  .time_slot.purple {
+    cursor: not-allowed;
+    background-color: #BDB0D8;
+  } */
+
+  .purple {
+    width: "100%";
+    height: "100%";
+    cursor: not-allowed;
+    background-color: #BDB0D8;
+  }
