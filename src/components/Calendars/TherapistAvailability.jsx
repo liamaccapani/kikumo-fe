@@ -5,7 +5,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { withRouter } from "react-router-dom";
 import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
@@ -14,23 +14,19 @@ import "./styles.css";
 class TherapistAvailability extends React.Component {
   state = {
     sessions: [
-      {
-        // i need start and end here to make the event show up in the calendar
-        start: "",
-        end: "",
-        sessionId: "",
-        clientId: "",
-        // backgroundColor: "#c9e0ffde"
-      },
+      // {
+      //   // i need start and end here to make the event show up in the calendar
+      //   start: "",
+      //   end: ""
+      // },
     ],
-    // I need these for post request otherwise error -> path required
-    start: "",
-    end: "",
-    clientId: "",
-    selected: false,
-    sessionId: "",
-    // isBooked: false,
-    isError: false,
+    session: {
+      clientId: "",
+      isSelected: false,
+      sessionId: "",
+      isSuccess: false,
+      isError: false,
+    },
   };
 
   componentDidMount() {
@@ -55,11 +51,11 @@ class TherapistAvailability extends React.Component {
         this.setState({
           sessions: [...data],
         });
-        this.state.sessions.map((session) => {
-          if (session.clientId !== undefined) {
-            // console.log("CLIENT ID", session.clientId);
-          }
-        });
+        // this.state.sessions.map((session) => {
+        //   if (session.clientId !== undefined) {
+        //     // console.log("CLIENT ID", session.clientId);
+        //   }
+        // });
         // console.log("GET", data);
       }
     } catch (error) {
@@ -67,35 +63,28 @@ class TherapistAvailability extends React.Component {
     }
   };
 
-  bookSession = async (eventClickInfo) => {
-    this.setState({
-      sessionId: eventClickInfo.event._def.extendedProps._id,
-      selected: true,
-    })
-    // if (eventClickInfo.event._def.extendedProps.clientId === "") {
-    //   this.setState({
-    //     sessionId: eventClickInfo.event._def.extendedProps._id,
-    //     selected: true,
-    //   });
-    // } else {
-    //   this.setState({
-    //     isError: true,
-    //   });
-    //   setTimeout(() => {
-    //     this.setState({
-    //       isError: false,
-    //     });
-    //   }, 2000);
-    // }
+  selectSession = async (eventClickInfo) => {
+    const session = { ...this.state.session };
+    session.sessionId = eventClickInfo.event._def.extendedProps._id;
+    session.clientId = eventClickInfo.event._def.extendedProps.clientId;
+    if (session.clientId === undefined) {
+      session.isSelected = true;
+      session.isError = false;
+    } else {
+      session.isSelected = false;
+      session.isError = true;
+    }
+    this.setState({ session });
+    console.log(eventClickInfo.event._def.extendedProps);
   };
 
-  setClient = async () => {
+  bookSession = async () => {
     const token = localStorage.getItem("accessToken");
     try {
       const response = await fetch(
         process.env.REACT_APP_DEV_API_BE +
           "/sessions/book/" +
-          this.state.sessionId,
+          this.state.session.sessionId,
         {
           method: "PUT",
           headers: {
@@ -106,16 +95,15 @@ class TherapistAvailability extends React.Component {
         }
       );
       if (response.ok) {
-        this.setState({
-          selected: false,
-          // isBooked: true,
-        });
-        // setTimeout(() => {
-        //   this.setState({
-        //     isBooked: false,
-        //   });
-        // }, 2000);
         const data = await response.json();
+        const session = { ...this.state.session };
+        session.isSelected = false;
+        session.isSuccess = true;
+        this.setState({ session });
+        setTimeout(() => {
+          session.isSuccess = false;
+          this.setState({ session });
+        }, 2000);
         console.log("PUT", data);
         this.getAllSessions();
       }
@@ -127,17 +115,17 @@ class TherapistAvailability extends React.Component {
   render() {
     return (
       <>
-        {this.state.selected ? (
-          <div>
-            <Button onClick={this.setClient}>Book Appointment</Button>
-          </div>
+        {this.state.session.isSelected ? (
+          <Box className="confirm_box">
+            <Button onClick={this.bookSession}>Book Appointment</Button>
+          </Box>
         ) : null}
-        {this.state.isBooked ? (
+        {this.state.session.isSuccess ? (
           <Stack>
             <Alert severity="success">Appointment Booked! 🦄</Alert>
           </Stack>
         ) : null}
-        {this.state.isError ? (
+        {this.state.session.isError ? (
           <Stack>
             <Alert severity="error">Not Available</Alert>
           </Stack>
@@ -156,7 +144,7 @@ class TherapistAvailability extends React.Component {
           dayMaxEvents={true}
           aspectRatio={6}
           height={600}
-          eventClick={this.bookSession}
+          eventClick={this.selectSession}
           events={this.state.sessions}
           eventContent={(eventInfo) => {
             return (
@@ -184,3 +172,37 @@ class TherapistAvailability extends React.Component {
 }
 
 export default withRouter(TherapistAvailability);
+
+// if (eventClickInfo.event._def.extendedProps.clientId === "") {
+//   this.setState({
+//     sessionId: eventClickInfo.event._def.extendedProps._id,
+//     selected: true,
+//   });
+// } else {
+//   this.setState({
+//     isError: true,
+//   });
+//   setTimeout(() => {
+//     this.setState({
+//       isError: false,
+//     });
+//   }, 2000);
+// }
+
+// this.setState({
+//   sessionId: eventClickInfo.event._def.extendedProps._id,
+// });
+// if(eventClickInfo.event._def.extendedProps.clientId !== ""){
+//   this.setState({
+//     selected: false
+//   })
+// } else {
+//   this.setState({
+//     selected: true
+//   })
+// }
+// console.log(eventClickInfo.event._def.extendedProps)
+
+// // I need these for post request otherwise error -> path required
+// start: "",
+// end: "",
