@@ -146,7 +146,7 @@ const Profile = ({ history, location, match }) => {
       <Grid item xs={12} md={6} className="utilities-col">
         {/* Search Therapists */}
         <Card onClick={handleClickSearch}>
-          <CardContent>
+          <CardContent className="d-flex align-items-center justify-content-between">
             <Typography>Search Therapist</Typography>
             <SearchIcon />
           </CardContent>
@@ -199,10 +199,10 @@ const Profile = ({ history, location, match }) => {
           </AccordionSummary>
           <AccordionDetails>
             {myTherapists && (
-              <Card>
+              <>
                 {myTherapists.map((therapist) => {
                   return (
-                    <Card key={therapist._id} className="therapist_card">
+                    <Card key={therapist._id} className="therapist_card mb-2" style={{backgroundColor: "#bdb0d82d"}}>
                       <CardHeader
                         avatar={
                           <Avatar
@@ -217,13 +217,13 @@ const Profile = ({ history, location, match }) => {
 
                       <CardActions>
                         <Button size="small">
-                         <Link to={"/therapists/" + therapist._id}> Go To Profile</Link>
+                         <Link to={"/therapists/" + therapist._id}>Go To Profile</Link>
                         </Button>
                       </CardActions>
                     </Card>
                   );
                 })}
-              </Card>
+              </>
             )}
           </AccordionDetails>
         </Accordion>

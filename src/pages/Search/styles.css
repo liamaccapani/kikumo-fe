@@ -1,9 +1,33 @@
 .name_avatar {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    /* padding-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* padding-top: 3rem;
     padding-bottom: 3rem; */
-    background-color: #c9e0ffa4;
+  background-color: #c9e0ffa4;
+}
+
+._placeholder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#therapists {
+  overflow-y: scroll;
+  max-height: 700px;
+}
+
+#therapists::-webkit-scrollbar {
+  width: 5px;
+}
+
+#therapists::-webkit-scrollbar-track {
+  background: #c9e0ffde;
+}
+
+#therapists::-webkit-scrollbar-thumb {
+  background: #E1E8ED;
 }

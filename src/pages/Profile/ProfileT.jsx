@@ -194,10 +194,10 @@ const ProfileT = ({ history, location, match }) => {
           </AccordionSummary>
           <AccordionDetails>
             {myClients && (
-              <Card>
+              <>
                 {myClients.map((client) => {
                   return (
-                    <Card key={client._id} className="client_card">
+                    <Card key={client._id} className="client_card mb-2" style={{backgroundColor: "#bdb0d82d"}}>
                       <CardHeader
                         avatar={
                           <Avatar
@@ -212,7 +212,7 @@ const ProfileT = ({ history, location, match }) => {
                     </Card>
                   );
                 })}
-              </Card>
+              </>
             )}
           </AccordionDetails>
         </Accordion>

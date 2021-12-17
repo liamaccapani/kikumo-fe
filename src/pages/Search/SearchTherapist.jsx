@@ -15,12 +15,16 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
+import "./styles.css"
+
 const SearchTherapist = ({ history, location, match }) => {
   const token = localStorage.getItem("accessToken");
   const BASE_URL = process.env.REACT_APP_DEV_API_BE;
   const [therapists, setTherapists] = useState([]);
   const [therapist, setTherapist] = useState();
-  const [query, setQuery] = useState([]);
+  // const [specializations, setSpecializations] = useState([]);
+  const [query, setQuery] = useState("");
+  const [isSelected, setIsSelected] = useState(false);
 
   const handleChange = (event) => {
     setQuery(event.target.value);
@@ -36,6 +40,10 @@ const SearchTherapist = ({ history, location, match }) => {
       const data = await response.json();
 
       setTherapists(data);
+      // let allSpecs = data.map(d=> d.specializations.map(s => s.category))
+      // console.log("SPECS", allSpecs)
+      // const uniqueSpecs = []
+      // allSpecs
       console.log(data);
     } catch (error) {
       console.log("error", error);
@@ -50,8 +58,11 @@ const SearchTherapist = ({ history, location, match }) => {
         },
       });
       const data = await response.json();
-
       setTherapist(data);
+      console.log(data)
+      // setSpecializations(data.specializations.map(s => s.category))
+      // console.log("SPECS", specializations)
+      setIsSelected(true);
       console.log(data);
     } catch (error) {
       console.log("error", error);
@@ -63,7 +74,7 @@ const SearchTherapist = ({ history, location, match }) => {
   }, []);
 
   return (
-    <Grid container spacing={0.5} className="my-3">
+    <Grid container spacing={2} className="my-3">
       {/* ------------- LEFT COLUMN ------------- */}
       <Grid item xs={12} md={6}>
         <div className="search">
@@ -71,13 +82,13 @@ const SearchTherapist = ({ history, location, match }) => {
             <FormControl
               type="text"
               placeholder="Search for therapist"
-              className="mr-sm-2 mb-4"
+              className="mr-sm-2 mb-2"
               value={query}
               onChange={handleChange}
             />
           </Form>
         </div>
-        <Card>
+        <Box id="therapists">
           {therapists
             .filter((t) => t.name.toLowerCase().includes(query))
             .map((therapist) => (
@@ -97,82 +108,99 @@ const SearchTherapist = ({ history, location, match }) => {
                 />
               </div>
             ))}
-        </Card>
+        </Box>
       </Grid>
 
       {/* ------------- RIGHT COLUMN ------------- */}
       <Grid item xs={12} md={6} className="utilities-col">
-        {therapist && (
-          <>
-            <div className="name_avatar">
-              <div className="avatar_container mt-4">
-                <img alt="avatar" src={therapist.avatar} />
-              </div>
-              <p className="d-inline-block mb-0">
-                {therapist.name} {therapist.surname}
-              </p>
-              <span className="d-inline-block mb-2 email">
-                {therapist.email}
-              </span>
-              <Button size="small" className="mb-4">
-                <Link to={"/therapists/" + therapist._id}>Go To Profile</Link>
-              </Button>
-            </div>
-            <Card>
-              <Accordion className="working-experiences">
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                >
-                  <Typography>Working Experiences:</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  {therapist.experiences && (
-                    <Card>
-                      {therapist.experiences.map((experience) => {
-                        // console.log(experience);
-                        return (
-                          <>
-                            <CardContent key={experience._id}>
-                              <Typography>{experience.role}</Typography>
-                              <Typography>{experience.description}</Typography>
-                              <Typography>{experience.area}</Typography>
-                            </CardContent>
-                          </>
-                        );
-                      })}
-                    </Card>
-                  )}
-                </AccordionDetails>
-              </Accordion>
+        {isSelected === false ? (
+          <div className="_placeholder">
+            <Typography variant="h5" className="text-muted">
+              Please select a therapist
+            </Typography>
+            <img src="./canva_search.png" />
+          </div>
+        ) : (
+          [
+            therapist && (
+              <>
+                <div className="name_avatar">
+                  <div className="avatar_container mt-4">
+                    <img alt="avatar" src={therapist.avatar} />
+                  </div>
+                  <p className="d-inline-block mb-0">
+                    {therapist.name} {therapist.surname}
+                  </p>
+                  <span className="d-inline-block mb-2 email">
+                    {therapist.email}
+                  </span>
+                  <Button size="small" className="mb-4">
+                    <Link to={"/therapists/" + therapist._id}>
+                      Go To Profile
+                    </Link>
+                  </Button>
+                </div>
+                <Card>
+                  <Accordion className="working-experiences">
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                    >
+                      <Typography>Working Experiences:</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      {therapist.experiences && (
+                        <Card>
+                          {therapist.experiences.map((experience) => {
+                            // console.log(experience);
+                            return (
+                              <>
+                                <CardContent key={experience._id}>
+                                  <Typography>{experience.role}</Typography>
+                                  <Typography>
+                                    {experience.description}
+                                  </Typography>
+                                  <Typography>{experience.area}</Typography>
+                                </CardContent>
+                              </>
+                            );
+                          })}
+                        </Card>
+                      )}
+                    </AccordionDetails>
+                  </Accordion>
 
-              <Accordion className="specializations">
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                >
-                  <Typography>Specializations</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  {therapist.specializations && (
-                    <Card>
-                      {therapist.specializations.map((specialization) => {
-                        return (
-                          <>
-                            <CardContent key={specialization._id}>
-                              <Typography>{specialization.category}</Typography>
-                            </CardContent>
-                          </>
-                        );
-                      })}
-                    </Card>
-                  )}
-                </AccordionDetails>
-              </Accordion>
-            </Card>
-          </>
+                  <Accordion className="specializations">
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                    >
+                      <Typography>Specializations</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      {therapist.specializations && (
+                        <Card>
+                          {therapist.specializations.map((specialization) => {
+                            return (
+                              <>
+                                <CardContent key={specialization._id}>
+                                  <Typography>
+                                    {specialization.category}
+                                  </Typography>
+                                </CardContent>
+                              </>
+                            );
+                          })}
+                        </Card>
+                      )}
+                    </AccordionDetails>
+                  </Accordion>
+                </Card>
+              </>
+            ),
+          ]
         )}
       </Grid>
     </Grid>

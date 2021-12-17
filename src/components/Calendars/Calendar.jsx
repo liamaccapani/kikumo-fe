@@ -4,6 +4,11 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Alert from '@mui/material/Alert';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+
+import "./styles.css";
 
 export default class Calendar extends React.Component {
   state = {
@@ -14,6 +19,7 @@ export default class Calendar extends React.Component {
         end: "",
         sessionId: "",
         clientId: "",
+        title: "",
       },
     ],
     // I need these for post request otherwise error -> path required
@@ -21,7 +27,7 @@ export default class Calendar extends React.Component {
     end: "",
     clientId: "",
     filledIn: false,
-    // selected: false,
+    isConfirmed: false,
     sessionId: "",
   };
 
@@ -45,11 +51,6 @@ export default class Calendar extends React.Component {
         this.setState({
           sessions: [...data],
         });
-        this.state.sessions.map((session) => {
-          if (session.clientId !== undefined) {
-            console.log("CLIENT ID", session.clientId);
-          }
-        });
         console.log("GET", data);
       }
     } catch (error) {
@@ -69,7 +70,7 @@ export default class Calendar extends React.Component {
       end: info.endStr,
       filledIn: true,
     });
-    console.log(info);
+    console.log("SELECT INFO", info);
   };
 
   createSession = async (e) => {
@@ -99,111 +100,84 @@ export default class Calendar extends React.Component {
         this.state.sessions.push(data);
         this.setState({
           filledIn: false,
+          isConfirmed: true
         });
         this.getAllSessions();
+        setTimeout(() => {
+          this.setState({
+            isConfirmed: false,
+          });
+        }, 2000);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  bookSession = async (eventClickInfo) => {
+  rejectConfirmation = () => {
     this.setState({
-      sessionId: eventClickInfo.event._def.extendedProps._id,
-      selected: true,
-    });
-    console.log(eventClickInfo);
-    console.log("ID", this.state.sessionId);
-  };
-
-  setClient = async () => {
-    const token = localStorage.getItem("accessToken");
-    try {
-      const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE +
-          "/sessions/book" +
-          this.state.sessionId,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: "Bearer " + token,
-            "Content-Type": "application/json",
-            // what should i stringify? i'm not supposed to stringify any user id
-            body: JSON.stringify(),
-          },
-        }
-      );
-      if (response.ok) {
-        this.setState({
-          // BAHH
-          //   sessions: [
-          //     clientId:
-          //   ],
-          selected: false,
-          // display: 'background'
-        });
-        const data = await response.json();
-        console.log("PUT", data);
-        this.getAllSessions();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+      filledIn: false,
+    })
+    this.getAllSessions()
+  }
 
   render() {
     return (
-      <div className="demo-app">
-        <div className="demo-app-main">
-          <FullCalendar
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            initialView="timeGridDay"
-            headerToolbar={{
-              left: "prev,next,today",
-              center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay",
-            }}
-            weekends={false}
-            editable={true}
-            selectable={true}
-            dayMaxEvents={true}
-            aspectRatio={6}
-            height={600}
-            select={this.handleTimeSelection}
-            events={this.state.sessions} // this renders the event objects in the calenda
-            eventContent={(eventInfo) => {
-              console.log(eventInfo);
-              return (
-                <div
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    cursor: eventInfo.event._def.extendedProps.clientId
-                      ? "not-allowed"
-                      : "pointer",
-                    // backgroundColor: eventInfo.event._def.extendedProps.clientId ? "red" : "violet",
-                  }}
-                >
-                  <span>{eventInfo.timeText}</span>
-                  {/* <i>{eventInfo.event.title}</i> */}
-                </div>
-              );
-            }}
-          />
-        </div>
-        {this.state.filledIn === true ? (
-          <div>
+      <>
+        {this.state.filledIn ? (
+          <Box className="confirm_box d-flex flex-row align-items-center">
+            <HelpOutlineIcon className="mr-2"/>
             Confirm?
             <Button onClick={this.createSession}>Yes</Button>
-            <Button onClick={this.getAllSessions}>No</Button>
-          </div>
+            <Button onClick={this.rejectConfirmation}>No</Button>
+          </Box>
         ) : null}
-        {this.state.selected === true ? (
-          <div>
-            <Button onClick={this.setClient}>Book Appointment</Button>
-          </div>
-        ) : null}
-      </div>
+
+        {
+          this.state.isConfirmed ? (
+            <Alert severity="success">Time Slot Created!</Alert>
+          ) : null
+        }
+
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          initialView="timeGridDay"
+          headerToolbar={{
+            left: "prev,next,today",
+            center: "title",
+            right: "dayGridMonth,timeGridWeek,timeGridDay",
+          }}
+          weekends={false}
+          editable={true}
+          selectable={true}
+          dayMaxEvents={true}
+          aspectRatio={6}
+          height={600}
+          select={this.handleTimeSelection}
+          events={this.state.sessions} // this renders the event objects in the calenda
+          eventContent={(eventInfo) => {
+            return (
+              <div
+                className={
+                  eventInfo.event._def.extendedProps.clientId ? "_booked" : ""
+                }
+              >
+                <span
+                  className={
+                    eventInfo.event._def.extendedProps.clientId
+                      ? "_bookedTime"
+                      : ""
+                  }
+                >
+                  {eventInfo.event._def.extendedProps.clientId !== undefined
+                    ? eventInfo.event._def.extendedProps.clientId.name
+                    : eventInfo.timeText}
+                </span>
+              </div>
+            );
+          }}
+        />
+      </>
     );
   }
 }

@@ -9,6 +9,8 @@ import AlertTitle from "@mui/material/AlertTitle";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
+import "./styles.css";
+
 class TherapistAvailability extends React.Component {
   state = {
     sessions: [
@@ -18,6 +20,7 @@ class TherapistAvailability extends React.Component {
         end: "",
         sessionId: "",
         clientId: "",
+        // backgroundColor: "#c9e0ffde"
       },
     ],
     // I need these for post request otherwise error -> path required
@@ -26,7 +29,8 @@ class TherapistAvailability extends React.Component {
     clientId: "",
     selected: false,
     sessionId: "",
-    isBooked: false,
+    // isBooked: false,
+    isError: false,
   };
 
   componentDidMount() {
@@ -53,10 +57,10 @@ class TherapistAvailability extends React.Component {
         });
         this.state.sessions.map((session) => {
           if (session.clientId !== undefined) {
-            console.log("CLIENT ID", session.clientId);
+            // console.log("CLIENT ID", session.clientId);
           }
         });
-        console.log("GET", data);
+        // console.log("GET", data);
       }
     } catch (error) {
       console.log(error);
@@ -67,9 +71,22 @@ class TherapistAvailability extends React.Component {
     this.setState({
       sessionId: eventClickInfo.event._def.extendedProps._id,
       selected: true,
-    });
-    console.log(eventClickInfo);
-    console.log("ID", this.state.sessionId);
+    })
+    // if (eventClickInfo.event._def.extendedProps.clientId === "") {
+    //   this.setState({
+    //     sessionId: eventClickInfo.event._def.extendedProps._id,
+    //     selected: true,
+    //   });
+    // } else {
+    //   this.setState({
+    //     isError: true,
+    //   });
+    //   setTimeout(() => {
+    //     this.setState({
+    //       isError: false,
+    //     });
+    //   }, 2000);
+    // }
   };
 
   setClient = async () => {
@@ -91,13 +108,13 @@ class TherapistAvailability extends React.Component {
       if (response.ok) {
         this.setState({
           selected: false,
-          isBooked: true,
+          // isBooked: true,
         });
-        setTimeout(() => {
-          this.setState({
-              isBooked: false
-          })
-       }, 2000)
+        // setTimeout(() => {
+        //   this.setState({
+        //     isBooked: false,
+        //   });
+        // }, 2000);
         const data = await response.json();
         console.log("PUT", data);
         this.getAllSessions();
@@ -109,57 +126,59 @@ class TherapistAvailability extends React.Component {
 
   render() {
     return (
-      <div className="demo-app">
-        <div className="demo-app-main">
-          <FullCalendar
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            initialView="timeGridDay"
-            headerToolbar={{
-              left: "prev,next,today",
-              center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay",
-            }}
-            weekends={false}
-            selectable={true}
-            dayMaxEvents={true}
-            aspectRatio={6}
-            height={600}
-            // eventBackgroundColor={'#388DFC'}
-            eventClick={this.bookSession}
-            events={this.state.sessions} // this renders the event objects in the calendar
-            eventContent={(eventInfo) => {
-              console.log(eventInfo);
-              return (
-                <div
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    cursor: eventInfo.event._def.extendedProps.clientId
-                      ? "not-allowed"
-                      : "pointer",
-                    // backgroundColor: eventInfo.event._def.extendedProps.clientId
-                    //   ? "#ffffffa6"
-                    //   : "",
-                  }}
-                >
-                  <span>{eventInfo.timeText}</span>
-                  {/* <i>{eventInfo.event.title}</i> */}
-                </div>
-              );
-            }}
-          />
-        </div>
-        {this.state.selected === true ? (
+      <>
+        {this.state.selected ? (
           <div>
             <Button onClick={this.setClient}>Book Appointment</Button>
           </div>
         ) : null}
-        {this.state.isBooked === true ? (
+        {this.state.isBooked ? (
           <Stack>
-            <Alert severity="success">Appointment Booked! </Alert>
+            <Alert severity="success">Appointment Booked! 🦄</Alert>
           </Stack>
         ) : null}
-      </div>
+        {this.state.isError ? (
+          <Stack>
+            <Alert severity="error">Not Available</Alert>
+          </Stack>
+        ) : null}
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          initialView="timeGridDay"
+          headerToolbar={{
+            left: "prev,next,today",
+            center: "title",
+            right: "dayGridMonth,timeGridWeek,timeGridDay",
+          }}
+          weekends={false}
+          selectable={true}
+          // selectAllow={this.selectAllow}
+          dayMaxEvents={true}
+          aspectRatio={6}
+          height={600}
+          eventClick={this.bookSession}
+          events={this.state.sessions}
+          eventContent={(eventInfo) => {
+            return (
+              <div
+                className={
+                  eventInfo.event._def.extendedProps.clientId ? "_booked" : ""
+                }
+              >
+                <span
+                  className={
+                    eventInfo.event._def.extendedProps.clientId
+                      ? "_bookedTime"
+                      : ""
+                  }
+                >
+                  {eventInfo.timeText}
+                </span>
+              </div>
+            );
+          }}
+        />
+      </>
     );
   }
 }
