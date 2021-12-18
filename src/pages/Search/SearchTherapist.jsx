@@ -73,6 +73,31 @@ const SearchTherapist = ({ history, location, match }) => {
     }
   };
 
+  const filterByCategory = (therapists, query) => {
+   const matchIds = therapists.map(t => ({_id:t._id, specializations:t.specializations.reduce((str, spec) => {
+      return str + " " + spec.category
+    }, "")})).filter(t => t.specializations.toLowerCase().includes(query.toLowerCase())).map(t=> t._id)
+    // console.log()
+    return therapists.filter(t=> matchIds.includes(t._id))
+  }
+
+  const filterAll = (therapists, query) => {
+    if(query === "") return therapists
+    
+    const filterByName = therapists.filter((t) => t.name.toLowerCase().includes(query.toLowerCase()))
+    console.log(filterByName)
+    const filterBySpec = filterByCategory(therapists, query)
+    console.log(filterBySpec)
+    let uniqueTherapists = filterByName;
+    filterBySpec.forEach((t) => {
+      if (uniqueTherapists.findIndex((ut) => ut._id === t._id) === -1) {
+        uniqueTherapists.push(t);
+      }
+    });
+    // console.log(filter)
+    return uniqueTherapists
+  }
+
   useEffect(() => {
     getAllTherapists();
   }, []);
@@ -93,8 +118,7 @@ const SearchTherapist = ({ history, location, match }) => {
           </Form>
         </div>
         <Box id="therapists">
-          {therapists
-            .filter((t) => t.name.toLowerCase().includes(query))
+          {filterAll(therapists, query)
             .map((therapist) => (
               <div
                 key={therapist._id}
