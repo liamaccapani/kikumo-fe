@@ -29,7 +29,6 @@ const SearchTherapist = ({ history, location, match }) => {
   const BASE_URL = process.env.REACT_APP_DEV_API_BE;
   const [therapists, setTherapists] = useState([]);
   const [therapist, setTherapist] = useState();
-  // const [specializations, setSpecializations] = useState([]);
   const [query, setQuery] = useState("");
   const [isSelected, setIsSelected] = useState(false);
 
@@ -47,10 +46,6 @@ const SearchTherapist = ({ history, location, match }) => {
       const data = await response.json();
 
       setTherapists(data);
-      // let allSpecs = data.map(d=> d.specializations.map(s => s.category))
-      // console.log("SPECS", allSpecs)
-      // const uniqueSpecs = []
-      // allSpecs
       console.log(data);
     } catch (error) {
       console.log("error", error);
@@ -67,8 +62,6 @@ const SearchTherapist = ({ history, location, match }) => {
       const data = await response.json();
       setTherapist(data);
       console.log(data);
-      // setSpecializations(data.specializations.map(s => s.category))
-      // console.log("SPECS", specializations)
       setIsSelected(true);
       console.log(data);
     } catch (error) {
@@ -77,10 +70,13 @@ const SearchTherapist = ({ history, location, match }) => {
   };
 
   const filterByCategory = (therapists, query) => {
+    // therapists array mapped, for every t transform array of specs into a string
+    // we check if query is inside that string
+    // 
     const matchIds = therapists
-      .map((t) => ({
-        _id: t._id,
-        specializations: t.specializations.reduce((str, spec) => {
+      .map((therapist) => ({
+        _id: therapist._id,
+        specializations: therapist.specializations.reduce((str, spec) => {
           return str + " " + spec.category;
         }, ""),
       }))
@@ -88,7 +84,6 @@ const SearchTherapist = ({ history, location, match }) => {
         t.specializations.toLowerCase().includes(query.toLowerCase())
       )
       .map((t) => t._id);
-    // console.log()
     return therapists.filter((t) => matchIds.includes(t._id));
   };
 
