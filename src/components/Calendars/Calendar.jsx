@@ -1,12 +1,13 @@
 import React from "react";
-import FullCalendar, { formatDate } from "@fullcalendar/react";
+// ------------- FULLCALENDAR -------------
+import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Alert from '@mui/material/Alert';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+// ------------- MUI -------------
+import { Alert, Box, Button, Stack } from "@mui/material";
+// ------------- ICONS -------------
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 import "./styles.css";
 
@@ -100,7 +101,7 @@ export default class Calendar extends React.Component {
         this.state.sessions.push(data);
         this.setState({
           filledIn: false,
-          isConfirmed: true
+          isConfirmed: true,
         });
         this.getAllSessions();
         setTimeout(() => {
@@ -117,27 +118,27 @@ export default class Calendar extends React.Component {
   rejectConfirmation = () => {
     this.setState({
       filledIn: false,
-    })
-    this.getAllSessions()
-  }
+    });
+    this.getAllSessions();
+  };
 
   render() {
     return (
       <>
         {this.state.filledIn ? (
           <Box className="confirm_box d-flex flex-row align-items-center">
-            <HelpOutlineIcon className="mr-2"/>
+            <HelpOutlineIcon className="mr-2" />
             Confirm?
             <Button onClick={this.createSession}>Yes</Button>
             <Button onClick={this.rejectConfirmation}>No</Button>
           </Box>
         ) : null}
 
-        {
-          this.state.isConfirmed ? (
+        {this.state.isConfirmed ? (
+          <Stack>
             <Alert severity="success">Time Slot Created!</Alert>
-          ) : null
-        }
+          </Stack>
+        ) : null}
 
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}

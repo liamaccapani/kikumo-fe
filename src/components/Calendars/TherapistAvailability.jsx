@@ -1,13 +1,12 @@
 import React from "react";
-import FullCalendar, { formatDate } from "@fullcalendar/react";
+import { withRouter } from "react-router-dom";
+// ------------- FULLCALENDAR -------------
+import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { withRouter } from "react-router-dom";
-import Alert from "@mui/material/Alert";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
+// ------------- MUI -------------
+import { Alert, Box, Button, Stack } from "@mui/material";
 
 import "./styles.css";
 

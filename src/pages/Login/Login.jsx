@@ -1,13 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+// ------------- REDUX -------------
 import { useDispatch, useSelector } from "react-redux";
-import { setUserInfo, setUserLogIn } from "../../redux/actions";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import Input from "@mui/material/Input";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
+import { setUserLogIn } from "../../redux/actions";
+// ------------- MUI -------------
+import {
+  Box,
+  Button,
+  FormControl,
+  IconButton,
+  Input,
+  InputLabel,
+  InputAdornment,
+} from "@mui/material";
+// ------------- ICONS -------------
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
@@ -15,7 +20,7 @@ const Login = ({ history, location, match }) => {
   const dispatch = useDispatch();
   const loggedIn = useSelector((state) => state.user.isLoggedIn);
 
-  const BASE_URL = process.env.REACT_APP_DEV_API_BE
+  const BASE_URL = process.env.REACT_APP_DEV_API_BE;
 
   const [values, setValues] = useState({
     email: "",
@@ -42,16 +47,13 @@ const Login = ({ history, location, match }) => {
     e.preventDefault();
     const { email, password } = values;
     try {
-      const response = await fetch(
-        BASE_URL + "/users/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        }
-      );
+      const response = await fetch(BASE_URL + "/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
       if (response.ok) {
         const data = await response.json();
         //data: { id, token, role}
@@ -72,11 +74,7 @@ const Login = ({ history, location, match }) => {
 
   return (
     <>
-      <Box
-        onSubmit={login}
-        component="form"
-        className="px-5 mt-5"
-      >
+      <Box onSubmit={login} component="form" className="px-5 mt-5">
         {/* EMAIL */}
         <FormControl fullWidth variant="standard">
           <InputLabel>Email</InputLabel>

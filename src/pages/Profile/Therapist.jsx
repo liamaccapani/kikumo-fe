@@ -1,20 +1,26 @@
 import { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
+// ------------- COMPONENTS -------------
+import TherapistAvailability from "../../components/Calendars/TherapistAvailability";
+// ------------- DATE-FNS -------------
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 // ------------- MUI -------------
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import Avatar from "@mui/material/Avatar";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Avatar,
+  Card,
+  CardContent,
+  CardHeader,
+  Grid,
+  Typography,
+} from "@mui/material";
+// ------------- ICONS -------------
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Grid } from "@mui/material";
-import Typography from "@mui/material/Typography";
 
-import TherapistAvailability from "../../components/Calendars/TherapistAvailability";
+import "./styles.css";
 
 const Therapist = ({ history, location, match }) => {
   const token = localStorage.getItem("accessToken");

@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+// ------------- REDUX -------------
 import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo } from "../../redux/actions";
+// ------------- DATE-FNS -------------
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 // ------------- MUI -------------
@@ -24,10 +26,6 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-
-// import Modal from "@mui/material/Modal";
-// import Tab from "@mui/material/Tab";
-// import Tabs from "@mui/material/Tabs";
 // ------------- ICONS -------------
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditIcon from "@mui/icons-material/Edit";

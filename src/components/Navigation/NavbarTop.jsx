@@ -1,17 +1,14 @@
-import { Container, Navbar } from "react-bootstrap";
+import { Navbar } from "react-bootstrap";
 import { Link, withRouter } from "react-router-dom";
-import { useEffect, useState } from "react";
+// ------------- REDUX -------------
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setUserInfo,
-  setUserLogIn,
-  setUserLogOut,
-  clearState,
-} from "../../redux/actions";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+import { setUserLogOut } from "../../redux/actions";
+// ------------- MUI -------------
+import { Avatar, Button } from "@mui/material";
+// ------------- ICONS -------------
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Logout } from "@mui/icons-material";
+
 import "./styles.css";
 
 const NavbarTop = ({ history }) => {

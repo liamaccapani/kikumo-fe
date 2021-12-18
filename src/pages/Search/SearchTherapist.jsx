@@ -1,18 +1,22 @@
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
-import { Grid } from "@mui/material";
-import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { Form, FormControl } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
+// ------------- MUI -------------
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Grid,
+  Typography,
+} from "@mui/material";
+// ------------- ICONS -------------
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import "./styles.css"

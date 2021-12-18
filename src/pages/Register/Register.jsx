@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
+// ------------- REDUX -------------
 import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo, setUserLogIn } from "../../redux/actions";
-
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import Input from "@mui/material/Input";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
+// ------------- MUI -------------
+import {
+  Box,
+  Button,
+  IconButton,
+  Input,
+  InputLabel,
+  InputAdornment,
+  FormControl,
+  MenuItem,
+  Select
+} from "@mui/material";
+// ------------- ICONS -------------
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import Button from "@mui/material/Button";
-import { Box, Grid, Paper} from "@mui/material";
+// ------------- MUI -------------
+import { Box, Button, Grid } from "@mui/material";
 
 import "./styles.css";
 

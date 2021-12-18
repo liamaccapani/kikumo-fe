@@ -1,7 +1,7 @@
 import { Route, BrowserRouter as Router } from "react-router-dom";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@material-ui/core";
-// ********** PAGES ********** \\
+// ------------- PAGES -------------
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Profile from "./pages/Profile/Profile";
@@ -9,7 +9,7 @@ import ProfileT from "./pages/Profile/ProfileT";
 import Register from "./pages/Register/Register";
 import SearchTherapist from "./pages/Search/SearchTherapist";
 import Therapist from "./pages/Profile/Therapist";
-// ********** COMPONENTS ********** \\
+// ------------- COMPONENTS -------------
 import NavbarTop from "./components/Navigation/NavbarTop";
 
 // test!! \\

@@ -1,37 +1,36 @@
-// ------------- COMPONENTS -------------
-import DemoApp from "../../pages/Demo";
-import Calendar from "../../components/Calendars/Calendar"
-// ------------- PACKAGES -------------
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+// ------------- REDUX -------------
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "../../redux/actions";
+// ------------- COMPONENTS -------------
+import Calendar from "../../components/Calendars/Calendar";
+// ------------- DATE-FNS -------------
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
-
-// ------------- REDUX -------------
-import { useDispatch, useSelector } from "react-redux";
-import { setUserInfo, setUserLogIn } from "../../redux/actions";
-
 // ------------- MUI -------------
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import Avatar from "@mui/material/Avatar";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Grid } from "@mui/material";
-import Typography from "@mui/material/Typography";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Avatar,
+  Card,
+  CardContent,
+  CardHeader,
+  Grid,
+  Typography,
+} from "@mui/material";
 // ------------- ICONS -------------
 import EditIcon from "@mui/icons-material/Edit";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import IconButton from "@mui/material/IconButton";
-// import WorkIcon from '@mui/icons-material/Work';
+
+import "./styles.css";
 
 const ProfileT = ({ history, location, match }) => {
   const dispatch = useDispatch();
 
   const token = localStorage.getItem("accessToken");
-  const BASE_URL = process.env.REACT_APP_DEV_API_BE
+  const BASE_URL = process.env.REACT_APP_DEV_API_BE;
 
   const [myData, setMyData] = useState({});
   const [myAppointments, setMyAppointments] = useState([]);
@@ -39,19 +38,16 @@ const ProfileT = ({ history, location, match }) => {
 
   const getMe = async () => {
     try {
-      const response = await fetch(
-        BASE_URL + "/therapists/me",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+      const response = await fetch(BASE_URL + "/therapists/me", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
       if (response.ok) {
         const data = await response.json();
         console.log(data);
         setMyData(data);
-        dispatch(setUserInfo(data))
+        dispatch(setUserInfo(data));
       }
     } catch (error) {
       console.log(error);
@@ -60,14 +56,11 @@ const ProfileT = ({ history, location, match }) => {
 
   const getMyAppointments = async () => {
     try {
-      const response = await fetch(
-        BASE_URL + "/sessions",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+      const response = await fetch(BASE_URL + "/sessions", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
       if (response.ok) {
         const appointments = await response.json();
         setMyAppointments(appointments);
@@ -100,7 +93,7 @@ const ProfileT = ({ history, location, match }) => {
     <Grid container spacing={0.5} className="whole_profile my-3">
       {/* ------------- LEFT COLUMN ------------- */}
       <Grid item xs={12} md={6}>
-      <div className="name_avatar">
+        <div className="name_avatar">
           <EditIcon className="pencilIcon mb-3 mt-2 mr-2" />
           <div className="avatar_container">
             <img alt="avatar" src={myData.avatar} />
@@ -197,7 +190,11 @@ const ProfileT = ({ history, location, match }) => {
               <>
                 {myClients.map((client) => {
                   return (
-                    <Card key={client._id} className="client_card mb-2" style={{backgroundColor: "#bdb0d82d"}}>
+                    <Card
+                      key={client._id}
+                      className="client_card mb-2"
+                      style={{ backgroundColor: "#bdb0d82d" }}
+                    >
                       <CardHeader
                         avatar={
                           <Avatar
@@ -222,4 +219,3 @@ const ProfileT = ({ history, location, match }) => {
 };
 
 export default ProfileT;
-// export default withRouter(ProfileT);
