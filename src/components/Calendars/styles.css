@@ -1,0 +1,30 @@
+/* #388DFC blue */
+/* #BDB0D8 violet */
+
+ /* style={{
+     width: "100%",
+     height: "100%",
+     cursor: eventInfo.event._def.extendedProps.clientId
+       ? "not-allowed"
+       : "pointer",
+   }} */
+
+   .confirm_box {
+    padding: .6rem;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #f3f1f8;
+    box-shadow: 5px 5px 5px -4px rgb(0 0 0 / 49%);
+    margin-bottom: .9rem;
+   }
+
+   div._booked {
+    width: 100%;
+    height: 100%;
+    cursor: not-allowed;
+  }
+
+  ._bookedTime {
+    color: rgb(184, 180, 180);
+  }

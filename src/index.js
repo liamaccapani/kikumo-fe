@@ -1,14 +1,22 @@
+import 'bootstrap/dist/css/bootstrap.min.css'
+// test!! \\
+import "react-datetime/css/react-datetime.css";
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'bootstrap/dist/css/bootstrap.min.css'
-
+import { Provider } from 'react-redux';
+import { configureStore, persistor } from '../src/redux/store'
+import { PersistGate } from 'redux-persist/integration/react'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={configureStore}>
+    <PersistGate persistor={persistor}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </PersistGate>
+  </Provider>,
   document.getElementById('root')
 );
 
