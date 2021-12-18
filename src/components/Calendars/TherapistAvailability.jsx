@@ -121,7 +121,7 @@ class TherapistAvailability extends React.Component {
         ) : null}
         {this.state.session.isSuccess ? (
           <Stack>
-            <Alert severity="success">Appointment Booked! 🦄</Alert>
+            <Alert severity="success">Appointment Booked!</Alert>
           </Stack>
         ) : null}
         {this.state.session.isError ? (
@@ -171,37 +171,3 @@ class TherapistAvailability extends React.Component {
 }
 
 export default withRouter(TherapistAvailability);
-
-// if (eventClickInfo.event._def.extendedProps.clientId === "") {
-//   this.setState({
-//     sessionId: eventClickInfo.event._def.extendedProps._id,
-//     selected: true,
-//   });
-// } else {
-//   this.setState({
-//     isError: true,
-//   });
-//   setTimeout(() => {
-//     this.setState({
-//       isError: false,
-//     });
-//   }, 2000);
-// }
-
-// this.setState({
-//   sessionId: eventClickInfo.event._def.extendedProps._id,
-// });
-// if(eventClickInfo.event._def.extendedProps.clientId !== ""){
-//   this.setState({
-//     selected: false
-//   })
-// } else {
-//   this.setState({
-//     selected: true
-//   })
-// }
-// console.log(eventClickInfo.event._def.extendedProps)
-
-// // I need these for post request otherwise error -> path required
-// start: "",
-// end: "",

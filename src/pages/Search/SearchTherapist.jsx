@@ -13,13 +13,16 @@ import {
   CardActions,
   CardContent,
   CardHeader,
+  Chip,
   Grid,
+  Stack,
   Typography,
 } from "@mui/material";
 // ------------- ICONS -------------
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import "./styles.css"
+import "./styles.css";
+import { typography } from "@mui/system";
 
 const SearchTherapist = ({ history, location, match }) => {
   const token = localStorage.getItem("accessToken");
@@ -63,7 +66,7 @@ const SearchTherapist = ({ history, location, match }) => {
       });
       const data = await response.json();
       setTherapist(data);
-      console.log(data)
+      console.log(data);
       // setSpecializations(data.specializations.map(s => s.category))
       // console.log("SPECS", specializations)
       setIsSelected(true);
@@ -74,29 +77,38 @@ const SearchTherapist = ({ history, location, match }) => {
   };
 
   const filterByCategory = (therapists, query) => {
-   const matchIds = therapists.map(t => ({_id:t._id, specializations:t.specializations.reduce((str, spec) => {
-      return str + " " + spec.category
-    }, "")})).filter(t => t.specializations.toLowerCase().includes(query.toLowerCase())).map(t=> t._id)
+    const matchIds = therapists
+      .map((t) => ({
+        _id: t._id,
+        specializations: t.specializations.reduce((str, spec) => {
+          return str + " " + spec.category;
+        }, ""),
+      }))
+      .filter((t) =>
+        t.specializations.toLowerCase().includes(query.toLowerCase())
+      )
+      .map((t) => t._id);
     // console.log()
-    return therapists.filter(t=> matchIds.includes(t._id))
-  }
+    return therapists.filter((t) => matchIds.includes(t._id));
+  };
 
   const filterAll = (therapists, query) => {
-    if(query === "") return therapists
-    
-    const filterByName = therapists.filter((t) => t.name.toLowerCase().includes(query.toLowerCase()))
-    console.log(filterByName)
-    const filterBySpec = filterByCategory(therapists, query)
-    console.log(filterBySpec)
+    if (query === "") return therapists;
+
+    const filterByName = therapists.filter((t) =>
+      t.name.toLowerCase().includes(query.toLowerCase())
+    );
+    console.log(filterByName);
+    const filterBySpec = filterByCategory(therapists, query);
+    console.log(filterBySpec);
     let uniqueTherapists = filterByName;
     filterBySpec.forEach((t) => {
       if (uniqueTherapists.findIndex((ut) => ut._id === t._id) === -1) {
         uniqueTherapists.push(t);
       }
     });
-    // console.log(filter)
-    return uniqueTherapists
-  }
+    return uniqueTherapists;
+  };
 
   useEffect(() => {
     getAllTherapists();
@@ -118,24 +130,34 @@ const SearchTherapist = ({ history, location, match }) => {
           </Form>
         </div>
         <Box id="therapists">
-          {filterAll(therapists, query)
-            .map((therapist) => (
-              <div
-                key={therapist._id}
-                onClick={() => getTherapist(therapist._id)}
-              >
-                <CardHeader
-                  avatar={
-                    <Avatar
-                      alt="therapist avatar"
-                      src={therapist.avatar}
-                      sx={{ width: 56, height: 56 }}
-                    />
-                  }
-                  title={`${therapist.name} ${therapist.surname}`}
-                />
-              </div>
-            ))}
+          {filterAll(therapists, query).map((therapist) => (
+            <div
+              key={therapist._id}
+              onClick={() => getTherapist(therapist._id)}
+            >
+              <CardHeader
+                avatar={
+                  <Avatar
+                    alt="therapist avatar"
+                    src={therapist.avatar}
+                    sx={{ width: 56, height: 56 }}
+                  />
+                }
+                title={`${therapist.name} ${therapist.surname}`}
+              />
+              <CardContent>
+                <Stack
+                  spacing={1}
+                  direction="row"
+                  sx={{ color: "action.active" }}
+                >
+                  {therapist.specializations.map((specialization) => (
+                    <Chip label={specialization.category} variant="outlined" />
+                  ))}
+                </Stack>
+              </CardContent>
+            </div>
+          ))}
         </Box>
       </Grid>
 

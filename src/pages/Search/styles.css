@@ -25,7 +25,8 @@
 }
 
 #therapists::-webkit-scrollbar-track {
-  background: #c9e0ffde;
+  /* background: #c9e0ffde; */
+  background: #ffffffde;
 }
 
 #therapists::-webkit-scrollbar-thumb {
