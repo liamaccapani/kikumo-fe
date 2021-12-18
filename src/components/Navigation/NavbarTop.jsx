@@ -17,7 +17,7 @@ const NavbarTop = ({ history }) => {
   const user = useSelector((state) => state.user.userData);
 
   const logout = () => {
-    alert("Logging out");
+    // alert("Logging out");
     dispatch(setUserLogOut(isLogged));
     localStorage.clear();
     localStorage.removeItem("persist:root");

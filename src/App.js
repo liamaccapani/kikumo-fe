@@ -12,11 +12,6 @@ import Therapist from "./pages/Profile/Therapist";
 // ------------- COMPONENTS -------------
 import NavbarTop from "./components/Navigation/NavbarTop";
 
-// test!! \\
-import DemoApp from "./pages/Demo";
-import Modal from "react-modal";
-Modal.setAppElement("#root");
-
 const customTheme = createTheme({
   palette: {
     primary: {
@@ -31,7 +26,7 @@ const customTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Inter", // not working, it's still Roboto
+    fontFamily: "Inter"
   },
 });
 
@@ -68,11 +63,6 @@ function App() {
           />
           <Route path="/therapists/:therapistId" component={Therapist} />
           <Route
-            path="/demo"
-            exact
-            render={(routerProps) => <DemoApp {...routerProps} />}
-          />
-          <Route
             path="/search"
             exact
             render={(routerProps) => <SearchTherapist {...routerProps} />}
@@ -84,16 +74,3 @@ function App() {
 }
 
 export default App;
-
-{
-  /* <Route path="/therapists/:therapistId" exact render={(routerProps) => <ProfileT {...routerProps} />} /> */
-}
-{
-  /* <Route path="/profileT" exact render={(routerProps) => <ProfileT {...routerProps} />} /> */
-}
-{
-  /* <Route path="/bookAppointment" exact render={(routerProps) => <BookAppointment {...routerProps} />} /> */
-}
-{
-  /* <Route path="/blank" exact render={(routerProps) => <Blank {...routerProps} />} /> */
-}
