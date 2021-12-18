@@ -130,13 +130,6 @@ const Profile = ({ history, location, match }) => {
               </IconButton>
             }
           />
-          <Card>
-            <CardContent title="Diary" />
-          </Card>
-
-          <Card>
-            <CardContent title="Quick Helpers" />
-          </Card>
         </Box>
       </Grid>
 
@@ -162,25 +155,27 @@ const Profile = ({ history, location, match }) => {
             <Typography>My Appointments</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-              {myAppointments.map((appointment) => {
-                return (
-                  <>
-                    <ListItem key={appointment._id} className="ml-5">
-                      <ListItemText
-                        primary={format(
-                          parseISO(appointment.start),
-                          "EEEE dd MMM yyy h:m a"
-                        )}
-                        secondary={`${appointment.therapistId.name}
-                        ${appointment.therapistId.surname}`}
-                      />
-                    </ListItem>
-                    <hr />
-                  </>
-                );
-              })}
-            </List>
+            <div className="appointments_container">
+              <List sx={{ width: "90%", bgcolor: "background.paper" }}>
+                {myAppointments.map((appointment) => {
+                  return (
+                    <>
+                      <ListItem key={appointment._id} className="text-center">
+                        <ListItemText
+                          primary={format(
+                            parseISO(appointment.start),
+                            "EEEE dd MMM yyy h:mm a"
+                          )}
+                          secondary={`${appointment.therapistId.name}
+                          ${appointment.therapistId.surname}`}
+                        />
+                      </ListItem>
+                      <hr />
+                    </>
+                  );
+                })}
+              </List>
+            </div>
           </AccordionDetails>
         </Accordion>
 
