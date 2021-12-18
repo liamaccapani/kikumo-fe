@@ -3,7 +3,7 @@
 } */
 
 .hero-login-box {
-    height: calc(100vh - 88px);
+    height: calc(100vh - 89px);
     display: flex; 
     justify-content: center;
     align-items: center;
