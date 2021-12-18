@@ -30,7 +30,7 @@ const ProfileT = ({ history, location, match }) => {
   const dispatch = useDispatch();
 
   const token = localStorage.getItem("accessToken");
-  const BASE_URL = process.env.REACT_APP_DEV_API_BE;
+  const BASE_URL = process.env.REACT_APP_PROD_API_BE;
 
   const [myData, setMyData] = useState({});
   const [myAppointments, setMyAppointments] = useState([]);
@@ -75,9 +75,7 @@ const ProfileT = ({ history, location, match }) => {
             uniqueClients.push(c);
           }
         });
-        // console.log('unique', uniqueClients)
         setMyClients(uniqueClients);
-        // console.log(myClients)
       }
     } catch (error) {
       console.log(error);

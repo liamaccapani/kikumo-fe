@@ -24,7 +24,7 @@ import "./styles.css";
 
 const Therapist = ({ history, location, match }) => {
   const token = localStorage.getItem("accessToken");
-  const BASE_URL = process.env.REACT_APP_DEV_API_BE;
+  const BASE_URL = process.env.REACT_APP_PROD_API_BE;
   const [therapist, setTherapist] = useState();
 
   const getTherapistData = async () => {

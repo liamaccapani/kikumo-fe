@@ -23,7 +23,7 @@ const Register = ({ history, location, match }) => {
   const loggedIn = useSelector((s) => s.user.isLoggedIn);
   const user = useSelector((s) => s.user.userData);
 
-  const BASE_URL = process.env.REACT_APP_DEV_API_BE;
+  const BASE_URL = process.env.REACT_APP_PROD_API_BE;
   
   const [values, setValues] = useState(
     {

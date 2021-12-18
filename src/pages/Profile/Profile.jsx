@@ -36,7 +36,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import "./styles.css";
 
 const Profile = ({ history, location, match }) => {
-  const BASE_URL = process.env.REACT_APP_DEV_API_BE;
+  const BASE_URL = process.env.REACT_APP_PROD_API_BE;
   const token = localStorage.getItem("accessToken");
 
   const dispatch = useDispatch();
@@ -79,11 +79,9 @@ const Profile = ({ history, location, match }) => {
       if (response.ok) {
         const appointments = await response.json();
         setMyAppointments(appointments);
-        // console.log("APPOINTMENTS", appointments);
         let therapists = appointments
           .filter((a) => a.therapistId)
           .map((a) => a.therapistId);
-        // console.log(therapists);
         let uniqueTherapists = [];
         therapists.forEach((t) => {
           if (uniqueTherapists.findIndex((ut) => ut._id === t._id) === -1) {
@@ -92,7 +90,6 @@ const Profile = ({ history, location, match }) => {
         });
         console.log("unique", uniqueTherapists);
         setMyTherapists(uniqueTherapists);
-        // console.log(myTherapists);
       }
     } catch (error) {
       console.log(error);

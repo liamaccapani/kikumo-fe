@@ -20,7 +20,7 @@ const Login = ({ history, location, match }) => {
   const dispatch = useDispatch();
   const loggedIn = useSelector((state) => state.user.isLoggedIn);
 
-  const BASE_URL = process.env.REACT_APP_DEV_API_BE;
+  const BASE_URL = process.env.REACT_APP_PROD_API_BE;
 
   const [values, setValues] = useState({
     email: "",

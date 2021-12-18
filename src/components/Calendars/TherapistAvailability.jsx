@@ -36,7 +36,7 @@ class TherapistAvailability extends React.Component {
     const token = localStorage.getItem("accessToken");
     try {
       const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE +
+        process.env.REACT_APP_PROD_API_BE +
           "/sessions/" +
           this.props.therapistId,
         {
@@ -50,12 +50,6 @@ class TherapistAvailability extends React.Component {
         this.setState({
           sessions: [...data],
         });
-        // this.state.sessions.map((session) => {
-        //   if (session.clientId !== undefined) {
-        //     // console.log("CLIENT ID", session.clientId);
-        //   }
-        // });
-        // console.log("GET", data);
       }
     } catch (error) {
       console.log(error);
@@ -81,7 +75,7 @@ class TherapistAvailability extends React.Component {
     const token = localStorage.getItem("accessToken");
     try {
       const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE +
+        process.env.REACT_APP_PROD_API_BE +
           "/sessions/book/" +
           this.state.session.sessionId,
         {
@@ -139,7 +133,6 @@ class TherapistAvailability extends React.Component {
           }}
           weekends={false}
           selectable={true}
-          // selectAllow={this.selectAllow}
           dayMaxEvents={true}
           aspectRatio={6}
           height={600}

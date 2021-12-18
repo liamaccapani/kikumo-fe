@@ -25,7 +25,7 @@ import "./styles.css";
 
 const SearchTherapist = ({ history, location, match }) => {
   const token = localStorage.getItem("accessToken");
-  const BASE_URL = process.env.REACT_APP_DEV_API_BE;
+  const BASE_URL = process.env.REACT_APP_PROD_API_BE;
   const [therapists, setTherapists] = useState([]);
   const [therapist, setTherapist] = useState();
   const [query, setQuery] = useState("");
@@ -69,9 +69,6 @@ const SearchTherapist = ({ history, location, match }) => {
   };
 
   const filterByCategory = (therapists, query) => {
-    // therapists array mapped, for every t transform array of specs into a string
-    // we check if query is inside that string
-    // 
     const matchIds = therapists
       .map((therapist) => ({
         _id: therapist._id,
