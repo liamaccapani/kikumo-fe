@@ -22,7 +22,6 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import "./styles.css";
-import { typography } from "@mui/system";
 
 const SearchTherapist = ({ history, location, match }) => {
   const token = localStorage.getItem("accessToken");
