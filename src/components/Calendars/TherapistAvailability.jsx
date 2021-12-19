@@ -12,13 +12,7 @@ import "./styles.css";
 
 class TherapistAvailability extends React.Component {
   state = {
-    sessions: [
-      // {
-      //   // i need start and end here to make the event show up in the calendar
-      //   start: "",
-      //   end: ""
-      // },
-    ],
+    sessions: [],
     session: {
       clientId: "",
       isSelected: false,

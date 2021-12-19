@@ -15,7 +15,6 @@ export default class Calendar extends React.Component {
   state = {
     sessions: [
       {
-        // i need start and end here to make the event show up in the calendar
         start: "",
         end: "",
         sessionId: "",
@@ -23,7 +22,6 @@ export default class Calendar extends React.Component {
         title: "",
       },
     ],
-    // I need these for post request otherwise error -> path required
     start: "",
     end: "",
     clientId: "",
