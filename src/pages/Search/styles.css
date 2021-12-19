@@ -3,8 +3,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* padding-top: 3rem;
-    padding-bottom: 3rem; */
   background-color: #c9e0ffa4;
 }
 
@@ -30,7 +28,6 @@ hr {
 }
 
 #therapists::-webkit-scrollbar-track {
-  /* background: #c9e0ffde; */
   background: #ffffffde;
 }
 

@@ -46,7 +46,6 @@ const Profile = ({ history, location, match }) => {
   const [myAppointments, setMyAppointments] = useState([]);
   const [myData, setMyData] = useState({});
   const [myTherapists, setMyTherapists] = useState([]);
-  // const [tabValue, setTabValue] = useState(0);
 
   const handleClickSearch = () => {
     history.push("/search");
@@ -135,15 +134,6 @@ const Profile = ({ history, location, match }) => {
               </div>
             </AccordionDetails>
           </Accordion>
-
-          {/* <CardHeader
-            title="Progress Tracker"
-            action={
-              <IconButton aria-label="edit">
-                <EditIcon />
-              </IconButton>
-            }
-          /> */}
         </Box>
       </Grid>
 

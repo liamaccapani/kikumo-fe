@@ -85,9 +85,6 @@ export default class Calendar extends React.Component {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            // this throws an error of path required
-            // start: this.state.sessions.start,
-            // end: this.state.sessions.end,
             start: this.state.start,
             end: this.state.end,
           }),

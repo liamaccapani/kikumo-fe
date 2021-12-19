@@ -25,7 +25,7 @@ const NavbarTop = ({ history }) => {
 
   return (
     <Container className="px-0">
-      <Navbar className="navbar-top px-0">
+      <Navbar className="navbar-top px-sm-3 px-lg-0">
         <Navbar.Brand>
           <Link to="/">
             <img
