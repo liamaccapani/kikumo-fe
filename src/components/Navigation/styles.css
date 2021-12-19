@@ -6,3 +6,7 @@
   align-items: center;
   /* box-shadow: 0 4px 3px 0 rgb(0 0 0 / 15%), 0 6px 20px 0 rgb(0 0 0 / 10%); */
 }
+
+.arrow_down {
+  margin-bottom: .5rem;
+}

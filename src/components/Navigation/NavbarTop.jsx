@@ -4,7 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserLogOut } from "../../redux/actions";
 // ------------- MUI -------------
-import { Avatar, Button, Container} from "@mui/material";
+import { Avatar, Button, Container, Typography } from "@mui/material";
 // ------------- ICONS -------------
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Logout } from "@mui/icons-material";
@@ -51,15 +51,15 @@ const NavbarTop = ({ history }) => {
           </div>
         ) : (
           <div className="d-flex flex-row align-items-end justify-content-center">
-            <span className="mr-2 mb-2">
+            <Avatar alt="avatar" src={user.avatar} />
+            <Typography className="mx-2 mb-2">
               <Link
                 to={user.role === "Client" ? "/profile" : "/profiles/therapist"}
               >
                 {user.name} {user.surname}
               </Link>
-            </span>
-            <Avatar alt="avatar" src={user.avatar} />
-            <KeyboardArrowDownIcon onClick={() => logout()} />
+            </Typography>
+            <KeyboardArrowDownIcon className="arrow_down" onClick={() => logout()} />
           </div>
         )}
       </Navbar>

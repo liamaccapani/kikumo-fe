@@ -27,10 +27,11 @@ import {
   Typography,
 } from "@mui/material";
 // ------------- ICONS -------------
+import AddIcon from '@mui/icons-material/Add';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditIcon from "@mui/icons-material/Edit";
 import HelpIcon from "@mui/icons-material/Help";
-import PsychologyIcon from '@mui/icons-material/Psychology';
+import PsychologyIcon from "@mui/icons-material/Psychology";
 import SearchIcon from "@mui/icons-material/Search";
 
 import "./styles.css";
@@ -45,7 +46,7 @@ const Profile = ({ history, location, match }) => {
   const [myAppointments, setMyAppointments] = useState([]);
   const [myData, setMyData] = useState({});
   const [myTherapists, setMyTherapists] = useState([]);
-  const [tabValue, setTabValue] = useState(0);
+  // const [tabValue, setTabValue] = useState(0);
 
   const handleClickSearch = () => {
     history.push("/search");
@@ -119,14 +120,30 @@ const Profile = ({ history, location, match }) => {
 
         {/* Progress Tracker */}
         <Box>
-          <CardHeader
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="progress-tracker"
+              id="progress-tracker"
+            >
+              <Typography>Progress Tracker</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <div className="progress_tracker d-flex justify-content-start align-items-center" onClick={()=> console.log("lololol")}>
+                <AddIcon className="text-muted"/>
+                <span className="text-muted ml-2">Add a note</span>
+              </div>
+            </AccordionDetails>
+          </Accordion>
+
+          {/* <CardHeader
             title="Progress Tracker"
             action={
               <IconButton aria-label="edit">
                 <EditIcon />
               </IconButton>
             }
-          />
+          /> */}
         </Box>
       </Grid>
 
@@ -141,13 +158,11 @@ const Profile = ({ history, location, match }) => {
         </Card>
 
         {/* Appointments */}
-        <Accordion
-          className="appointments"
-        >
+        <Accordion className="appointments">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls="appointments"
+            id="appointments"
           >
             <Typography>My Appointments</Typography>
           </AccordionSummary>
@@ -177,13 +192,11 @@ const Profile = ({ history, location, match }) => {
         </Accordion>
 
         {/* Therapists */}
-        <Accordion
-          className="therapists"
-        >
+        <Accordion className="therapists">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls="therapists"
+            id="therapists"
           >
             <Typography>My Therapists</Typography>
           </AccordionSummary>
@@ -192,7 +205,11 @@ const Profile = ({ history, location, match }) => {
               <>
                 {myTherapists.map((therapist) => {
                   return (
-                    <Card key={therapist._id} className="therapist_card mb-2" style={{backgroundColor: "#bdb0d82d"}}>
+                    <Card
+                      key={therapist._id}
+                      className="therapist_card mb-2"
+                      style={{ backgroundColor: "#bdb0d82d" }}
+                    >
                       <CardHeader
                         avatar={
                           <Avatar
@@ -207,7 +224,9 @@ const Profile = ({ history, location, match }) => {
 
                       <CardActions>
                         <Button size="small">
-                         <Link to={"/therapists/" + therapist._id}>Go To Profile</Link>
+                          <Link to={"/therapists/" + therapist._id}>
+                            Go To Profile
+                          </Link>
                         </Button>
                       </CardActions>
                     </Card>
