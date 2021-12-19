@@ -69,7 +69,6 @@ const Register = ({ history, location, match }) => {
       );
       if (response.ok) {
         const data = await response.json();
-        //data: { id, token }
         console.log(data);
         localStorage.setItem("accessToken", data.accessToken);
         dispatch(setUserInfo(user));
@@ -77,7 +76,6 @@ const Register = ({ history, location, match }) => {
         if (role === "Client") {
           history.push("/profile");
         } else if (role === "Therapist") {
-          // history.push("/therapists/" + data._id);
           history.push("/profiles/therapist");
         }
       }

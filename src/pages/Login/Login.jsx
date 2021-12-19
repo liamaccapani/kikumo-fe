@@ -56,13 +56,11 @@ const Login = ({ history, location, match }) => {
       });
       if (response.ok) {
         const data = await response.json();
-        //data: { id, token, role}
         console.log(data);
         localStorage.setItem("accessToken", data.accessToken);
         if (data.role === "Client") {
           history.push("/profile");
         } else if (data.role === "Therapist") {
-          // history.push("/therapists/" + data._id);
           history.push("/profiles/therapist");
         }
         dispatch(setUserLogIn(loggedIn));

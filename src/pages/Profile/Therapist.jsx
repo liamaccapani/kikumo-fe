@@ -39,11 +39,11 @@ const Therapist = ({ history, location, match }) => {
       );
       const data = await response.json();
       setTherapist(data);
-      console.log(data);
     } catch (error) {
       console.log("error", error);
     }
   };
+
   useEffect(() => {
     getTherapistData();
   }, []);
@@ -67,7 +67,6 @@ const Therapist = ({ history, location, match }) => {
               <Card>
                 <CardHeader title="Working Experiences:" />
                 {therapist.experiences.map((experience) => {
-                  // console.log(experience);
                   return (
                     <>
                       <CardContent key={experience._id}>

@@ -26,6 +26,7 @@ import "./styles.css";
 const SearchTherapist = ({ history, location, match }) => {
   const token = localStorage.getItem("accessToken");
   const BASE_URL = process.env.REACT_APP_PROD_API_BE;
+
   const [therapists, setTherapists] = useState([]);
   const [therapist, setTherapist] = useState();
   const [query, setQuery] = useState("");
@@ -43,9 +44,7 @@ const SearchTherapist = ({ history, location, match }) => {
         },
       });
       const data = await response.json();
-
       setTherapists(data);
-      console.log(data);
     } catch (error) {
       console.log("error", error);
     }
@@ -60,9 +59,7 @@ const SearchTherapist = ({ history, location, match }) => {
       });
       const data = await response.json();
       setTherapist(data);
-      console.log(data);
       setIsSelected(true);
-      console.log(data);
     } catch (error) {
       console.log("error", error);
     }
@@ -194,7 +191,6 @@ const SearchTherapist = ({ history, location, match }) => {
                       {therapist.experiences && (
                         <Card>
                           {therapist.experiences.map((experience) => {
-                            // console.log(experience);
                             return (
                               <>
                                 <CardContent key={experience._id}>

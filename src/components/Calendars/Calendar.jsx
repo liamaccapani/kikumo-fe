@@ -79,7 +79,7 @@ export default class Calendar extends React.Component {
     const token = localStorage.getItem("accessToken");
     try {
       const response = await fetch(
-        process.env.REACT_APP_DEV_API_BE + "/sessions",
+        process.env.REACT_APP_PROD_API_BE + "/sessions",
         {
           method: "POST",
           headers: {

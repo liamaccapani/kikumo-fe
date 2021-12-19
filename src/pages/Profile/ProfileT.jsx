@@ -68,7 +68,6 @@ const ProfileT = ({ history, location, match }) => {
         let clients = appointments
           .filter((a) => a.clientId)
           .map((a) => a.clientId);
-        // console.log(clients)
         let uniqueClients = [];
         clients.forEach((c) => {
           if (uniqueClients.findIndex((uc) => uc._id === c._id) === -1) {
@@ -114,7 +113,6 @@ const ProfileT = ({ history, location, match }) => {
               }
             />
             {myData.experiences.map((experience) => {
-              // console.log(experience);
               return (
                 <>
                   <CardContent key={experience._id}>
