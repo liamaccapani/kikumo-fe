@@ -166,8 +166,8 @@ const ProfileT = ({ history, location, match }) => {
         <Accordion className="availability">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls="availability"
+            id="availability"
           >
             <Typography>Availability</Typography>
           </AccordionSummary>
@@ -180,8 +180,8 @@ const ProfileT = ({ history, location, match }) => {
         <Accordion className="clients">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls="clients"
+            id="clients"
           >
             <Typography>My Clients</Typography>
           </AccordionSummary>

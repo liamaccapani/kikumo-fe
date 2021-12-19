@@ -15,9 +15,14 @@
   align-items: center;
 }
 
+hr {
+  width: 95%;
+  margin-bottom: 0;
+}
+
 #therapists {
   overflow-y: scroll;
-  max-height: 700px;
+  max-height: 730px;
 }
 
 #therapists::-webkit-scrollbar {

@@ -42,6 +42,10 @@ span.email {
   font-size: 1.1rem;
 }
 
+.progress_tracker {
+  cursor: pointer;
+}
+
 .therapist_card {
   background-color: red;
 }

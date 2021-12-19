@@ -146,10 +146,11 @@ const SearchTherapist = ({ history, location, match }) => {
                   sx={{ color: "action.active" }}
                 >
                   {therapist.specializations.map((specialization) => (
-                    <Chip label={specialization.category} variant="outlined" />
+                    <Chip label={specialization.category} size="small" variant="outlined" />
                   ))}
                 </Stack>
               </CardContent>
+              <hr />
             </div>
           ))}
         </Box>
